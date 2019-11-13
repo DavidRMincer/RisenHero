@@ -8,7 +8,7 @@ public class CharacterBehaviour : MonoBehaviour
 {
     public float walkSpeed;
 
-    private Rigidbody2D _rb;
+    internal Rigidbody2D _rb;
 
     // Start is called before the first frame update
     void Start()
@@ -30,5 +30,13 @@ public class CharacterBehaviour : MonoBehaviour
     public void Move(Vector2 direction)
     {
         _rb.velocity = direction * walkSpeed * Time.deltaTime;
+    }
+
+    /// <summary>
+    /// Zeros velocity
+    /// </summary>
+    public void StopMoving()
+    {
+        _rb.velocity = Vector2.zero;
     }
 }
