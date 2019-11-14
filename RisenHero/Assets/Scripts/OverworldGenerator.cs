@@ -65,7 +65,11 @@ public class OverworldGenerator : MonoBehaviour
         _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y) + 3] = pathChar;
         _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y) + 4] = villageChar;
 
+        // Calculate max number of path segments
+        int pathNum = Mathf.RoundToInt(worldSize.x * worldSize.y) / 2;
 
+        // Generate branching path
+        BranchPath(pathNum, Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y + 4), true);
     }
 
     /// <summary>
@@ -120,8 +124,72 @@ public class OverworldGenerator : MonoBehaviour
         }
     }
 
-    private void Branch(int segments, bool major)
+    /// <summary>
+    /// Generate procedural path
+    /// </summary>
+    /// <param name="segments"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="major"></param>
+    private void BranchPath(int segments, int x, int y, bool major)
     {
-        //DO STUFF
+        int xIndex = x,
+            yIndex = y;
+
+        do
+        {
+            int xDir = 0,
+                yDir = 0;
+            bool positive = (Random.Range(0, 2) == 0);
+
+            // Set random direction
+            if ((Random.Range(0, 2) == 0))
+            {
+                xDir = positive ? 1 : -1;
+            }
+            else
+            {
+                yDir = positive ? 1 : -1;
+            }
+
+            // If new space available...
+            // Add path
+            if ((xIndex + xDir >= 0 &&
+                xIndex + xDir < worldSize.x &&
+                yIndex + yDir >= 0 &&
+                yIndex + yDir < worldSize.y &&
+                _world[xIndex + xDir, yIndex + yDir] == emptyChar) &&
+
+                (xIndex + (xDir * 2) >= 0 &&
+                xIndex + (xDir * 2) < worldSize.x &&
+                yIndex + (yDir * 2) >= 0 &&
+                yIndex + (yDir * 2) < worldSize.y &&
+                _world[xIndex + (xDir * 2), yIndex + (yDir * 2)] == emptyChar) &&
+
+                (xIndex + xDir + yDir >= 0 &&
+                xIndex + xDir + yDir < worldSize.x &&
+                yIndex + yDir + xDir >= 0 &&
+                yIndex + yDir + xDir < worldSize.y &&
+                _world[xIndex + xDir + yDir, yIndex + yDir + xDir] == emptyChar) &&
+
+                (xIndex + xDir - yDir >= 0 &&
+                xIndex + xDir - yDir < worldSize.x &&
+                yIndex + yDir - xDir >= 0 &&
+                yIndex + yDir - xDir < worldSize.y &&
+                _world[xIndex + xDir - yDir, yIndex + yDir - xDir] == emptyChar))
+            {
+                xIndex += xDir;
+                yIndex += yDir;
+
+                _world[xIndex, yIndex] = pathChar;
+            }
+
+            --segments;
+        } while (segments > 0);
+
+        if (major)
+        {
+            _world[xIndex, yIndex] = endChar;
+        }
     }
 }
