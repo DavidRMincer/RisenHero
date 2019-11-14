@@ -3,7 +3,25 @@ guid: 5a2843fe01ea39a40a5dc1c454d6dba8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - emptyTile: {fileID: 2708832602723377992, guid: 2f226caaafcc8c84895f850210be2108,
+      type: 3}
+  - pathTile: {fileID: 5380080709498894761, guid: 5172ea95b2605164e9acebbb104ca29c,
+      type: 3}
+  - forestTile: {fileID: 5226324457254678405, guid: c4802f2ba205f784e99c60251f05b7fd,
+      type: 3}
+  - villageTile: {fileID: 6744571959920155375, guid: 2d06e9bb84aef184b83aa06ed1d99f51,
+      type: 3}
+  - townTile: {fileID: 8139827993997482985, guid: 7601e2da09dae644181b585b596be8fa,
+      type: 3}
+  - castleTile: {fileID: 5448941731901927533, guid: 594ccce784cf95e45b475eecb2c60be0,
+      type: 3}
+  - ruinsTile: {fileID: 3398748405955939626, guid: 64444bedd0fa6a048895dfb7fd839254,
+      type: 3}
+  - startTile: {fileID: 2626451838270498145, guid: 4d73fd78652218e44953ebf077c91455,
+      type: 3}
+  - endTile: {fileID: 907153276844576703, guid: 70bac22a9c0e55a40a4162e552a9e023,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

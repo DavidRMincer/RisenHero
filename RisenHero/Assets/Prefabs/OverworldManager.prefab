@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3697918248211426525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3697918248211426499}
+  - component: {fileID: 3697918248211426498}
+  m_Layer: 0
+  m_Name: OverworldManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3697918248211426499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697918248211426525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.11019244, y: -0.19485228, z: -1.2460938}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3697918248211426498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3697918248211426525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2843fe01ea39a40a5dc1c454d6dba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSize: {x: 20, y: 20}
+  startZone: 5
+  tileSize: 1
+  emptyTile: {fileID: 2708832602723377992, guid: 2f226caaafcc8c84895f850210be2108,
+    type: 3}
+  pathTile: {fileID: 5380080709498894761, guid: 5172ea95b2605164e9acebbb104ca29c,
+    type: 3}
+  forestTile: {fileID: 5226324457254678405, guid: c4802f2ba205f784e99c60251f05b7fd,
+    type: 3}
+  villageTile: {fileID: 6744571959920155375, guid: 2d06e9bb84aef184b83aa06ed1d99f51,
+    type: 3}
+  townTile: {fileID: 8139827993997482985, guid: 7601e2da09dae644181b585b596be8fa,
+    type: 3}
+  castleTile: {fileID: 5448941731901927533, guid: 594ccce784cf95e45b475eecb2c60be0,
+    type: 3}
+  ruinsTile: {fileID: 3398748405955939626, guid: 64444bedd0fa6a048895dfb7fd839254,
+    type: 3}
+  startTile: {fileID: 2626451838270498145, guid: 4d73fd78652218e44953ebf077c91455,
+    type: 3}
+  endTile: {fileID: 907153276844576703, guid: 70bac22a9c0e55a40a4162e552a9e023, type: 3}
