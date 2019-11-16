@@ -5,18 +5,9 @@ using UnityEngine;
 public class OverworldGenerator : MonoBehaviour
 {
     public Vector2      worldSize;
-    public const char   emptyChar = '.',
-                        pathChar = '-',
-                        forestChar = 'f',
-                        villageChar = 'v',
-                        townChar = 't',
-                        castleChar = 'c',
-                        ruinsChar = 'r',
-                        startChar = 's',
-                        endChar = 'x';
     public float        tileSize;
     public GameObject   emptyTile,
-                        pathTile,
+                        wallTile,
                         forestTile,
                         villageTile,
                         townTile,
@@ -30,38 +21,38 @@ public class OverworldGenerator : MonoBehaviour
                         numofRuins,
                         minGap,
                         maxGap;
-
-    private char[,]     _world;
+    
+    GameObject[,]       _world;
     private Vector2     _startPoint,
                         _endPoint;
-    public List<char>  _segmentstoSpawn = new List<char>();
+    public List<GameObject>  _segmentstoSpawn = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
+        // Fill segments list
         for (int i = numofCastles; i > 0; --i)
         {
             Debug.Log(true);
-            _segmentstoSpawn.Add(castleChar);
+            _segmentstoSpawn.Add(castleTile);
         }
         for (int i = numofRuins; i > 0; --i)
         {
             Debug.Log(true);
-            _segmentstoSpawn.Add(ruinsChar);
+            _segmentstoSpawn.Add(ruinsTile);
         }
         for (int i = numofTowns; i > 0; --i)
         {
             Debug.Log(true);
-            _segmentstoSpawn.Add(townChar);
+            _segmentstoSpawn.Add(townTile);
         }
         for (int i = numofVillages; i > 0; --i)
         {
             Debug.Log(true);
-            _segmentstoSpawn.Add(villageChar);
+            _segmentstoSpawn.Add(villageTile);
         }
 
         GenerateWorld();
-        DrawWorld();
     }
 
     /// <summary>
@@ -69,80 +60,30 @@ public class OverworldGenerator : MonoBehaviour
     /// </summary>
     public void GenerateWorld()
     {
-        char[,] data = new char[Mathf.RoundToInt(worldSize.x),Mathf.RoundToInt(worldSize.y)];
-        _world = data;
-
-        // Create blank world
-        for (int xIndex = 0; xIndex < worldSize.x; ++xIndex)
-        {
-            for (int yIndex = 0; yIndex < worldSize.y; ++yIndex)
-            {
-                _world[xIndex, yIndex] = emptyChar;
-            }
-        }
+        _world = new GameObject[Mathf.RoundToInt(worldSize.x), Mathf.RoundToInt(worldSize.y)];
 
         // Set start point
         _startPoint.x = 0;
         _startPoint.y = Mathf.RoundToInt(worldSize.y / 2);
-        _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)] = startChar;
+        _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(startTile, _startPoint * tileSize, Quaternion.identity);
 
         // Add path below start point
         // Through forest to village
-        _world[Mathf.RoundToInt(_startPoint.x) + 1, Mathf.RoundToInt(_startPoint.y)] = forestChar;
-        _world[Mathf.RoundToInt(_startPoint.x) + 2, Mathf.RoundToInt(_startPoint.y)] = forestChar;
-        _world[Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y)] = villageChar;
+        _world[Mathf.RoundToInt(_startPoint.x) + 1, Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(forestTile, (_startPoint + Vector2.right) * tileSize, Quaternion.identity);
+        _world[Mathf.RoundToInt(_startPoint.x) + 2, Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(forestTile, (_startPoint + (Vector2.right * 2)) * tileSize, Quaternion.identity);
+        _world[Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(villageTile, (_startPoint + (Vector2.right * 3)) * tileSize, Quaternion.identity);
 
         // Generate branching path
         BranchPath(Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y), true);
-    }
-
-    /// <summary>
-    /// Draw tiles into scene
-    /// </summary>
-    public void DrawWorld()
-    {
-        // Draw each tile
+        
+        // Fill blanks with empty tiles
         for (int xIndex = 0; xIndex < worldSize.x; ++xIndex)
         {
             for (int yIndex = 0; yIndex < worldSize.y; ++yIndex)
             {
-                switch (_world[xIndex, yIndex])
+                if (_world[xIndex, yIndex] == null)
                 {
-                    case pathChar:
-                        GameObject.Instantiate(pathTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case forestChar:
-                        GameObject.Instantiate(forestTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case villageChar:
-                        GameObject.Instantiate(villageTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case townChar:
-                        GameObject.Instantiate(townTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case castleChar:
-                        GameObject.Instantiate(castleTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case ruinsChar:
-                        GameObject.Instantiate(ruinsTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case startChar:
-                        GameObject.Instantiate(startTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    case endChar:
-                        GameObject.Instantiate(endTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-
-                    default:
-                        GameObject.Instantiate(emptyTile, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
+                    _world[xIndex, yIndex] = GameObject.Instantiate(emptyTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
                 }
             }
         }
@@ -181,7 +122,7 @@ public class OverworldGenerator : MonoBehaviour
             if ((yIndex + yDir >= 0 &&
                 yIndex + yDir < worldSize.y) &&
 
-                _world[xIndex + xDir, yIndex + yDir] == emptyChar)
+                _world[xIndex + xDir, yIndex + yDir] == null)
             {
                 xIndex += xDir;
                 yIndex += yDir;
@@ -193,23 +134,29 @@ public class OverworldGenerator : MonoBehaviour
                     _endPoint.x = xIndex;
                     _endPoint.y = yIndex;
 
-                    _world[xIndex, yIndex] = endChar;
+                    _world[xIndex, yIndex] = GameObject.Instantiate(endTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
 
                     complete = true;
                 }
                 // Generate segment
                 else
                 {
-                    if (gapCounter == 0)
+                    if (xIndex == Mathf.RoundToInt(worldSize.x / 2))
+                    {
+                        _world[xIndex, yIndex] = GameObject.Instantiate(wallTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
+                        ++xIndex;
+                        _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
+                    }
+                    else if (gapCounter == 0)
                     {
                         Debug.Log(_segmentstoSpawn.Count);
-                        _world[xIndex, yIndex] = _segmentstoSpawn[Random.Range(0, _segmentstoSpawn.Count - 1)];
+                        _world[xIndex, yIndex] = GameObject.Instantiate(_segmentstoSpawn[Random.Range(0, _segmentstoSpawn.Count - 1)], new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);;
 
                         gapCounter = Random.Range(minGap, maxGap);
                     }
                     else
                     {
-                        _world[xIndex, yIndex] = forestChar;
+                        _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
 
                         --gapCounter;
                     }

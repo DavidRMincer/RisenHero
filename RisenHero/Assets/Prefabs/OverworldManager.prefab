@@ -47,7 +47,7 @@ MonoBehaviour:
   tileSize: 1
   emptyTile: {fileID: 2708832602723377992, guid: 2f226caaafcc8c84895f850210be2108,
     type: 3}
-  pathTile: {fileID: 5380080709498894761, guid: 5172ea95b2605164e9acebbb104ca29c,
+  wallTile: {fileID: 5380080709498894761, guid: 5172ea95b2605164e9acebbb104ca29c,
     type: 3}
   forestTile: {fileID: 5226324457254678405, guid: c4802f2ba205f784e99c60251f05b7fd,
     type: 3}
@@ -62,9 +62,10 @@ MonoBehaviour:
   startTile: {fileID: 2626451838270498145, guid: 4d73fd78652218e44953ebf077c91455,
     type: 3}
   endTile: {fileID: 907153276844576703, guid: 70bac22a9c0e55a40a4162e552a9e023, type: 3}
-  numofVillages: 40
-  numofTowns: 10
+  numofVillages: 15
+  numofTowns: 5
   numofCastles: 1
   numofRuins: 2
   minGap: 1
   maxGap: 5
+  _segmentstoSpawn: []
