@@ -43,8 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2843fe01ea39a40a5dc1c454d6dba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSize: {x: 20, y: 20}
-  startZone: 5
+  worldSize: {x: 50, y: 15}
   tileSize: 1
   emptyTile: {fileID: 2708832602723377992, guid: 2f226caaafcc8c84895f850210be2108,
     type: 3}
@@ -63,3 +62,9 @@ MonoBehaviour:
   startTile: {fileID: 2626451838270498145, guid: 4d73fd78652218e44953ebf077c91455,
     type: 3}
   endTile: {fileID: 907153276844576703, guid: 70bac22a9c0e55a40a4162e552a9e023, type: 3}
+  numofVillages: 40
+  numofTowns: 10
+  numofCastles: 1
+  numofRuins: 2
+  minGap: 1
+  maxGap: 5

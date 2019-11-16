@@ -24,14 +24,42 @@ public class OverworldGenerator : MonoBehaviour
                         ruinsTile,
                         startTile,
                         endTile;
+    public int          numofVillages,
+                        numofTowns,
+                        numofCastles,
+                        numofRuins,
+                        minGap,
+                        maxGap;
 
-    private char[,]    _world;
+    private char[,]     _world;
     private Vector2     _startPoint,
                         _endPoint;
+    public List<char>  _segmentstoSpawn = new List<char>();
 
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = numofCastles; i > 0; --i)
+        {
+            Debug.Log(true);
+            _segmentstoSpawn.Add(castleChar);
+        }
+        for (int i = numofRuins; i > 0; --i)
+        {
+            Debug.Log(true);
+            _segmentstoSpawn.Add(ruinsChar);
+        }
+        for (int i = numofTowns; i > 0; --i)
+        {
+            Debug.Log(true);
+            _segmentstoSpawn.Add(townChar);
+        }
+        for (int i = numofVillages; i > 0; --i)
+        {
+            Debug.Log(true);
+            _segmentstoSpawn.Add(villageChar);
+        }
+
         GenerateWorld();
         DrawWorld();
     }
@@ -131,8 +159,10 @@ public class OverworldGenerator : MonoBehaviour
     {
         bool complete = false;
         int xIndex = x,
-            yIndex = y;
+            yIndex = y,
+            gapCounter = Random.Range(minGap, maxGap);
 
+        // Generate path
         while (!complete)
         {
             int randomDir = Random.Range(0, 3),
@@ -156,6 +186,7 @@ public class OverworldGenerator : MonoBehaviour
                 xIndex += xDir;
                 yIndex += yDir;
 
+                // Reached end
                 if (major &&
                     xIndex == worldSize.x - 1)
                 {
@@ -166,9 +197,22 @@ public class OverworldGenerator : MonoBehaviour
 
                     complete = true;
                 }
+                // Generate segment
                 else
                 {
-                    _world[xIndex, yIndex] = forestChar;
+                    if (gapCounter == 0)
+                    {
+                        Debug.Log(_segmentstoSpawn.Count);
+                        _world[xIndex, yIndex] = _segmentstoSpawn[Random.Range(0, _segmentstoSpawn.Count - 1)];
+
+                        gapCounter = Random.Range(minGap, maxGap);
+                    }
+                    else
+                    {
+                        _world[xIndex, yIndex] = forestChar;
+
+                        --gapCounter;
+                    }
                 }
             }
         }
