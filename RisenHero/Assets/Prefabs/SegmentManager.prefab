@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5458643898504068245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5458643898504068243}
+  - component: {fileID: 5458643898504068244}
+  m_Layer: 0
+  m_Name: SegmentManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5458643898504068243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5458643898504068245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5458643898504068244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5458643898504068245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31949c54a7790c4e922e67ed7ab9225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 0
+  minSize: {x: 10, y: 10}
+  maxSize: {x: 20, y: 20}
+  emptyChar: 46
+  pathChar: 45
+  cliffChar: 47
+  rubbleChar: 82
+  treeChar: 116
+  bushChar: 98
+  rockChar: 114
+  waterChar: 119
+  billboardChar: 66
+  shopChar: 115
+  innChar: 105
+  houseChar: 104
+  checkpointChar: 33
+  exitChar: 88
+  cliffPrefab: {fileID: 9108449555414452993, guid: e21f1d1938116334296a494f24723185,
+    type: 3}
+  treePrefab: {fileID: 4457157498280451410, guid: 08271a20f445bdb4382381d2a3b934d9,
+    type: 3}
+  rockPrefab: {fileID: 4320891339536515707, guid: 09d22be604c346746a98ef793950ec3a,
+    type: 3}
+  bushPrefab: {fileID: 215564150139649301, guid: ffaa973096c63074c877cccda2957021,
+    type: 3}
+  minTrees: 10
+  maxTrees: 25
+  minRocks: 2
+  maxRocks: 10
+  minBushes: 5
+  maxBushes: 10
+  pathRadius: 0
+  tileSize: 0
+  _northEntrance: 1
+  _southEntrance: 0
+  _eastEntrance: 1
+  _westEntrance: 1
