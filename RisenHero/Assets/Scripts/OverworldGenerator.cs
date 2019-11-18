@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class OverworldGenerator : MonoBehaviour
 {
-    public Vector2      worldSize;
-    public float        tileSize;
-    public GameObject   emptyTile,
-                        wallTile,
-                        forestTile,
-                        villageTile,
-                        townTile,
-                        castleTile,
-                        ruinsTile,
-                        startTile,
-                        endTile;
-    public int          numofVillages,
-                        numofTowns,
-                        numofCastles,
-                        numofRuins,
-                        minGap,
-                        maxGap;
+    public Vector2              worldSize;
+    public float                tileSize;
+    public GameObject           emptyTile,
+                                wallTile,
+                                forestTile,
+                                villageTile,
+                                townTile,
+                                castleTile,
+                                ruinsTile,
+                                startTile,
+                                endTile;
+    public int                  numofVillages,
+                                numofTowns,
+                                numofCastles,
+                                numofRuins,
+                                minGap,
+                                maxGap;
     
-    GameObject[,]       _world;
-    private Vector2     _startPoint,
-                        _endPoint;
-    public List<GameObject>  _segmentstoSpawn = new List<GameObject>();
+    GameObject[,]               _world;
+    private Vector2             _startPoint,
+                                _endPoint;
+    public List<GameObject>     _segmentstoSpawn = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -75,18 +75,6 @@ public class OverworldGenerator : MonoBehaviour
 
         // Generate branching path
         BranchPath(Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y), true);
-        
-        // Fill blanks with empty tiles
-        for (int xIndex = 0; xIndex < worldSize.x; ++xIndex)
-        {
-            for (int yIndex = 0; yIndex < worldSize.y; ++yIndex)
-            {
-                if (_world[xIndex, yIndex] == null)
-                {
-                    _world[xIndex, yIndex] = GameObject.Instantiate(emptyTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
-                }
-            }
-        }
     }
 
     /// <summary>
@@ -141,19 +129,30 @@ public class OverworldGenerator : MonoBehaviour
                 // Generate segment
                 else
                 {
-                    if (xIndex == Mathf.RoundToInt(worldSize.x / 2))
+                    // Add final wall
+                    if (xIndex == Mathf.RoundToInt(worldSize.x - 2))
                     {
-                        _world[xIndex, yIndex] = GameObject.Instantiate(wallTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
+                        AddWall(xIndex);
+
+                        ++xIndex;
+                    }
+                    // Add wall
+                    else if (xIndex == Mathf.RoundToInt(worldSize.x / 3) ||
+                        xIndex == Mathf.RoundToInt(worldSize.x / 3) * 2)
+                    {
+                        AddWall(xIndex);
+
                         ++xIndex;
                         _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
                     }
+                    // Spawn random segment
                     else if (gapCounter == 0)
                     {
-                        Debug.Log(_segmentstoSpawn.Count);
                         _world[xIndex, yIndex] = GameObject.Instantiate(_segmentstoSpawn[Random.Range(0, _segmentstoSpawn.Count - 1)], new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);;
 
                         gapCounter = Random.Range(minGap, maxGap);
                     }
+                    // Spawn end of world
                     else
                     {
                         _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
@@ -161,6 +160,29 @@ public class OverworldGenerator : MonoBehaviour
                         --gapCounter;
                     }
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Add vertical wall across world's y
+    /// </summary>
+    /// <param name="x"></param>
+    void AddWall(int x)
+    {
+        for (int i = 0; i < worldSize.y; ++i)
+        {
+            _world[x, i] = GameObject.Instantiate(wallTile, new Vector2(x, i) * tileSize, Quaternion.identity);
+        }
+    }
+
+    void AgeWorld(int multiplier)
+    {
+        for (int xIndex = 0; xIndex < worldSize.x; ++xIndex)
+        {
+            for (int yIndex = 0; yIndex < worldSize.y; ++yIndex)
+            {
+                //DO STUFF
             }
         }
     }
