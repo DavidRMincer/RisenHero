@@ -68,4 +68,9 @@ MonoBehaviour:
   numofRuins: 2
   minGap: 1
   maxGap: 5
-  _segmentstoSpawn: []
+  ruinUpgradeChance: 5
+  villageUpgradeChance: 20
+  villageRuinChance: 5
+  townRuinChance: 10
+  castleRuinChance: 20
+  maxTimePeriod: 10

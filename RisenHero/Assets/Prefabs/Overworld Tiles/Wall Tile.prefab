@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4041269000263466021}
   - component: {fileID: 557039259703173294}
+  - component: {fileID: -1734036862542589166}
   m_Layer: 0
-  m_Name: Path Tile
+  m_Name: Wall Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,3 +81,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-1734036862542589166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5380080709498894761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31949c54a7790c4e922e67ed7ab9225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 5

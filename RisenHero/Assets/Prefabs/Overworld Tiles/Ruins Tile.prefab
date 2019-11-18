@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6477075539218307566}
   - component: {fileID: 3716596265262718809}
+  - component: {fileID: 749992388496329023}
   m_Layer: 0
   m_Name: Ruins Tile
   m_TagString: Untagged
@@ -80,3 +81,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &749992388496329023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3398748405955939626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31949c54a7790c4e922e67ed7ab9225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 4

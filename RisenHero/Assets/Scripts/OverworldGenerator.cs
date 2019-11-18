@@ -20,12 +20,19 @@ public class OverworldGenerator : MonoBehaviour
                                 numofCastles,
                                 numofRuins,
                                 minGap,
-                                maxGap;
+                                maxGap,
+                                ruinUpgradeChance,
+                                villageUpgradeChance,
+                                villageRuinChance,
+                                townRuinChance,
+                                castleRuinChance,
+                                maxTimePeriod;
     
     GameObject[,]               _world;
     private Vector2             _startPoint,
                                 _endPoint;
-    public List<GameObject>     _segmentstoSpawn = new List<GameObject>();
+    private List<GameObject>    _segmentstoSpawn = new List<GameObject>();
+    private int                 _timePeriod = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +60,15 @@ public class OverworldGenerator : MonoBehaviour
         }
 
         GenerateWorld();
+    }
+
+    private void Update()
+    {
+        // For debugging only
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            AgeWorld(1);
+        }
     }
 
     /// <summary>
@@ -176,13 +192,61 @@ public class OverworldGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Destroy old tile and instantiate new tile
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="newTile"></param>
+    void ReplaceTile(int x, int y, GameObject newTile)
+    {
+        Destroy(_world[x, y]);
+        _world[x, y] = GameObject.Instantiate(newTile, new Vector2(x, y) * tileSize, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Update world into future by (50 x multiplier) years
+    /// </summary>
+    /// <param name="multiplier"></param>
     void AgeWorld(int multiplier)
     {
+        // Update time period
+        _timePeriod += multiplier;
+
+        // For each segment
         for (int xIndex = 0; xIndex < worldSize.x; ++xIndex)
         {
             for (int yIndex = 0; yIndex < worldSize.y; ++yIndex)
             {
-                //DO STUFF
+                if (_world[xIndex, yIndex] != null)
+                {
+                    // Update ruins to village
+                    if ((       xIndex != Mathf.RoundToInt(worldSize.x / 3) && xIndex != Mathf.RoundToInt(worldSize.x / 3) * 2 && xIndex != Mathf.RoundToInt(worldSize.x - 2)) &&
+                                _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.RUINS &&
+                                Random.Range(0, 100) <= ruinUpgradeChance * multiplier)
+                    {
+                        ReplaceTile(xIndex, yIndex, villageTile);
+                    }
+                    // Update village to town
+                    else if (   _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.VILLAGE &&
+                                Random.Range(0, 100) <= villageUpgradeChance * multiplier)
+                    {
+                        ReplaceTile(xIndex, yIndex, townTile);
+                    }
+                    // Update to ruins
+                    else if (   (_world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.VILLAGE &&
+                                Random.Range(0, 100) <= villageRuinChance * multiplier) ||
+                                (_world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.TOWN &&
+                                Random.Range(0, 100) <= townRuinChance * multiplier) ||
+                                (_world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.CASTLE &&
+                                Random.Range(0, 100) <= castleRuinChance * multiplier) ||
+                                (xIndex == Mathf.RoundToInt(worldSize.x / 3) && _timePeriod >= 1) ||
+                                (xIndex == Mathf.RoundToInt(worldSize.x / 3) * 2 && _timePeriod >= 2) ||
+                                (xIndex == Mathf.RoundToInt(worldSize.x - 2) && _timePeriod == maxTimePeriod - 1))
+                    {
+                        ReplaceTile(xIndex, yIndex, ruinsTile);
+                    }
+                }
             }
         }
     }

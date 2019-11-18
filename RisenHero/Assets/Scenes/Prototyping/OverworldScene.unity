@@ -270,5 +270,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3697918248211426498, guid: f653e621cd315c946822fef85ec1e4cb,
+        type: 3}
+      propertyPath: townRuinChance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697918248211426498, guid: f653e621cd315c946822fef85ec1e4cb,
+        type: 3}
+      propertyPath: castleRuinChance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697918248211426498, guid: f653e621cd315c946822fef85ec1e4cb,
+        type: 3}
+      propertyPath: villageRuinChance
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f653e621cd315c946822fef85ec1e4cb, type: 3}
