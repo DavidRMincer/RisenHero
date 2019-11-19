@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  minSize: {x: 10, y: 10}
-  maxSize: {x: 20, y: 20}
+  segSize: {x: 20, y: 20}
   emptyChar: 46
   pathChar: 45
   cliffChar: 47
@@ -75,7 +74,7 @@ MonoBehaviour:
   minBushes: 5
   maxBushes: 10
   pathRadius: 0
-  tileSize: 0
+  tileSize: 1
   _northEntrance: 1
   _southEntrance: 0
   _eastEntrance: 1

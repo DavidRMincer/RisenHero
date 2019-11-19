@@ -40,22 +40,18 @@ public class OverworldGenerator : MonoBehaviour
         // Fill segments list
         for (int i = numofCastles; i > 0; --i)
         {
-            Debug.Log(true);
             _segmentstoSpawn.Add(castleTile);
         }
         for (int i = numofRuins; i > 0; --i)
         {
-            Debug.Log(true);
             _segmentstoSpawn.Add(ruinsTile);
         }
         for (int i = numofTowns; i > 0; --i)
         {
-            Debug.Log(true);
             _segmentstoSpawn.Add(townTile);
         }
         for (int i = numofVillages; i > 0; --i)
         {
-            Debug.Log(true);
             _segmentstoSpawn.Add(villageTile);
         }
 
