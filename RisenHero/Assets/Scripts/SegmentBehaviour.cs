@@ -18,7 +18,6 @@ public class SegmentBehaviour : MonoBehaviour
                         treeChar = 't',
                         bushChar = 'b',
                         rockChar = 'r',
-                        waterChar = 'w',
                         billboardChar = 'B',
                         shopChar = 's',
                         innChar = 'i',
@@ -29,13 +28,7 @@ public class SegmentBehaviour : MonoBehaviour
                         treePrefab,
                         rockPrefab,
                         bushPrefab;
-    public int          minTrees,
-                        maxTrees,
-                        minRocks,
-                        maxRocks,
-                        minBushes,
-                        maxBushes,
-                        pathRadius,
+    public int          pathRadius,
                         tileSize;
 
     private string      _name;
@@ -50,7 +43,7 @@ public class SegmentBehaviour : MonoBehaviour
     {
         GenerateForest();
         DrawSegment();
-        SegmentArrayDebug();
+        //SegmentArrayDebug();
     }
 
     /// <summary>
@@ -130,58 +123,120 @@ public class SegmentBehaviour : MonoBehaviour
             {
                 if (i != j)
                 {
-                    GeneratePath(listofExits[i], listofExits[j], 1);
+                    GeneratePath(listofExits[i], listofExits[j]);
+                }
+
+                if (Random.Range(0, 2) == 0)
+                {
+                    GeneratePath(listofExits[i], new Vector2(Random.Range(segSize.x / 3, (segSize.x / 3) * 2), Random.Range(segSize.y / 3, (segSize.y / 3) * 2)));
                 }
             }
         }
 
+        PadPaths();
     }
 
     /// <summary>
     /// Clears path through trees
-    /// NEEDS FIXING
     /// </summary>
     /// <param name="startPoint"></param>
     /// <param name="endPoint"></param>
     /// <param name="noiseScale"></param>
-    private void GeneratePath(Vector2 startPoint, Vector2 endPoint, int noiseScale)
+    private void GeneratePath(Vector2 startPoint, Vector2 endPoint)
     {
-        int x = Mathf.RoundToInt(startPoint.x),
-            y = Mathf.RoundToInt(startPoint.y);
+        Vector2 currentPos;
+        int numofPoints = Random.Range(2, 5);
 
-        while (x != Mathf.RoundToInt(endPoint.x) &&
-                y != Mathf.RoundToInt(endPoint.y))
+        currentPos.x = Mathf.RoundToInt(startPoint.x);
+        currentPos.y = Mathf.RoundToInt(startPoint.y);
+
+        Debug.Log("StartPoint: " + startPoint);
+        Debug.Log("EndPoint: " + endPoint);
+
+        while (numofPoints >= 0)
         {
-            // Move towards endPoint
-            if (x < endPoint.x)
+            Vector2 randPoint = new Vector2(Random.Range(1, segSize.x - 2), Random.Range(1, segSize.y - 2));
+
+            currentPos = PathPoints(currentPos, randPoint);
+            
+            --numofPoints;
+        }
+
+        PathPoints(currentPos, endPoint);
+    }
+
+    /// <summary>
+    /// Connect 2 points with a path
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <returns></returns>
+    Vector2 PathPoints(Vector2 start, Vector2 end)
+    {
+        int x = Mathf.RoundToInt(start.x),
+            y = Mathf.RoundToInt(start.y);
+
+        while ( x != Mathf.RoundToInt(end.x) &&
+                y != Mathf.RoundToInt(end.y))
+        {
+            if (x < end.x)
             {
                 ++x;
             }
-            else if (x > endPoint.x)
+            else if (x > end.x)
             {
                 --x;
             }
 
-            if (y < endPoint.y)
+            if (y < end.y)
             {
                 ++y;
             }
-            else if (y > endPoint.y)
+            else if (y > end.y)
             {
                 --y;
             }
 
-            int xCoord = Mathf.RoundToInt(x / (segSize.x - 3) * noiseScale),
-                yCoord = Mathf.RoundToInt(y / (segSize.y - 3) * noiseScale);
+            Debug.Log(x + ", " + y);
+            _segment[x, y] = pathChar;
+        }
 
-            // Add path
-            if (_segment[xCoord, yCoord] != cliffChar)
+        return new Vector2(x, y);
+    }
+
+    /// <summary>
+    /// Clear forest in pathRadius around paths
+    /// </summary>
+    private void PadPaths()
+    {
+        for (int x = 1; x < segSize.x - 1; ++x)
+        {
+            for (int y = 1; y < segSize.y - 1; ++y)
             {
-                _segment[xCoord, yCoord] = pathChar;
+                if (_segment[x, y] == pathChar)
+                {
+                    for (int i = x - pathRadius; i <= x + pathRadius; ++i)
+                    {
+                        for (int j = y - pathRadius; j <= y + pathRadius; ++j)
+                        {
+                            if (x > 0 &&
+                                x < segSize.x &&
+                                y > 0 &&
+                                y < segSize.y &&
+                                _segment[i, j] == treeChar)
+                            {
+                                _segment[i, j] = emptyChar;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
+    /// <summary>
+    /// Instantiate objects in segment
+    /// </summary>
     public void DrawSegment()
     {
         for (int xIndex = 0; xIndex < Mathf.RoundToInt(segSize.x); ++xIndex)

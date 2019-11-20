@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  segSize: {x: 20, y: 20}
+  segSize: {x: 50, y: 50}
   emptyChar: 46
   pathChar: 45
   cliffChar: 47
@@ -52,7 +52,6 @@ MonoBehaviour:
   treeChar: 116
   bushChar: 98
   rockChar: 114
-  waterChar: 119
   billboardChar: 66
   shopChar: 115
   innChar: 105
@@ -67,13 +66,7 @@ MonoBehaviour:
     type: 3}
   bushPrefab: {fileID: 215564150139649301, guid: ffaa973096c63074c877cccda2957021,
     type: 3}
-  minTrees: 10
-  maxTrees: 25
-  minRocks: 2
-  maxRocks: 10
-  minBushes: 5
-  maxBushes: 10
-  pathRadius: 0
+  pathRadius: 1
   tileSize: 1
   _northEntrance: 1
   _southEntrance: 0
