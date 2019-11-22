@@ -114,9 +114,6 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int j = 0; j < listofExits.Count; j++)
             {
-                Debug.Log(i + ", " + j);
-                Debug.Break();
-
                 if (i != j)
                 {
                     GeneratePath(listofExits[i], listofExits[j]);
@@ -187,7 +184,7 @@ public class SegmentBehaviour : MonoBehaviour
     private void GeneratePath(Vector2 startPoint, Vector2 endPoint)
     {
         Vector2 currentPos;
-        int numofPoints = Random.Range(2, 5);
+        int numofPoints = Random.Range(1, 3);
 
         currentPos.x = Mathf.RoundToInt(startPoint.x);
         currentPos.y = Mathf.RoundToInt(startPoint.y);
@@ -218,20 +215,20 @@ public class SegmentBehaviour : MonoBehaviour
         while ( x != Mathf.RoundToInt(end.x) ||
                 y != Mathf.RoundToInt(end.y))
         {
-            if (x < end.x)
+            if (x < Mathf.RoundToInt(end.x))
             {
                 ++x;
             }
-            else if (x > end.x)
+            else if (x > Mathf.RoundToInt(end.x))
             {
                 --x;
             }
 
-            if (y < end.y)
+            if (y < Mathf.RoundToInt(end.y))
             {
                 ++y;
             }
-            else if (y > end.y)
+            else if (y > Mathf.RoundToInt(end.y))
             {
                 --y;
             }

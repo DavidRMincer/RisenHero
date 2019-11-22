@@ -285,5 +285,15 @@ PrefabInstance:
       propertyPath: maxVillageRadius
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 5458643898504068244, guid: 211d88558869c3442ba34dd54de49ed1,
+        type: 3}
+      propertyPath: segSize.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458643898504068244, guid: 211d88558869c3442ba34dd54de49ed1,
+        type: 3}
+      propertyPath: segSize.y
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 211d88558869c3442ba34dd54de49ed1, type: 3}
