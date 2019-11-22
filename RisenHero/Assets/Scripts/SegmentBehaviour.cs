@@ -29,7 +29,9 @@ public class SegmentBehaviour : MonoBehaviour
                         rockPrefab,
                         bushPrefab;
     public int          pathRadius,
-                        tileSize;
+                        tileSize,
+                        minVillageRadius,
+                        maxVillageRadius;
 
     private string      _name;
     private char[,]     _segment;
@@ -75,27 +77,18 @@ public class SegmentBehaviour : MonoBehaviour
                 }
                 else
                 {
-                    _segment[xIndex, yIndex] = emptyChar;
+                    _segment[xIndex, yIndex] = treeChar;
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Generate forest segment
+    /// </summary>
     public void GenerateForest()
     {
         GenerateSegment();
-
-        // Fill with trees
-        for (int xIndex = 1; xIndex < Mathf.RoundToInt(segSize.x) - 1; ++xIndex)
-        {
-            for (int yIndex = 0; yIndex < Mathf.RoundToInt(segSize.y) - 1; ++yIndex)
-            {
-                if (_segment[xIndex, yIndex] == emptyChar)
-                {
-                    _segment[xIndex, yIndex] = treeChar;
-                }
-            }
-        }
 
         // Clear path
         List<Vector2> listofExits = new List<Vector2>();
@@ -121,6 +114,9 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int j = 0; j < listofExits.Count; j++)
             {
+                Debug.Log(i + ", " + j);
+                Debug.Break();
+
                 if (i != j)
                 {
                     GeneratePath(listofExits[i], listofExits[j]);
@@ -131,6 +127,52 @@ public class SegmentBehaviour : MonoBehaviour
                     GeneratePath(listofExits[i], new Vector2(Random.Range(segSize.x / 3, (segSize.x / 3) * 2), Random.Range(segSize.y / 3, (segSize.y / 3) * 2)));
                 }
             }
+        }
+
+        PadPaths();
+    }
+    
+    /// <summary>
+    /// Generate village segment
+    /// </summary>
+    public void GenerateVillage()
+    {
+        GenerateSegment();
+
+        // Clear radius around centre
+        int radius = Random.Range(minVillageRadius, maxVillageRadius);
+
+        for (int x = 1; x < Mathf.RoundToInt(segSize.x) - 2; ++x)
+        {
+            for (int y = 1; y < Mathf.RoundToInt(segSize.y) - 2; ++y)
+            {
+                int xDist = x - (Mathf.RoundToInt(segSize.x) / 2),
+                    yDist = y - (Mathf.RoundToInt(segSize.y) / 2),
+                    distance = Mathf.RoundToInt(Mathf.Sqrt((xDist * xDist) + (yDist * yDist)));
+
+                if (distance <= radius)
+                {
+                    _segment[x, y] = emptyChar;
+                }
+            }
+        }
+
+        // Paths from entrances
+        if (_northEntrance)
+        {
+            PathPoints(new Vector2(segSize.x / 2, 0), new Vector2(segSize.x / 2, segSize.y / 2));
+        }
+        if (_southEntrance)
+        {
+            PathPoints(new Vector2(segSize.x / 2, segSize.y - 1), segSize / 2);
+        }
+        if (_eastEntrance)
+        {
+            PathPoints(new Vector2(segSize.x - 1, segSize.y / 2), segSize / 2);
+        }
+        if (_westEntrance)
+        {
+            PathPoints(new Vector2(0, segSize.y / 2), segSize / 2);
         }
 
         PadPaths();
@@ -150,9 +192,6 @@ public class SegmentBehaviour : MonoBehaviour
         currentPos.x = Mathf.RoundToInt(startPoint.x);
         currentPos.y = Mathf.RoundToInt(startPoint.y);
 
-        Debug.Log("StartPoint: " + startPoint);
-        Debug.Log("EndPoint: " + endPoint);
-
         while (numofPoints >= 0)
         {
             Vector2 randPoint = new Vector2(Random.Range(1, segSize.x - 2), Random.Range(1, segSize.y - 2));
@@ -164,7 +203,7 @@ public class SegmentBehaviour : MonoBehaviour
 
         PathPoints(currentPos, endPoint);
     }
-
+    
     /// <summary>
     /// Connect 2 points with a path
     /// </summary>
@@ -176,7 +215,7 @@ public class SegmentBehaviour : MonoBehaviour
         int x = Mathf.RoundToInt(start.x),
             y = Mathf.RoundToInt(start.y);
 
-        while ( x != Mathf.RoundToInt(end.x) &&
+        while ( x != Mathf.RoundToInt(end.x) ||
                 y != Mathf.RoundToInt(end.y))
         {
             if (x < end.x)
@@ -197,8 +236,10 @@ public class SegmentBehaviour : MonoBehaviour
                 --y;
             }
 
-            Debug.Log(x + ", " + y);
-            _segment[x, y] = pathChar;
+            if (_segment[x, y] != cliffChar)
+            {
+                _segment[x, y] = pathChar;
+            }
         }
 
         return new Vector2(x, y);
