@@ -31,8 +31,8 @@ public class SegmentBehaviour : MonoBehaviour
                         housePrefab;
     public int          pathRadius,
                         tileSize,
-                        minVillageRadius,
-                        maxVillageRadius,
+                        minClearanceRadius,
+                        maxClearanceRadius,
                         minHouses,
                         maxHouses;
 
@@ -43,6 +43,7 @@ public class SegmentBehaviour : MonoBehaviour
                         _southEntrance,
                         _eastEntrance,
                         _westEntrance;
+    private Vector2     _centre;
 
     // Start is called before the first frame update
     void Start()
@@ -115,6 +116,8 @@ public class SegmentBehaviour : MonoBehaviour
                 }
             }
         }
+
+        _centre = segSize / 2;
     }
 
     /// <summary>
@@ -197,7 +200,24 @@ public class SegmentBehaviour : MonoBehaviour
         SetupSegment();
         ClearRadius();
 
+        _segment[Mathf.RoundToInt(_centre.x), Mathf.RoundToInt(_centre.y)] = billboardChar;
 
+        int houseWidth = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.x / tileSize) + tileSize,
+            houseHeight = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.y / tileSize) + (tileSize * 2),
+            townSize = Mathf.RoundToInt(Mathf.Sqrt((_radius * 2) / Mathf.Sqrt(2))),
+            townWidth = (townSize / houseWidth) - 3,
+            townHeight = (townSize / houseHeight) - 3;
+
+        for (int x = 1; x < townWidth / 2; x += houseWidth)
+        {
+            for (int y = 1; y < townHeight / 2; y += houseHeight)
+            {
+                _segment[x, y] = houseChar;
+                _segment[-x, y] = houseChar;
+                _segment[x, -y] = houseChar;
+                _segment[-x, -y] = houseChar;
+            }
+        }
     }
 
     /// <summary>
@@ -205,7 +225,7 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     private void ClearRadius()
     {
-        _radius = Random.Range(minVillageRadius, maxVillageRadius);
+        _radius = Random.Range(minClearanceRadius, maxClearanceRadius);
 
         for (int x = 1; x < Mathf.RoundToInt(segSize.x) - 2; ++x)
         {
