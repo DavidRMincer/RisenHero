@@ -27,14 +27,18 @@ public class SegmentBehaviour : MonoBehaviour
     public GameObject   cliffPrefab,
                         treePrefab,
                         rockPrefab,
-                        bushPrefab;
+                        bushPrefab,
+                        housePrefab;
     public int          pathRadius,
                         tileSize,
                         minVillageRadius,
-                        maxVillageRadius;
+                        maxVillageRadius,
+                        minHouses,
+                        maxHouses;
 
     private string      _name;
     private char[,]     _segment;
+    private int         _radius = 0;
     public bool         _northEntrance,
                         _southEntrance,
                         _eastEntrance,
@@ -43,15 +47,45 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateForest();
+        GenerateSegment();
         DrawSegment();
-        //SegmentArrayDebug();
+        SegmentArrayDebug();
+    }
+
+    public void GenerateSegment()
+    {
+        switch (tileType)
+        {
+            case TileCategory.EMPTY:
+                break;
+            case TileCategory.START:
+                break;
+            case TileCategory.END:
+                break;
+            case TileCategory.FOREST:
+                GenerateForest();
+                break;
+            case TileCategory.RUINS:
+                break;
+            case TileCategory.WALL:
+                break;
+            case TileCategory.VILLAGE:
+                GenerateVillage();
+                break;
+            case TileCategory.TOWN:
+                GenerateTown();
+                break;
+            case TileCategory.CASTLE:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
     /// Procedurally generate segment
     /// </summary>
-    public void GenerateSegment()
+    private void SetupSegment()
     {
         // Set segment size
         _segment = new char[Mathf.RoundToInt(segSize.x), Mathf.RoundToInt(segSize.y)];
@@ -88,7 +122,7 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     public void GenerateForest()
     {
-        GenerateSegment();
+        SetupSegment();
 
         // Clear path
         List<Vector2> listofExits = new List<Vector2>();
@@ -134,10 +168,44 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     public void GenerateVillage()
     {
-        GenerateSegment();
+        SetupSegment();
 
         // Clear radius around centre
-        int radius = Random.Range(minVillageRadius, maxVillageRadius);
+        ClearRadius();
+        
+        // Random spawn houses
+        Vector2 centre = segSize / 2;
+        int numHouses = Random.Range(minHouses, maxHouses);
+        float degrees = 360 / numHouses;
+
+        for (float i = 0; i < 360; i += degrees)
+        {
+            Vector2 angle = Vector2.up;
+            float   sin = Mathf.Sin(i * Mathf.Deg2Rad),
+                    cos = Mathf.Cos(i * Mathf.Deg2Rad);
+            angle.x = (angle.x * cos) - (angle.y * sin);
+            angle.y = (angle.x * sin) + (angle.y * cos);
+
+            int distance = Random.Range(_radius / 3, _radius / 2);
+
+            _segment[Mathf.RoundToInt(centre.x + (angle.x * distance)), Mathf.RoundToInt(centre.y + (angle.y * distance))] = houseChar;
+        }
+    }
+
+    public void GenerateTown()
+    {
+        SetupSegment();
+        ClearRadius();
+
+
+    }
+
+    /// <summary>
+    /// Clear random radius in trees
+    /// </summary>
+    private void ClearRadius()
+    {
+        _radius = Random.Range(minVillageRadius, maxVillageRadius);
 
         for (int x = 1; x < Mathf.RoundToInt(segSize.x) - 2; ++x)
         {
@@ -147,7 +215,7 @@ public class SegmentBehaviour : MonoBehaviour
                     yDist = y - (Mathf.RoundToInt(segSize.y) / 2),
                     distance = Mathf.RoundToInt(Mathf.Sqrt((xDist * xDist) + (yDist * yDist)));
 
-                if (distance <= radius)
+                if (distance <= _radius)
                 {
                     _segment[x, y] = emptyChar;
                 }
@@ -296,6 +364,10 @@ public class SegmentBehaviour : MonoBehaviour
                 else if (_segment[xIndex, yIndex] == bushChar)
                 {
                     Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                }
+                else if (_segment[xIndex, yIndex] == houseChar)
+                {
+                    Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
                 }
             }
         }

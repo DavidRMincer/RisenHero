@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
-  segSize: {x: 50, y: 50}
+  segSize: {x: 100, y: 100}
   emptyChar: 46
   pathChar: 45
   cliffChar: 47
@@ -66,8 +66,14 @@ MonoBehaviour:
     type: 3}
   bushPrefab: {fileID: 215564150139649301, guid: ffaa973096c63074c877cccda2957021,
     type: 3}
+  housePrefab: {fileID: 1598786100977293095, guid: 2375b8d23ffb5d94bbf718733a51d762,
+    type: 3}
   pathRadius: 1
   tileSize: 1
+  minVillageRadius: 15
+  maxVillageRadius: 20
+  minHouses: 2
+  maxHouses: 5
   _northEntrance: 1
   _southEntrance: 0
   _eastEntrance: 1
