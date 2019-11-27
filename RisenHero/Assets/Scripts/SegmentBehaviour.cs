@@ -29,7 +29,8 @@ public class SegmentBehaviour : MonoBehaviour
                         bushPrefab,
                         housePrefab,
                         shopPrefab,
-                        innPrefab;
+                        innPrefab,
+                        rubblePrefab;
     public int          pathRadius,
                         tileSize,
                         minClearanceRadius,
@@ -38,7 +39,7 @@ public class SegmentBehaviour : MonoBehaviour
                         maxHouses;
 
     private string      _name;
-    private char[,]     _segment;
+    private char[,]     _segment = new char[0, 0];
     private int         _radius = 0;
     public bool         _northEntrance,
                         _southEntrance,
@@ -71,6 +72,7 @@ public class SegmentBehaviour : MonoBehaviour
                 GenerateForest();
                 break;
             case TileCategory.RUINS:
+                GenerateRuins();
                 break;
             case TileCategory.WALL:
                 break;
@@ -231,6 +233,47 @@ public class SegmentBehaviour : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Generate ruins from village or town
+    /// </summary>
+    public void GenerateRuins()
+    {
+        // Create village or town to destroy
+        if (_segment.GetLength(0) == 0)
+        {
+            if (Random.Range(0, 3) == 0)
+            {
+                GenerateVillage();
+            }
+            else
+            {
+                GenerateTown();
+            }
+        }
+
+        for (int x = 1; x < Mathf.RoundToInt(segSize.x) - 1; ++x)
+        {
+            for (int y = 1; y < Mathf.RoundToInt(segSize.y) - 1; ++y)
+            {
+                if (_segment[x, y] == houseChar ||
+                    _segment[x, y] == shopChar ||
+                    _segment[x, y] == innChar)
+                {
+                    if (Random.Range(0, 2) == 0)
+                    {
+                        Debug.Log(true);
+                        _segment[x, y] = rubbleChar;
+                    }
+                    else
+                    {
+                        Debug.Log(false);
+                        _segment[x, y] = emptyChar;
+                    }
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Clear random radius in trees
     /// </summary>
@@ -401,6 +444,9 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case innChar:
                         Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case rubbleChar:
+                        Instantiate(rubblePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
                         break;
                     default:
                         break;
