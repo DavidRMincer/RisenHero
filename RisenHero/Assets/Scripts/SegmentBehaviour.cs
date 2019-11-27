@@ -22,6 +22,7 @@ public class SegmentBehaviour : MonoBehaviour
                         innChar = 'i',
                         houseChar = 'h',
                         checkpointChar = '!',
+                        wallChar = 'w',
                         exitChar = 'X';
     public GameObject   cliffPrefab,
                         treePrefab,
@@ -30,7 +31,8 @@ public class SegmentBehaviour : MonoBehaviour
                         housePrefab,
                         shopPrefab,
                         innPrefab,
-                        rubblePrefab;
+                        rubblePrefab,
+                        wallPrefab;
     public int          pathRadius,
                         tileSize,
                         minClearanceRadius,
@@ -75,6 +77,7 @@ public class SegmentBehaviour : MonoBehaviour
                 GenerateRuins();
                 break;
             case TileCategory.WALL:
+                GenerateWall();
                 break;
             case TileCategory.VILLAGE:
                 GenerateVillage();
@@ -247,7 +250,6 @@ public class SegmentBehaviour : MonoBehaviour
             {
                 for (int y = 0; y < houseWidth * 5; ++y)
                 {
-                    Debug.Log(finished);
                     if ((!finished) &&
                         (_segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == houseChar ||
                         _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == shopChar))
@@ -284,7 +286,8 @@ public class SegmentBehaviour : MonoBehaviour
             {
                 if (_segment[x, y] == houseChar ||
                     _segment[x, y] == shopChar ||
-                    _segment[x, y] == innChar)
+                    _segment[x, y] == innChar ||
+                    _segment[x, y] == wallChar)
                 {
                     if (Random.Range(0, 2) == 0)
                     {
@@ -302,15 +305,34 @@ public class SegmentBehaviour : MonoBehaviour
     }
 
     /// <summary>
+    /// Generate wall segment
+    /// </summary>
+    public void GenerateWall()
+    {
+        // Block north and south exits
+        _northEntrance = false;
+        _southEntrance = false;
+
+        SetupSegment();
+        ClearRadius();
+
+        // Generate wall
+        for (int i = 0; i < Mathf.RoundToInt(segSize.y); i++)
+        {
+            _segment[Mathf.RoundToInt(_centre.x), i] = wallChar;
+        }
+    }
+
+    /// <summary>
     /// Clear random radius in trees
     /// </summary>
     private void ClearRadius()
     {
         _radius = Random.Range(minClearanceRadius, maxClearanceRadius);
 
-        for (int x = 1; x < Mathf.RoundToInt(segSize.x) - 2; ++x)
+        for (int x = 1; x < Mathf.RoundToInt(segSize.x) - 1; ++x)
         {
-            for (int y = 1; y < Mathf.RoundToInt(segSize.y) - 2; ++y)
+            for (int y = 1; y < Mathf.RoundToInt(segSize.y) - 1; ++y)
             {
                 int xDist = x - (Mathf.RoundToInt(segSize.x) / 2),
                     yDist = y - (Mathf.RoundToInt(segSize.y) / 2),
@@ -474,6 +496,9 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case rubbleChar:
                         Instantiate(rubblePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case wallChar:
+                        Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
                         break;
                     default:
                         break;
