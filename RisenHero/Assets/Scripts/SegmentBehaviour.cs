@@ -209,6 +209,7 @@ public class SegmentBehaviour : MonoBehaviour
         SetupSegment();
         ClearRadius();
         
+        // Fit town inside cleared radius
         int houseWidth = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.x / tileSize) + (tileSize * 2),
             houseHeight = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.y / tileSize) + (tileSize * 3),
             townSize = Mathf.RoundToInt(_radius * Mathf.Sqrt(2)),
@@ -223,6 +224,7 @@ public class SegmentBehaviour : MonoBehaviour
                     yDist = Random.Range(2, townHeight / 3),
                     distance = Mathf.RoundToInt(Mathf.Sqrt((xDist * xDist) + (yDist * yDist)));
 
+                // Add houses and shops
                 char newChar = (Mathf.Sqrt((x * x) + (y * y)) <= distance) ? shopChar : houseChar;
 
                 _segment[Mathf.RoundToInt(_centre.x) + x, Mathf.RoundToInt(_centre.y) + y] = newChar;
@@ -231,8 +233,33 @@ public class SegmentBehaviour : MonoBehaviour
                 _segment[Mathf.RoundToInt(_centre.x) - x, Mathf.RoundToInt(_centre.y) - y] = newChar;
             }
         }
+
+        // Add inn
+        bool finished = false;
+
+        do
+        {
+            int xInn = Mathf.RoundToInt(Random.Range(_centre.x - townWidth, _centre.x + townWidth)),
+                yInn = Mathf.RoundToInt(Random.Range(_centre.y - townHeight, _centre.y + townHeight));
+            Vector2 dirFromCentre = (_centre - new Vector2(xInn, yInn)).normalized;
+
+            for (int x = 0; x < houseWidth * 5; ++x)
+            {
+                for (int y = 0; y < houseWidth * 5; ++y)
+                {
+                    Debug.Log(finished);
+                    if ((!finished) &&
+                        (_segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == houseChar ||
+                        _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == shopChar))
+                    {
+                        _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] = innChar;
+                        finished = true;
+                    }
+                }
+            }
+        } while (!finished);
     }
-    
+
     /// <summary>
     /// Generate ruins from village or town
     /// </summary>
