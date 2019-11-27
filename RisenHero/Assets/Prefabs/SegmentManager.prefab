@@ -43,21 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31949c54a7790c4e922e67ed7ab9225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 0
+  tileType: 7
   segSize: {x: 100, y: 100}
-  emptyChar: 46
-  pathChar: 45
-  cliffChar: 47
-  rubbleChar: 82
-  treeChar: 116
-  bushChar: 98
-  rockChar: 114
-  billboardChar: 66
-  shopChar: 115
-  innChar: 105
-  houseChar: 104
-  checkpointChar: 33
-  exitChar: 88
   cliffPrefab: {fileID: 9108449555414452993, guid: e21f1d1938116334296a494f24723185,
     type: 3}
   treePrefab: {fileID: 4457157498280451410, guid: 08271a20f445bdb4382381d2a3b934d9,
@@ -68,12 +55,16 @@ MonoBehaviour:
     type: 3}
   housePrefab: {fileID: 1598786100977293095, guid: 2375b8d23ffb5d94bbf718733a51d762,
     type: 3}
+  shopPrefab: {fileID: 204021817236578568, guid: 9b292bbc8cc32934eb888961fea830b5,
+    type: 3}
+  innPrefab: {fileID: 6654285210505135216, guid: dc466d6363c4c234b97ae93e9b2c3fcc,
+    type: 3}
   pathRadius: 1
   tileSize: 1
-  minVillageRadius: 15
-  maxVillageRadius: 20
+  minClearanceRadius: 45
+  maxClearanceRadius: 55
   minHouses: 2
-  maxHouses: 5
+  maxHouses: 10
   _northEntrance: 1
   _southEntrance: 0
   _eastEntrance: 1

@@ -11,14 +11,13 @@ public class SegmentBehaviour : MonoBehaviour
 
     public TileCategory tileType;
     public Vector2      segSize;
-    public char         emptyChar = '.',
+    public const char   emptyChar = '.',
                         pathChar = '-',
                         cliffChar = '/',
                         rubbleChar = 'R',
                         treeChar = 't',
                         bushChar = 'b',
                         rockChar = 'r',
-                        billboardChar = 'B',
                         shopChar = 's',
                         innChar = 'i',
                         houseChar = 'h',
@@ -28,7 +27,9 @@ public class SegmentBehaviour : MonoBehaviour
                         treePrefab,
                         rockPrefab,
                         bushPrefab,
-                        housePrefab;
+                        housePrefab,
+                        shopPrefab,
+                        innPrefab;
     public int          pathRadius,
                         tileSize,
                         minClearanceRadius,
@@ -50,9 +51,12 @@ public class SegmentBehaviour : MonoBehaviour
     {
         GenerateSegment();
         DrawSegment();
-        SegmentArrayDebug();
+        //SegmentArrayDebug();
     }
 
+    /// <summary>
+    /// Generate segment based on tileType
+    /// </summary>
     public void GenerateSegment()
     {
         switch (tileType)
@@ -195,31 +199,38 @@ public class SegmentBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generate town segment
+    /// </summary>
     public void GenerateTown()
     {
         SetupSegment();
         ClearRadius();
-
-        _segment[Mathf.RoundToInt(_centre.x), Mathf.RoundToInt(_centre.y)] = billboardChar;
-
-        int houseWidth = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.x / tileSize) + tileSize,
-            houseHeight = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.y / tileSize) + (tileSize * 2),
-            townSize = Mathf.RoundToInt(Mathf.Sqrt((_radius * 2) / Mathf.Sqrt(2))),
-            townWidth = (townSize / houseWidth) - 3,
-            townHeight = (townSize / houseHeight) - 3;
-
-        for (int x = 1; x < townWidth / 2; x += houseWidth)
+        
+        int houseWidth = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.x / tileSize) + (tileSize * 2),
+            houseHeight = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.y / tileSize) + (tileSize * 3),
+            townSize = Mathf.RoundToInt(_radius * Mathf.Sqrt(2)),
+            townWidth = (townSize / houseWidth),
+            townHeight = (townSize / houseHeight);
+        
+        for (int x = 2; x < townWidth; x += houseWidth)
         {
-            for (int y = 1; y < townHeight / 2; y += houseHeight)
+            for (int y = 2; y < townHeight; y += houseHeight)
             {
-                _segment[x, y] = houseChar;
-                _segment[-x, y] = houseChar;
-                _segment[x, -y] = houseChar;
-                _segment[-x, -y] = houseChar;
+                int xDist = Random.Range(2, townWidth / 3),
+                    yDist = Random.Range(2, townHeight / 3),
+                    distance = Mathf.RoundToInt(Mathf.Sqrt((xDist * xDist) + (yDist * yDist)));
+
+                char newChar = (Mathf.Sqrt((x * x) + (y * y)) <= distance) ? shopChar : houseChar;
+
+                _segment[Mathf.RoundToInt(_centre.x) + x, Mathf.RoundToInt(_centre.y) + y] = newChar;
+                _segment[Mathf.RoundToInt(_centre.x) - x, Mathf.RoundToInt(_centre.y) + y] = newChar;
+                _segment[Mathf.RoundToInt(_centre.x) + x, Mathf.RoundToInt(_centre.y) - y] = newChar;
+                _segment[Mathf.RoundToInt(_centre.x) - x, Mathf.RoundToInt(_centre.y) - y] = newChar;
             }
         }
     }
-
+    
     /// <summary>
     /// Clear random radius in trees
     /// </summary>
@@ -268,7 +279,6 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     /// <param name="startPoint"></param>
     /// <param name="endPoint"></param>
-    /// <param name="noiseScale"></param>
     private void GeneratePath(Vector2 startPoint, Vector2 endPoint)
     {
         Vector2 currentPos;
@@ -369,25 +379,31 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int yIndex = 0; yIndex < Mathf.RoundToInt(segSize.y); ++yIndex)
             {
-                if (_segment[xIndex, yIndex] == cliffChar)
+                switch (_segment[xIndex, yIndex])
                 {
-                    Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                }
-                else if (_segment[xIndex, yIndex] == treeChar)
-                {
-                    Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                }
-                else if (_segment[xIndex, yIndex] == rockChar)
-                {
-                    Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                }
-                else if (_segment[xIndex, yIndex] == bushChar)
-                {
-                    Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                }
-                else if (_segment[xIndex, yIndex] == houseChar)
-                {
-                    Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                    case cliffChar:
+                        Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case treeChar:
+                        Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case rockChar:
+                        Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case bushChar:
+                        Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case houseChar:
+                        Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case shopChar:
+                        Instantiate(shopPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case innChar:
+                        Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
