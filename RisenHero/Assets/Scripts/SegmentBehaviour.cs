@@ -86,6 +86,7 @@ public class SegmentBehaviour : MonoBehaviour
                 GenerateTown();
                 break;
             case TileCategory.CASTLE:
+                GenerateCastle();
                 break;
             default:
                 break;
@@ -215,7 +216,7 @@ public class SegmentBehaviour : MonoBehaviour
         // Fit town inside cleared radius
         int houseWidth = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.x / tileSize) + (tileSize * 2),
             houseHeight = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.y / tileSize) + (tileSize * 3),
-            townSize = Mathf.RoundToInt(_radius * Mathf.Sqrt(2)),
+            townSize = LargestSquareinRadiusSide(),
             townWidth = (townSize / houseWidth),
             townHeight = (townSize / houseHeight);
         
@@ -291,12 +292,10 @@ public class SegmentBehaviour : MonoBehaviour
                 {
                     if (Random.Range(0, 2) == 0)
                     {
-                        Debug.Log(true);
                         _segment[x, y] = rubbleChar;
                     }
                     else
                     {
-                        Debug.Log(false);
                         _segment[x, y] = emptyChar;
                     }
                 }
@@ -320,6 +319,30 @@ public class SegmentBehaviour : MonoBehaviour
         for (int i = 0; i < Mathf.RoundToInt(segSize.y); i++)
         {
             _segment[Mathf.RoundToInt(_centre.x), i] = wallChar;
+        }
+    }
+
+    public void GenerateCastle()
+    {
+        SetupSegment();
+        ClearRadius();
+
+        int castleSize = LargestSquareinRadiusSide() / 10 * Random.Range(8, 9),
+            xStart = Mathf.RoundToInt(_centre.x) - (castleSize / 2),
+            yStart = Mathf.RoundToInt(_centre.y) - (castleSize / 2);
+
+        for (int x = 0; x < castleSize; ++x)
+        {
+            for (int y = 0; y < castleSize; ++y)
+            {
+                if (x == 0 ||
+                    x == castleSize - 1 ||
+                    y == 0 ||
+                    y == castleSize - 1)
+                {
+                    _segment[xStart + x, yStart + y] = wallChar;
+                }
+            }
         }
     }
 
@@ -460,6 +483,15 @@ public class SegmentBehaviour : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Returns one side of largest square that can fit in radius
+    /// </summary>
+    /// <returns></returns>
+    private int LargestSquareinRadiusSide()
+    {
+        return Mathf.RoundToInt(_radius * Mathf.Sqrt(2));
     }
 
     /// <summary>
