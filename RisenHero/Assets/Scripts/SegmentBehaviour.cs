@@ -21,6 +21,7 @@ public class SegmentBehaviour : MonoBehaviour
                         shopChar = 's',
                         innChar = 'i',
                         houseChar = 'h',
+                        castleChar = 'c',
                         checkpointChar = '!',
                         wallChar = 'w',
                         exitChar = 'X';
@@ -31,8 +32,10 @@ public class SegmentBehaviour : MonoBehaviour
                         housePrefab,
                         shopPrefab,
                         innPrefab,
+                        castlePrefab,
                         rubblePrefab,
-                        wallPrefab;
+                        wallPrefab,
+                        checkpointPrefab;
     public int          pathRadius,
                         tileSize,
                         minClearanceRadius,
@@ -54,7 +57,7 @@ public class SegmentBehaviour : MonoBehaviour
     {
         GenerateSegment();
         DrawSegment();
-        //SegmentArrayDebug();
+        SegmentArrayDebug();
     }
 
     /// <summary>
@@ -67,8 +70,10 @@ public class SegmentBehaviour : MonoBehaviour
             case TileCategory.EMPTY:
                 break;
             case TileCategory.START:
+                GenerateStart();
                 break;
             case TileCategory.END:
+                GenerateEnd();
                 break;
             case TileCategory.FOREST:
                 GenerateForest();
@@ -128,6 +133,40 @@ public class SegmentBehaviour : MonoBehaviour
         }
 
         _centre = segSize / 2;
+    }
+
+    /// <summary>
+    /// Generate starting segment
+    /// </summary>
+    public void GenerateStart()
+    {
+        // Generate forest
+        GenerateForest();
+
+        bool startSet = false;
+
+        for (int y = 1; y < segSize.x - 1; ++y)
+        {
+            for (int x = 1; x < segSize.x - 1; ++x)
+            {
+                // Replace trees with cliffs
+                if (_segment[x, y] == treeChar)
+                {
+                    _segment[x, y] = cliffChar;
+                }
+                // Add checkpoint for start
+                else if (!startSet && _segment[x, y] == pathChar)
+                {
+                    _segment[x, y] = checkpointChar;
+                    startSet = true;
+                }
+            }
+        }
+    }
+
+    public void GenerateEnd()
+    {
+
     }
 
     /// <summary>
@@ -322,11 +361,18 @@ public class SegmentBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generate castle segment
+    /// </summary>
     public void GenerateCastle()
     {
         SetupSegment();
         ClearRadius();
 
+        // Place castle at centre of segment
+        _segment[Mathf.RoundToInt(_centre.x), Mathf.RoundToInt(_centre.y)] = castleChar;
+
+        // Surround castle with walls
         int castleSize = LargestSquareinRadiusSide() / 10 * Random.Range(8, 9),
             xStart = Mathf.RoundToInt(_centre.x) - (castleSize / 2),
             yStart = Mathf.RoundToInt(_centre.y) - (castleSize / 2);
@@ -335,10 +381,19 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int y = 0; y < castleSize; ++y)
             {
-                if (x == 0 ||
+                if ((_segment[xStart + x, yStart + y] != pathChar &&
+                    _segment[xStart + x, yStart + y - 1] != pathChar &&
+                    _segment[xStart + x, yStart + y + 1] != pathChar &&
+                    _segment[xStart + x - 1, yStart + y] != pathChar &&
+                    _segment[xStart + x - 1, yStart + y - 1] != pathChar &&
+                    _segment[xStart + x - 1, yStart + y + 1] != pathChar &&
+                    _segment[xStart + x + 1, yStart + y] != pathChar &&
+                    _segment[xStart + x + 1, yStart + y - 1] != pathChar &&
+                    _segment[xStart + x + 1, yStart + y + 1] != pathChar) &&
+                    (x == 0 ||
                     x == castleSize - 1 ||
                     y == 0 ||
-                    y == castleSize - 1)
+                    y == castleSize - 1))
                 {
                     _segment[xStart + x, yStart + y] = wallChar;
                 }
@@ -531,6 +586,12 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case wallChar:
                         Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case castleChar:
+                        Instantiate(castlePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case checkpointChar:
+                        Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
                         break;
                     default:
                         break;

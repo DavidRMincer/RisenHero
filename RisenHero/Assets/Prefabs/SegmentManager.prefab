@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31949c54a7790c4e922e67ed7ab9225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 5
+  tileType: 1
   segSize: {x: 100, y: 100}
   cliffPrefab: {fileID: 9108449555414452993, guid: e21f1d1938116334296a494f24723185,
     type: 3}
@@ -59,9 +59,13 @@ MonoBehaviour:
     type: 3}
   innPrefab: {fileID: 6654285210505135216, guid: dc466d6363c4c234b97ae93e9b2c3fcc,
     type: 3}
+  castlePrefab: {fileID: 2864297773832905130, guid: 294e19bca8ffbdc48a03ee2c3df9173d,
+    type: 3}
   rubblePrefab: {fileID: 811478309394768116, guid: 93996c0544f7de94686c94da34631d0c,
     type: 3}
   wallPrefab: {fileID: 5524619813134961727, guid: 848a0d9ac3af7564b9214ad59f966d39,
+    type: 3}
+  checkpointPrefab: {fileID: 1585808331232586893, guid: ab7f933b12080a246877ec078d4b52df,
     type: 3}
   pathRadius: 1
   tileSize: 1
