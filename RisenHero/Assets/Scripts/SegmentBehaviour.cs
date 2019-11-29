@@ -37,7 +37,8 @@ public class SegmentBehaviour : MonoBehaviour
                         rubblePrefab,
                         wallPrefab,
                         checkpointPrefab,
-                        threatPrefab;
+                        threatPrefab,
+                        exitPrefab;
     public int          pathRadius,
                         tileSize,
                         minClearanceRadius,
@@ -120,6 +121,13 @@ public class SegmentBehaviour : MonoBehaviour
                 {
                     _segment[xIndex, yIndex] = exitChar;
                 }
+                else if ((_northEntrance && xIndex >= Mathf.RoundToInt(_centre.x) - 1 && xIndex <= Mathf.RoundToInt(_centre.x) + 1 && yIndex == 0) ||
+                    (_southEntrance && xIndex >= Mathf.RoundToInt(_centre.x) - 1 && xIndex <= Mathf.RoundToInt(_centre.x) + 1 && yIndex == Mathf.RoundToInt(segSize.y) - 1) ||
+                    (_westEntrance && yIndex >= Mathf.RoundToInt(_centre.y) - 1 && yIndex <= Mathf.RoundToInt(_centre.y) + 1 && xIndex == 0) ||
+                    (_eastEntrance && yIndex >= Mathf.RoundToInt(_centre.y) - 1 && yIndex <= Mathf.RoundToInt(_centre.y) + 1 && xIndex == Mathf.RoundToInt(segSize.x) - 1))
+                {
+                    _segment[xIndex, yIndex] = emptyChar;
+                }
                 else if (xIndex == 0 ||
                     yIndex == 0 ||
                     xIndex == Mathf.RoundToInt(segSize.x) - 1 ||
@@ -178,12 +186,13 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int x = 1; x < segSize.x - 1; ++x)
             {
-                // Replace trees with cliffs
+                // Place threat in centre
                 if (x == Mathf.RoundToInt(_centre.x) &&
                     y == Mathf.RoundToInt(_centre.y))
                 {
                     _segment[x, y] = threatChar;
                 }
+                // Replace trees with cliffs
                 else if (_segment[x, y] == treeChar)
                 {
                     _segment[x, y] = cliffChar;
@@ -524,7 +533,8 @@ public class SegmentBehaviour : MonoBehaviour
                 --y;
             }
 
-            if (_segment[x, y] != cliffChar)
+            if (_segment[x, y] != cliffChar &&
+                _segment[x, y] != exitChar)
             {
                 _segment[x, y] = pathChar;
             }
@@ -618,6 +628,12 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case threatChar:
                         Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case exitChar:
+                        Vector2 direction = _centre - new Vector2(xIndex, yIndex);
+                        float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+                        Debug.Log(direction);
+                        Instantiate(exitPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.AngleAxis(angle, Vector3.forward));
                         break;
                     default:
                         break;
