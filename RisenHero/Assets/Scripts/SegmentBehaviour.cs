@@ -23,6 +23,7 @@ public class SegmentBehaviour : MonoBehaviour
                         houseChar = 'h',
                         castleChar = 'c',
                         checkpointChar = '!',
+                        threatChar = 'x',
                         wallChar = 'w',
                         exitChar = 'X';
     public GameObject   cliffPrefab,
@@ -35,7 +36,8 @@ public class SegmentBehaviour : MonoBehaviour
                         castlePrefab,
                         rubblePrefab,
                         wallPrefab,
-                        checkpointPrefab;
+                        checkpointPrefab,
+                        threatPrefab;
     public int          pathRadius,
                         tileSize,
                         minClearanceRadius,
@@ -164,9 +166,30 @@ public class SegmentBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Generate end segment
+    /// </summary>
     public void GenerateEnd()
     {
+        SetupSegment();
+        ClearRadius();
 
+        for (int y = 1; y < segSize.x - 1; ++y)
+        {
+            for (int x = 1; x < segSize.x - 1; ++x)
+            {
+                // Replace trees with cliffs
+                if (x == Mathf.RoundToInt(_centre.x) &&
+                    y == Mathf.RoundToInt(_centre.y))
+                {
+                    _segment[x, y] = threatChar;
+                }
+                else if (_segment[x, y] == treeChar)
+                {
+                    _segment[x, y] = cliffChar;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -592,6 +615,9 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case checkpointChar:
                         Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        break;
+                    case threatChar:
+                        Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
                         break;
                     default:
                         break;

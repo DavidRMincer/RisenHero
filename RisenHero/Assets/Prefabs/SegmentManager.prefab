@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31949c54a7790c4e922e67ed7ab9225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileType: 1
+  tileType: 2
   segSize: {x: 100, y: 100}
   cliffPrefab: {fileID: 9108449555414452993, guid: e21f1d1938116334296a494f24723185,
     type: 3}
@@ -67,10 +67,12 @@ MonoBehaviour:
     type: 3}
   checkpointPrefab: {fileID: 1585808331232586893, guid: ab7f933b12080a246877ec078d4b52df,
     type: 3}
+  threatPrefab: {fileID: 5303879884534291408, guid: 33318723924e8b243bd3013f698d9583,
+    type: 3}
   pathRadius: 1
   tileSize: 1
-  minClearanceRadius: 45
-  maxClearanceRadius: 55
+  minClearanceRadius: 10
+  maxClearanceRadius: 20
   minHouses: 2
   maxHouses: 10
   _northEntrance: 1
