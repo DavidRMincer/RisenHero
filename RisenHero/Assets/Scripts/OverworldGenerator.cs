@@ -56,6 +56,17 @@ public class OverworldGenerator : MonoBehaviour
         }
 
         GenerateWorld();
+
+        for (int x = 0; x < _world.GetLength(0); ++x)
+        {
+            for (int y = 0; y < _world.GetLength(1); ++y)
+            {
+                if (_world[x, y])
+                {
+                    //_world[x, y].GetComponent<SegmentBehaviour>().GenerateSegment();
+                }
+            }
+        }
     }
 
     private void Update()
@@ -119,7 +130,14 @@ public class OverworldGenerator : MonoBehaviour
                 yDir = randomDir == 1 ? 1 : -1;
             }
 
-            if ((yIndex + yDir >= 0 &&
+            Debug.Log(xIndex + ", " + yIndex);
+            // Reached end
+            if (major &&
+                xIndex == worldSize.x - 1)
+            {
+                complete = true;
+            }
+            else if ((yIndex + yDir >= 0 &&
                 yIndex + yDir < worldSize.y) &&
 
                 _world[xIndex + xDir, yIndex + yDir] == null)
@@ -127,64 +145,44 @@ public class OverworldGenerator : MonoBehaviour
                 xIndex += xDir;
                 yIndex += yDir;
 
-                // Reached end
-                if (major &&
-                    xIndex == worldSize.x - 1)
+                // Add final wall
+                if (xIndex == Mathf.RoundToInt(worldSize.x - 2))
                 {
+                    ReplaceTile(xIndex, yIndex, wallTile);
+
+                    ++xIndex;
+
+                    // Add end tile
                     _endPoint.x = xIndex;
                     _endPoint.y = yIndex;
 
                     _world[xIndex, yIndex] = GameObject.Instantiate(endTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
 
-                    complete = true;
                 }
-                // Generate segment
+                // Add wall
+                else if (xIndex == Mathf.RoundToInt(worldSize.x / 3) ||
+                    xIndex == Mathf.RoundToInt(worldSize.x / 3) * 2)
+                {
+                    ReplaceTile(xIndex, yIndex, wallTile);
+
+                    ++xIndex;
+                    _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
+                }
+                // Spawn random segment
+                else if (gapCounter == 0)
+                {
+                    _world[xIndex, yIndex] = GameObject.Instantiate(_segmentstoSpawn[Random.Range(0, _segmentstoSpawn.Count - 1)], new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity); ;
+
+                    gapCounter = Random.Range(minGap, maxGap);
+                }
+                // Spawn forest tile
                 else
                 {
-                    // Add final wall
-                    if (xIndex == Mathf.RoundToInt(worldSize.x - 2))
-                    {
-                        AddWall(xIndex);
+                    _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
 
-                        ++xIndex;
-                    }
-                    // Add wall
-                    else if (xIndex == Mathf.RoundToInt(worldSize.x / 3) ||
-                        xIndex == Mathf.RoundToInt(worldSize.x / 3) * 2)
-                    {
-                        AddWall(xIndex);
-
-                        ++xIndex;
-                        _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
-                    }
-                    // Spawn random segment
-                    else if (gapCounter == 0)
-                    {
-                        _world[xIndex, yIndex] = GameObject.Instantiate(_segmentstoSpawn[Random.Range(0, _segmentstoSpawn.Count - 1)], new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);;
-
-                        gapCounter = Random.Range(minGap, maxGap);
-                    }
-                    // Spawn end of world
-                    else
-                    {
-                        _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
-
-                        --gapCounter;
-                    }
+                    --gapCounter;
                 }
             }
-        }
-    }
-
-    /// <summary>
-    /// Add vertical wall across world's y
-    /// </summary>
-    /// <param name="x"></param>
-    void AddWall(int x)
-    {
-        for (int i = 0; i < worldSize.y; ++i)
-        {
-            _world[x, i] = GameObject.Instantiate(wallTile, new Vector2(x, i) * tileSize, Quaternion.identity);
         }
     }
 
