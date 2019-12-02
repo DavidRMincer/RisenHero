@@ -46,7 +46,7 @@ public class SegmentBehaviour : MonoBehaviour
                         minHouses,
                         maxHouses;
 
-    internal bool       _northEntrance,
+    public bool       _northEntrance,
                         _southEntrance,
                         _eastEntrance,
                         _westEntrance;
@@ -59,7 +59,8 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GenerateSegment();
+        DrawSegment();
     }
 
     /// <summary>

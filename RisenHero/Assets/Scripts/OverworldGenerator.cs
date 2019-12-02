@@ -7,8 +7,7 @@ public class OverworldGenerator : MonoBehaviour
     public Vector2              worldSize;
     public float                tileSize,
                                 selectionPulseSpeed;
-    public GameObject           emptyTile,
-                                wallTile,
+    public GameObject           wallTile,
                                 forestTile,
                                 villageTile,
                                 townTile,
@@ -69,22 +68,22 @@ public class OverworldGenerator : MonoBehaviour
                 {
                     // Add entrances/exits
                     if (x > 0 &&
-                        _world[x - 1, y] != emptyTile)
+                        _world[x - 1, y])
                     {
                         _world[x, y].GetComponent<SegmentBehaviour>()._westEntrance = true;
                     }
                     if (x < worldSize.x - 1 &&
-                        _world[x + 1, y] != emptyTile)
+                        _world[x + 1, y])
                     {
                         _world[x, y].GetComponent<SegmentBehaviour>()._eastEntrance = true;
                     }
                     if (y > 0 &&
-                        _world[x, y - 1] != emptyTile)
+                        _world[x, y - 1])
                     {
                         _world[x, y].GetComponent<SegmentBehaviour>()._northEntrance = true;
                     }
                     if (y < worldSize.y - 1 &&
-                        _world[x, y + 1] != emptyTile)
+                        _world[x, y + 1])
                     {
                         _world[x, y].GetComponent<SegmentBehaviour>()._southEntrance = true;
                     }
@@ -105,6 +104,12 @@ public class OverworldGenerator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             AgeWorld(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().DrawSegment();
+            gameObject.SetActive(false);
         }
 
         // Change selected tile

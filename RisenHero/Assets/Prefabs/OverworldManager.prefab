@@ -45,8 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSize: {x: 50, y: 15}
   tileSize: 1
-  emptyTile: {fileID: 2708832602723377992, guid: 2f226caaafcc8c84895f850210be2108,
-    type: 3}
+  selectionPulseSpeed: 1
   wallTile: {fileID: 5380080709498894761, guid: 5172ea95b2605164e9acebbb104ca29c,
     type: 3}
   forestTile: {fileID: 5226324457254678405, guid: c4802f2ba205f784e99c60251f05b7fd,
@@ -70,7 +69,40 @@ MonoBehaviour:
   maxGap: 5
   ruinUpgradeChance: 5
   villageUpgradeChance: 20
-  villageRuinChance: 5
-  townRuinChance: 10
-  castleRuinChance: 20
+  villageRuinChance: 1
+  townRuinChance: 5
+  castleRuinChance: 10
   maxTimePeriod: 10
+  selectedScale:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 1
+    m_PostInfinity: 1
+    m_RotationOrder: 4
