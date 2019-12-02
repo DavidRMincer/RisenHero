@@ -59,8 +59,8 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateSegment();
-        DrawSegment();
+        //GenerateSegment();
+        //DrawSegment();
     }
 
     /// <summary>
@@ -237,9 +237,25 @@ public class SegmentBehaviour : MonoBehaviour
                     GeneratePath(listofExits[i], listofExits[j]);
                 }
 
-                if (Random.Range(0, 2) == 0)
+                // If more than 1 exit...
+                // Randomly decide if another path is generated
+                if (listofExits.Count > 1)
                 {
-                    GeneratePath(listofExits[i], new Vector2(Random.Range(segSize.x / 3, (segSize.x / 3) * 2), Random.Range(segSize.y / 3, (segSize.y / 3) * 2)));
+                    if (Random.Range(0, 2) == 0)
+                    {
+                        GeneratePath(listofExits[i], new Vector2(Random.Range(segSize.x / 3, (segSize.x / 3) * 2), Random.Range(segSize.y / 3, (segSize.y / 3) * 2)));
+                    }
+                }
+                // If only one exit...
+                // Randomly generate at least 2 paths
+                else
+                {
+                    int numofPaths = Random.Range(2, 5);
+
+                    for (int k = 0; k <= numofPaths; ++k)
+                    {
+                        GeneratePath(listofExits[i], new Vector2(Random.Range(segSize.x / 3, (segSize.x / 3) * 2), Random.Range(segSize.y / 3, (segSize.y / 3) * 2)));
+                    }
                 }
             }
         }
