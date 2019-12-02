@@ -5,7 +5,8 @@ using UnityEngine;
 public class OverworldGenerator : MonoBehaviour
 {
     public Vector2              worldSize;
-    public float                tileSize;
+    public float                tileSize,
+                                selectionPulseSpeed;
     public GameObject           emptyTile,
                                 wallTile,
                                 forestTile,
@@ -27,10 +28,13 @@ public class OverworldGenerator : MonoBehaviour
                                 townRuinChance,
                                 castleRuinChance,
                                 maxTimePeriod;
+    public AnimationCurve       selectedScale;
     
     GameObject[,]               _world;
     private Vector2             _startPoint,
-                                _endPoint;
+                                _endPoint,
+                                _selectedTile,
+                                _tileScale;
     private List<GameObject>    _segmentstoSpawn = new List<GameObject>();
     private int                 _timePeriod = 0;
 
@@ -63,10 +67,36 @@ public class OverworldGenerator : MonoBehaviour
             {
                 if (_world[x, y])
                 {
-                    //_world[x, y].GetComponent<SegmentBehaviour>().GenerateSegment();
+                    // Add entrances/exits
+                    if (x > 0 &&
+                        _world[x - 1, y] != emptyTile)
+                    {
+                        _world[x, y].GetComponent<SegmentBehaviour>()._westEntrance = true;
+                    }
+                    if (x < worldSize.x - 1 &&
+                        _world[x + 1, y] != emptyTile)
+                    {
+                        _world[x, y].GetComponent<SegmentBehaviour>()._eastEntrance = true;
+                    }
+                    if (y > 0 &&
+                        _world[x, y - 1] != emptyTile)
+                    {
+                        _world[x, y].GetComponent<SegmentBehaviour>()._northEntrance = true;
+                    }
+                    if (y < worldSize.y - 1 &&
+                        _world[x, y + 1] != emptyTile)
+                    {
+                        _world[x, y].GetComponent<SegmentBehaviour>()._southEntrance = true;
+                    }
+
+                    // Generate each segment
+                    _world[x, y].GetComponent<SegmentBehaviour>().GenerateSegment();
                 }
             }
         }
+
+        _tileScale = _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)].transform.localScale;
+        _selectedTile = _startPoint;
     }
 
     private void Update()
@@ -76,6 +106,44 @@ public class OverworldGenerator : MonoBehaviour
         {
             AgeWorld(1);
         }
+
+        // Change selected tile
+        if (Input.GetKeyDown(KeyCode.LeftArrow) &&
+            _selectedTile.x > 0)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
+            --_selectedTile.x;
+            Debug.Log(_selectedTile);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) &&
+            _selectedTile.x < worldSize.x - 1)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
+            ++_selectedTile.x;
+            Debug.Log(_selectedTile);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow) &&
+            _selectedTile.y > 0)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
+            --_selectedTile.y;
+            Debug.Log(_selectedTile);
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) &&
+            _selectedTile.y < worldSize.y - 1)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
+            ++_selectedTile.y;
+            Debug.Log(_selectedTile);
+        }
+
+        // Scale selected
+        Vector2 newScale;
+
+        newScale.x = selectedScale.Evaluate(Time.time * selectionPulseSpeed);
+        newScale.y = selectedScale.Evaluate(Time.time * selectionPulseSpeed);
+
+        _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = newScale * _tileScale;
     }
 
     /// <summary>
@@ -129,8 +197,7 @@ public class OverworldGenerator : MonoBehaviour
             {
                 yDir = randomDir == 1 ? 1 : -1;
             }
-
-            Debug.Log(xIndex + ", " + yIndex);
+            
             // Reached end
             if (major &&
                 xIndex == worldSize.x - 1)

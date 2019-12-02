@@ -46,13 +46,14 @@ public class SegmentBehaviour : MonoBehaviour
                         minHouses,
                         maxHouses;
 
-    private string      _name;
-    private char[,]     _segment = new char[0, 0];
-    private int         _radius = 0;
-    public bool         _northEntrance,
+    internal bool       _northEntrance,
                         _southEntrance,
                         _eastEntrance,
                         _westEntrance;
+
+    private string      _name;
+    public char[,]     _segment = new char[0, 0];
+    private int         _radius = 0;
     private Vector2     _centre;
 
     // Start is called before the first frame update

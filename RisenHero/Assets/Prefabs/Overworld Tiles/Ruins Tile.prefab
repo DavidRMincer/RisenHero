@@ -94,3 +94,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 4
+  segSize: {x: 100, y: 100}
+  cliffPrefab: {fileID: 9108449555414452993, guid: e21f1d1938116334296a494f24723185,
+    type: 3}
+  treePrefab: {fileID: 4457157498280451410, guid: 08271a20f445bdb4382381d2a3b934d9,
+    type: 3}
+  rockPrefab: {fileID: 4320891339536515707, guid: 09d22be604c346746a98ef793950ec3a,
+    type: 3}
+  bushPrefab: {fileID: 215564150139649301, guid: ffaa973096c63074c877cccda2957021,
+    type: 3}
+  housePrefab: {fileID: 1598786100977293095, guid: 2375b8d23ffb5d94bbf718733a51d762,
+    type: 3}
+  shopPrefab: {fileID: 204021817236578568, guid: 9b292bbc8cc32934eb888961fea830b5,
+    type: 3}
+  innPrefab: {fileID: 6654285210505135216, guid: dc466d6363c4c234b97ae93e9b2c3fcc,
+    type: 3}
+  castlePrefab: {fileID: 2864297773832905130, guid: 294e19bca8ffbdc48a03ee2c3df9173d,
+    type: 3}
+  rubblePrefab: {fileID: 811478309394768116, guid: 93996c0544f7de94686c94da34631d0c,
+    type: 3}
+  wallPrefab: {fileID: 5524619813134961727, guid: 848a0d9ac3af7564b9214ad59f966d39,
+    type: 3}
+  checkpointPrefab: {fileID: 1585808331232586893, guid: ab7f933b12080a246877ec078d4b52df,
+    type: 3}
+  threatPrefab: {fileID: 5303879884534291408, guid: 33318723924e8b243bd3013f698d9583,
+    type: 3}
+  exitPrefab: {fileID: 7623363690092173615, guid: c37ee3ce5041e594a963f17c39d9d58b,
+    type: 3}
+  pathRadius: 1
+  tileSize: 1
+  minClearanceRadius: 30
+  maxClearanceRadius: 50
+  minHouses: 3
+  maxHouses: 8
