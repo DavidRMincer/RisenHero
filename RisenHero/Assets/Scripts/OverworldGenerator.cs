@@ -106,11 +106,11 @@ public class OverworldGenerator : MonoBehaviour
             AgeWorld(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().DrawSegment();
-            gameObject.SetActive(false);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().DrawSegment();
+        //    gameObject.SetActive(false);
+        //}
 
         // Change selected tile
         if (Input.GetKeyDown(KeyCode.LeftArrow) &&
@@ -264,7 +264,7 @@ public class OverworldGenerator : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="newTile"></param>
-    void ReplaceTile(int x, int y, GameObject newTile)
+    private void ReplaceTile(int x, int y, GameObject newTile)
     {
         Destroy(_world[x, y]);
         _world[x, y] = GameObject.Instantiate(newTile, new Vector2(x, y) * tileSize, Quaternion.identity);
@@ -274,7 +274,7 @@ public class OverworldGenerator : MonoBehaviour
     /// Update world into future by (50 x multiplier) years
     /// </summary>
     /// <param name="multiplier"></param>
-    void AgeWorld(int multiplier)
+    public void AgeWorld(int multiplier)
     {
         // Update time period
         _timePeriod += multiplier;
@@ -315,5 +315,14 @@ public class OverworldGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Returns script of currently selected segment
+    /// </summary>
+    /// <returns></returns>
+    public SegmentBehaviour GetSelected()
+    {
+        return _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>();
     }
 }

@@ -659,6 +659,15 @@ public class SegmentBehaviour : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns centre point
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 GetCentre()
+    {
+        return _centre * -Vector2.up * tileSize;
+    }
+
+    /// <summary>
     /// Prints _segment in the debug log
     /// </summary>
     private void SegmentArrayDebug()
