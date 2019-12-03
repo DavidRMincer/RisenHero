@@ -648,7 +648,6 @@ public class SegmentBehaviour : MonoBehaviour
                     case exitChar:
                         Vector2 direction = _centre - new Vector2(xIndex, yIndex);
                         float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-                        Debug.Log(direction);
                         Instantiate(exitPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.AngleAxis(angle, Vector3.forward));
                         break;
                     default:
@@ -664,7 +663,7 @@ public class SegmentBehaviour : MonoBehaviour
     /// <returns></returns>
     public Vector2 GetCentre()
     {
-        return _centre * -Vector2.up * tileSize;
+        return _centre * (Vector2.right - Vector2.up) * tileSize;
     }
 
     /// <summary>

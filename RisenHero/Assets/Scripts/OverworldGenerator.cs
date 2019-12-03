@@ -118,28 +118,24 @@ public class OverworldGenerator : MonoBehaviour
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
             --_selectedTile.x;
-            Debug.Log(_selectedTile);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) &&
             _selectedTile.x < worldSize.x - 1)
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
             ++_selectedTile.x;
-            Debug.Log(_selectedTile);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) &&
             _selectedTile.y > 0)
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
             --_selectedTile.y;
-            Debug.Log(_selectedTile);
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) &&
             _selectedTile.y < worldSize.y - 1)
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
             ++_selectedTile.y;
-            Debug.Log(_selectedTile);
         }
 
         // Scale selected
@@ -324,5 +320,32 @@ public class OverworldGenerator : MonoBehaviour
     public SegmentBehaviour GetSelected()
     {
         return _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>();
+    }
+
+    /// <summary>
+    /// Set visibility of tiles
+    /// </summary>
+    /// <param name="visible"></param>
+    public void SetVisibility(bool visible)
+    {
+        for (int x = 0; x < Mathf.RoundToInt(worldSize.x); ++x)
+        {
+            for (int y = 0; y < Mathf.RoundToInt(worldSize.y); ++y)
+            {
+                if (_world[x, y])
+                {
+                    _world[x, y].SetActive(visible);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Moves tile selection
+    /// </summary>
+    /// <param name="direction"></param>
+    public void MoveSelection(Vector2 direction)
+    {
+        _selectedTile += direction;
     }
 }

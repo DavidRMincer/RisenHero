@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class PlayerBehaviour : CharacterBehaviour
 {
+    public List<GameObject> partyMembers;
+
+    internal bool           inputEnabled = false;
+
     // Update is called once per frame
     void Update()
     {
         //Input movement
-        Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+        if (inputEnabled)
+        {
+            Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+        }
+    }
+
+    public void SpawnCompanions(Vector2 centre)
+    {
+        // DO STUFF
     }
 }
