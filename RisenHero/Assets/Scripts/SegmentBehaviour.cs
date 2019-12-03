@@ -4,57 +4,63 @@ using UnityEngine;
 
 public class SegmentBehaviour : MonoBehaviour
 {
+    public enum DisplayCategory
+    {
+        INVISIBLE, PREVIEW, VISIBLE
+    };
+
     public enum TileCategory
     {
         EMPTY, START, END, FOREST, RUINS, WALL, VILLAGE, TOWN, CASTLE
     };
 
-    public TileCategory tileType;
-    public Vector2      segSize;
-    public const char   emptyChar = '.',
-                        pathChar = '-',
-                        cliffChar = '/',
-                        rubbleChar = 'R',
-                        treeChar = 't',
-                        bushChar = 'b',
-                        rockChar = 'r',
-                        shopChar = 's',
-                        innChar = 'i',
-                        houseChar = 'h',
-                        castleChar = 'c',
-                        checkpointChar = '!',
-                        threatChar = 'x',
-                        wallChar = 'w',
-                        exitChar = 'X';
-    public GameObject   cliffPrefab,
-                        treePrefab,
-                        rockPrefab,
-                        bushPrefab,
-                        housePrefab,
-                        shopPrefab,
-                        innPrefab,
-                        castlePrefab,
-                        rubblePrefab,
-                        wallPrefab,
-                        checkpointPrefab,
-                        threatPrefab,
-                        exitPrefab;
-    public int          pathRadius,
-                        tileSize,
-                        minClearanceRadius,
-                        maxClearanceRadius,
-                        minHouses,
-                        maxHouses;
+    public TileCategory         tileType;
+    public Vector2              segSize;
+    public GameObject           cliffPrefab,
+                                treePrefab,
+                                rockPrefab,
+                                bushPrefab,
+                                housePrefab,
+                                shopPrefab,
+                                innPrefab,
+                                castlePrefab,
+                                rubblePrefab,
+                                wallPrefab,
+                                checkpointPrefab,
+                                threatPrefab,
+                                exitPrefab;
+    public int                  pathRadius,
+                                tileSize,
+                                minClearanceRadius,
+                                maxClearanceRadius,
+                                minHouses,
+                                maxHouses;
 
-    public bool       _northEntrance,
-                        _southEntrance,
-                        _eastEntrance,
-                        _westEntrance;
+    internal DisplayCategory    displayType;
+    internal bool               _northEntrance,
+                                _southEntrance,
+                                _eastEntrance,
+                                _westEntrance;
 
-    private string      _name;
-    public char[,]     _segment = new char[0, 0];
-    private int         _radius = 0;
-    private Vector2     _centre;
+    private string              _name;
+    public char[,]              _segment = new char[0, 0];
+    private int                 _radius = 0;
+    private Vector2             _centre;
+    public const char           emptyChar = '.',
+                                pathChar = '-',
+                                cliffChar = '/',
+                                rubbleChar = 'R',
+                                treeChar = 't',
+                                bushChar = 'b',
+                                rockChar = 'r',
+                                shopChar = 's',
+                                innChar = 'i',
+                                houseChar = 'h',
+                                castleChar = 'c',
+                                checkpointChar = '!',
+                                threatChar = 'x',
+                                wallChar = 'w',
+                                exitChar = 'X';
 
     // Start is called before the first frame update
     void Start()
@@ -664,6 +670,26 @@ public class SegmentBehaviour : MonoBehaviour
     public Vector2 GetCentre()
     {
         return _centre * (Vector2.right - Vector2.up) * tileSize;
+    }
+
+    public void UpdateDisplayType(DisplayCategory newDisplay)
+    {
+        displayType = newDisplay;
+
+        switch (displayType)
+        {
+            case DisplayCategory.INVISIBLE:
+                GetComponent<SpriteRenderer>().enabled = false;
+                break;
+            case DisplayCategory.PREVIEW:
+                GetComponent<SpriteRenderer>().enabled = false;
+                break;
+            case DisplayCategory.VISIBLE:
+                GetComponent<SpriteRenderer>().enabled = true;
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>

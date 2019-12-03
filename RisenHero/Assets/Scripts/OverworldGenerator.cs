@@ -66,6 +66,13 @@ public class OverworldGenerator : MonoBehaviour
             {
                 if (_world[x, y])
                 {
+                    //Set tile as invisible
+                    if (x != Mathf.RoundToInt(_startPoint.x) ||
+                        y != Mathf.RoundToInt(_startPoint.y))
+                    {
+                        _world[x, y].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.INVISIBLE);
+                    }
+                    
                     // Add entrances/exits
                     if (x > 0 &&
                         _world[x - 1, y])
@@ -116,26 +123,22 @@ public class OverworldGenerator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow) &&
             _selectedTile.x > 0)
         {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
-            --_selectedTile.x;
+            MoveSelection(Vector2.left);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) &&
             _selectedTile.x < worldSize.x - 1)
         {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
-            ++_selectedTile.x;
+            MoveSelection(Vector2.right);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) &&
             _selectedTile.y > 0)
         {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
-            --_selectedTile.y;
+            MoveSelection(Vector2.up);
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) &&
             _selectedTile.y < worldSize.y - 1)
         {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
-            ++_selectedTile.y;
+            MoveSelection(Vector2.down);
         }
 
         // Scale selected
@@ -347,5 +350,10 @@ public class OverworldGenerator : MonoBehaviour
     public void MoveSelection(Vector2 direction)
     {
         _selectedTile += direction;
+
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType != SegmentBehaviour.DisplayCategory.VISIBLE)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
+        }
     }
 }
