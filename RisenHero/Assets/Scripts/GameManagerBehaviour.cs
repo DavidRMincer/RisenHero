@@ -23,6 +23,7 @@ public class GameManagerBehaviour : MonoBehaviour
         _camOffset = currentCam.transform.position;
 
         currentSegment = _overworldScript.GetSelected();
+        player.SetActive(false);
     }
 
     private void Update()
@@ -62,6 +63,7 @@ public class GameManagerBehaviour : MonoBehaviour
         player.GetComponent<Rigidbody2D>().transform.position = spawnPoint;
 
         _inSegment = true;
+        player.SetActive(true);
         _playerScript.inputEnabled = true;
     }
 
@@ -79,5 +81,11 @@ public class GameManagerBehaviour : MonoBehaviour
 
         _inSegment = false;
         _playerScript.inputEnabled = false;
+        player.SetActive(false);
+    }
+
+    public Vector2 GetSegCentre()
+    {
+        return currentSegment.GetCentre();
     }
 }

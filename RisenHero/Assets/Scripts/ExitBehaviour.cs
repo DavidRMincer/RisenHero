@@ -15,7 +15,7 @@ public class ExitBehaviour : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-
+            gameManager.ExitSegment(new Vector2(transform.position.x, transform.position.y) - gameManager.GetSegCentre());
         }
     }
 }
