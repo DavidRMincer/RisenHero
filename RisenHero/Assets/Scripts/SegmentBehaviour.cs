@@ -11,7 +11,7 @@ public class SegmentBehaviour : MonoBehaviour
 
     public enum TileCategory
     {
-        EMPTY, START, END, FOREST, RUINS, WALL, VILLAGE, TOWN, CASTLE
+        EMPTY, START, END, FOREST, RUINS, WALL, VILLAGE, TOWN
     };
 
     public TileCategory         tileType;
@@ -23,7 +23,6 @@ public class SegmentBehaviour : MonoBehaviour
                                 housePrefab,
                                 shopPrefab,
                                 innPrefab,
-                                castlePrefab,
                                 rubblePrefab,
                                 wallPrefab,
                                 checkpointPrefab,
@@ -58,7 +57,6 @@ public class SegmentBehaviour : MonoBehaviour
                                 shopChar = 's',
                                 innChar = 'i',
                                 houseChar = 'h',
-                                castleChar = 'c',
                                 checkpointChar = '!',
                                 threatChar = 'x',
                                 wallChar = 'w',
@@ -101,9 +99,6 @@ public class SegmentBehaviour : MonoBehaviour
                 break;
             case TileCategory.TOWN:
                 GenerateTown();
-                break;
-            case TileCategory.CASTLE:
-                GenerateCastle();
                 break;
             default:
                 break;
@@ -417,47 +412,7 @@ public class SegmentBehaviour : MonoBehaviour
             _segment[Mathf.RoundToInt(_centre.x), i] = wallChar;
         }
     }
-
-    /// <summary>
-    /// Generate castle segment
-    /// </summary>
-    public void GenerateCastle()
-    {
-        SetupSegment();
-        ClearRadius();
-
-        // Place castle at centre of segment
-        _segment[Mathf.RoundToInt(_centre.x), Mathf.RoundToInt(_centre.y)] = castleChar;
-
-        // Surround castle with walls
-        int castleSize = LargestSquareinRadiusSide() / 10 * Random.Range(8, 9),
-            xStart = Mathf.RoundToInt(_centre.x) - (castleSize / 2),
-            yStart = Mathf.RoundToInt(_centre.y) - (castleSize / 2);
-
-        for (int x = 0; x < castleSize; ++x)
-        {
-            for (int y = 0; y < castleSize; ++y)
-            {
-                if ((_segment[xStart + x, yStart + y] != pathChar &&
-                    _segment[xStart + x, yStart + y - 1] != pathChar &&
-                    _segment[xStart + x, yStart + y + 1] != pathChar &&
-                    _segment[xStart + x - 1, yStart + y] != pathChar &&
-                    _segment[xStart + x - 1, yStart + y - 1] != pathChar &&
-                    _segment[xStart + x - 1, yStart + y + 1] != pathChar &&
-                    _segment[xStart + x + 1, yStart + y] != pathChar &&
-                    _segment[xStart + x + 1, yStart + y - 1] != pathChar &&
-                    _segment[xStart + x + 1, yStart + y + 1] != pathChar) &&
-                    (x == 0 ||
-                    x == castleSize - 1 ||
-                    y == 0 ||
-                    y == castleSize - 1))
-                {
-                    _segment[xStart + x, yStart + y] = wallChar;
-                }
-            }
-        }
-    }
-
+    
     /// <summary>
     /// Clear random radius in trees
     /// </summary>
@@ -644,9 +599,6 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case wallChar:
                         Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
-                        break;
-                    case castleChar:
-                        Instantiate(castlePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
                         break;
                     case checkpointChar:
                         Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);

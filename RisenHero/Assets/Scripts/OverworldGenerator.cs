@@ -11,13 +11,11 @@ public class OverworldGenerator : MonoBehaviour
                                 forestTile,
                                 villageTile,
                                 townTile,
-                                castleTile,
                                 ruinsTile,
                                 startTile,
                                 endTile;
     public int                  numofVillages,
                                 numofTowns,
-                                numofCastles,
                                 numofRuins,
                                 minGap,
                                 maxGap,
@@ -25,7 +23,6 @@ public class OverworldGenerator : MonoBehaviour
                                 villageUpgradeChance,
                                 villageRuinChance,
                                 townRuinChance,
-                                castleRuinChance,
                                 maxTimePeriod;
     public AnimationCurve       selectedScale;
     
@@ -40,11 +37,6 @@ public class OverworldGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Fill segments list
-        for (int i = numofCastles; i > 0; --i)
-        {
-            _segmentstoSpawn.Add(castleTile);
-        }
         for (int i = numofRuins; i > 0; --i)
         {
             _segmentstoSpawn.Add(ruinsTile);
@@ -66,13 +58,25 @@ public class OverworldGenerator : MonoBehaviour
             {
                 if (_world[x, y])
                 {
-                    //Set tile as invisible
-                    if (x != Mathf.RoundToInt(_startPoint.x) ||
-                        y != Mathf.RoundToInt(_startPoint.y))
-                    {
-                        _world[x, y].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.INVISIBLE);
-                    }
-                    
+                    // Set start tile as visible
+                    //if (x == Mathf.RoundToInt(_startPoint.x) &&
+                    //    y == Mathf.RoundToInt(_startPoint.y))
+                    //{
+                    //    _world[x, y].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
+                    //}
+                    //else if (   x == Mathf.RoundToInt(_startPoint.x) + 1 &&
+                    //            y == Mathf.RoundToInt(_startPoint.y))
+                    //{
+                    //    _world[x, y].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+                    //}
+                    ////Set tile as invisible
+                    //else
+                    //{
+                    //    _world[x, y].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.INVISIBLE);
+                    //}
+
+                    _world[x, y].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.INVISIBLE);
+
                     // Add entrances/exits
                     if (x > 0 &&
                         _world[x - 1, y])
@@ -135,12 +139,12 @@ public class OverworldGenerator : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.DownArrow) &&
             _selectedTile.y > 0)
         {
-            MoveSelection(Vector2.up);
+            MoveSelection(Vector2.down);
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) &&
             _selectedTile.y < worldSize.y - 1)
         {
-            MoveSelection(Vector2.down);
+            MoveSelection(Vector2.up);
         }
 
         // Scale selected
@@ -305,8 +309,6 @@ public class OverworldGenerator : MonoBehaviour
                                 Random.Range(0, 100) <= villageRuinChance * multiplier) ||
                                 (_world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.TOWN &&
                                 Random.Range(0, 100) <= townRuinChance * multiplier) ||
-                                (_world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.CASTLE &&
-                                Random.Range(0, 100) <= castleRuinChance * multiplier) ||
                                 (xIndex == Mathf.RoundToInt(worldSize.x / 3) && _timePeriod >= 1) ||
                                 (xIndex == Mathf.RoundToInt(worldSize.x / 3) * 2 && _timePeriod >= 2) ||
                                 (xIndex == Mathf.RoundToInt(worldSize.x - 2) && _timePeriod == maxTimePeriod - 1))
@@ -354,6 +356,8 @@ public class OverworldGenerator : MonoBehaviour
         // Move selection
         _selectedTile += direction;
 
+        Debug.Log(_selectedTile == _startPoint);
+
         // Make selected tile visible
         if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType != SegmentBehaviour.DisplayCategory.VISIBLE)
         {
@@ -361,21 +365,27 @@ public class OverworldGenerator : MonoBehaviour
         }
 
         // Preview surrounding tiles
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._northEntrance)
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._northEntrance &&
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         }
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._southEntrance)
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._southEntrance &&
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         }
-        if (_world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._eastEntrance)
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._eastEntrance &&
+            _world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
         {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+            _world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         }
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._westEntrance)
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._westEntrance &&
+            _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
         {
             _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         }
+
+        Debug.Log(_world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)].GetComponent<SegmentBehaviour>().displayType);
     }
 }
