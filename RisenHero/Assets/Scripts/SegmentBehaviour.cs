@@ -35,6 +35,7 @@ public class SegmentBehaviour : MonoBehaviour
                                 maxClearanceRadius,
                                 minHouses,
                                 maxHouses;
+    public Sprite               blankSprite;
 
     internal DisplayCategory    displayType;
     internal bool               _northEntrance,
@@ -46,7 +47,8 @@ public class SegmentBehaviour : MonoBehaviour
     public char[,]              _segment = new char[0, 0];
     private int                 _radius = 0;
     private Vector2             _centre;
-    public const char           emptyChar = '.',
+    private Sprite              _tileSprite;
+    private const char          emptyChar = '.',
                                 pathChar = '-',
                                 cliffChar = '/',
                                 rubbleChar = 'R',
@@ -65,6 +67,7 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _tileSprite = GetComponent<SpriteRenderer>().sprite;
         //GenerateSegment();
         //DrawSegment();
     }
@@ -672,6 +675,10 @@ public class SegmentBehaviour : MonoBehaviour
         return _centre * (Vector2.right - Vector2.up) * tileSize;
     }
 
+    /// <summary>
+    /// Set visibility
+    /// </summary>
+    /// <param name="newDisplay"></param>
     public void UpdateDisplayType(DisplayCategory newDisplay)
     {
         displayType = newDisplay;
@@ -682,9 +689,11 @@ public class SegmentBehaviour : MonoBehaviour
                 GetComponent<SpriteRenderer>().enabled = false;
                 break;
             case DisplayCategory.PREVIEW:
-                GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<SpriteRenderer>().sprite = blankSprite;
+                GetComponent<SpriteRenderer>().enabled = true;
                 break;
             case DisplayCategory.VISIBLE:
+                GetComponent<SpriteRenderer>().sprite = _tileSprite;
                 GetComponent<SpriteRenderer>().enabled = true;
                 break;
             default:

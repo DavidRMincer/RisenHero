@@ -127,3 +127,4 @@ MonoBehaviour:
   maxClearanceRadius: 55
   minHouses: 0
   maxHouses: 0
+  blankSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}

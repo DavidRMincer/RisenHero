@@ -103,6 +103,8 @@ public class OverworldGenerator : MonoBehaviour
 
         _tileScale = _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)].transform.localScale;
         _selectedTile = _startPoint;
+
+        MoveSelection(Vector2.zero);
     }
 
     private void Update()
@@ -349,11 +351,31 @@ public class OverworldGenerator : MonoBehaviour
     /// <param name="direction"></param>
     public void MoveSelection(Vector2 direction)
     {
+        // Move selection
         _selectedTile += direction;
 
+        // Make selected tile visible
         if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType != SegmentBehaviour.DisplayCategory.VISIBLE)
         {
             _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
+        }
+
+        // Preview surrounding tiles
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._northEntrance)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        }
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._southEntrance)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        }
+        if (_world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._eastEntrance)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        }
+        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._westEntrance)
+        {
+            _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         }
     }
 }
