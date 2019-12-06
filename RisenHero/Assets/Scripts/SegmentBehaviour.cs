@@ -43,7 +43,7 @@ public class SegmentBehaviour : MonoBehaviour
                                 _westEntrance;
 
     private string              _name;
-    public char[,]              _segment = new char[0, 0];
+    private char[,]             _segment = new char[0, 0];
     private int                 _radius = 0;
     private Vector2             _centre;
     private Sprite              _tileSprite;
@@ -61,10 +61,13 @@ public class SegmentBehaviour : MonoBehaviour
                                 threatChar = 'x',
                                 wallChar = 'w',
                                 exitChar = 'X';
+    private List<GameObject>    _listofObjects;
 
     // Start is called before the first frame update
     void Start()
     {
+        _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y));
+
         _tileSprite = GetComponent<SpriteRenderer>().sprite;
         //GenerateSegment();
         //DrawSegment();
@@ -574,42 +577,42 @@ public class SegmentBehaviour : MonoBehaviour
                 switch (_segment[xIndex, yIndex])
                 {
                     case cliffChar:
-                        Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case treeChar:
-                        Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case rockChar:
-                        Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case bushChar:
-                        Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case houseChar:
-                        Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case shopChar:
-                        Instantiate(shopPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(shopPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case innChar:
-                        Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case rubbleChar:
-                        Instantiate(rubblePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(rubblePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case wallChar:
-                        Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case checkpointChar:
-                        Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case threatChar:
-                        Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity);
+                        _listofObjects.Add(Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case exitChar:
                         Vector2 direction = _centre - new Vector2(xIndex, yIndex);
                         float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-                        Instantiate(exitPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.AngleAxis(angle, Vector3.forward));
+                        _listofObjects.Add(Instantiate(exitPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.AngleAxis(angle, Vector3.forward)));
                         break;
                     default:
                         break;
@@ -635,21 +638,37 @@ public class SegmentBehaviour : MonoBehaviour
     {
         displayType = newDisplay;
 
-        switch (displayType)
+        //switch (displayType)
+        //{
+        //    case DisplayCategory.INVISIBLE:
+        //        GetComponent<SpriteRenderer>().enabled = false;
+        //        break;
+        //    case DisplayCategory.PREVIEW:
+        //        GetComponent<SpriteRenderer>().sprite = blankSprite;
+        //        GetComponent<SpriteRenderer>().enabled = true;
+        //        break;
+        //    case DisplayCategory.VISIBLE:
+        //        GetComponent<SpriteRenderer>().sprite = _tileSprite;
+        //        GetComponent<SpriteRenderer>().enabled = true;
+        //        break;
+        //    default:
+        //        break;
+        //}
+
+        Debug.Log(displayType);
+    }
+
+    /// <summary>
+    /// Destroy all objects in list of objects
+    /// </summary>
+    public void UnloadSegment()
+    {
+        for (int i = 0; i < _listofObjects.Count; ++i)
         {
-            case DisplayCategory.INVISIBLE:
-                GetComponent<SpriteRenderer>().enabled = false;
-                break;
-            case DisplayCategory.PREVIEW:
-                GetComponent<SpriteRenderer>().sprite = blankSprite;
-                GetComponent<SpriteRenderer>().enabled = true;
-                break;
-            case DisplayCategory.VISIBLE:
-                GetComponent<SpriteRenderer>().sprite = _tileSprite;
-                GetComponent<SpriteRenderer>().enabled = true;
-                break;
-            default:
-                break;
+            if (_listofObjects[i])
+            {
+                Destroy(_listofObjects[i]);
+            }
         }
     }
 

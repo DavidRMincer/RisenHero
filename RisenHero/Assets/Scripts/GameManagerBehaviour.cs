@@ -31,7 +31,7 @@ public class GameManagerBehaviour : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentSegment = _overworldScript.GetSelected();
-            OpenSegment(Vector2.zero);
+            OpenSegment(_overworldScript.GetDirection());
         }
     }
 
@@ -54,7 +54,7 @@ public class GameManagerBehaviour : MonoBehaviour
     public void OpenSegment(Vector2 direction)
     {
         Debug.Log(currentSegment.GetCentre());
-        Vector2 spawnPoint = currentSegment.GetCentre() - (direction * ((currentSegment.segSize / 2) - direction));
+        Vector2 spawnPoint = currentSegment.GetCentre() + (direction * ((currentSegment.segSize / 2) + direction));
 
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
@@ -73,10 +73,12 @@ public class GameManagerBehaviour : MonoBehaviour
     /// <param name="direction"></param>
     public void ExitSegment(Vector2 direction)
     {
+        currentSegment.UnloadSegment();
+
         overworldManager.SetActive(true);
         _overworldScript.SetVisibility(true);
 
-        _overworldScript.MoveSelection(direction.normalized);
+        _overworldScript.MoveSelection(direction);
         currentSegment = _overworldScript.GetSelected();
 
         _inSegment = false;
@@ -84,6 +86,10 @@ public class GameManagerBehaviour : MonoBehaviour
         player.SetActive(false);
     }
 
+    /// <summary>
+    /// Returns centre point
+    /// </summary>
+    /// <returns></returns>
     public Vector2 GetSegCentre()
     {
         return currentSegment.GetCentre();

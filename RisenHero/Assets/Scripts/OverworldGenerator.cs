@@ -25,12 +25,13 @@ public class OverworldGenerator : MonoBehaviour
                                 townRuinChance,
                                 maxTimePeriod;
     public AnimationCurve       selectedScale;
-    
+
     GameObject[,]               _world;
     private Vector2             _startPoint,
                                 _endPoint,
                                 _selectedTile,
-                                _tileScale;
+                                _tileScale,
+                                _direction = Vector2.zero;
     private List<GameObject>    _segmentstoSpawn = new List<GameObject>();
     private int                 _timePeriod = 0;
 
@@ -348,21 +349,29 @@ public class OverworldGenerator : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns direction
+    /// </summary>
+    /// <returns></returns>
+    internal Vector2 GetDirection()
+    {
+        return _direction;
+    }
+
+    /// <summary>
     /// Moves tile selection
     /// </summary>
     /// <param name="direction"></param>
     public void MoveSelection(Vector2 direction)
     {
+        _direction = -direction;
+
+        _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
+
         // Move selection
         _selectedTile += direction;
 
-        Debug.Log(_selectedTile == _startPoint);
-
         // Make selected tile visible
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType != SegmentBehaviour.DisplayCategory.VISIBLE)
-        {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
-        }
+        _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
 
         // Preview surrounding tiles
         if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._northEntrance &&
@@ -385,7 +394,5 @@ public class OverworldGenerator : MonoBehaviour
         {
             _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         }
-
-        Debug.Log(_world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)].GetComponent<SegmentBehaviour>().displayType);
     }
 }
