@@ -149,7 +149,7 @@ public class SegmentBehaviour : MonoBehaviour
             }
         }
 
-        _centre = (segSize - Vector2.right) / 2;
+        _centre = segSize / 2;
     }
 
     /// <summary>

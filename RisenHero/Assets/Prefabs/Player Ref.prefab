@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358e4af648d3f9b428dc3f2b5b4e5989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 40
+  walkSpeed: 60
   partyMembers: []
 --- !u!1 &1898233440293355999
 GameObject:

@@ -92,12 +92,12 @@ public class OverworldGenerator : MonoBehaviour
                     if (y > 0 &&
                         _world[x, y - 1])
                     {
-                        _world[x, y].GetComponent<SegmentBehaviour>()._northEntrance = true;
+                        _world[x, y].GetComponent<SegmentBehaviour>()._southEntrance = true;
                     }
                     if (y < worldSize.y - 1 &&
                         _world[x, y + 1])
                     {
-                        _world[x, y].GetComponent<SegmentBehaviour>()._southEntrance = true;
+                        _world[x, y].GetComponent<SegmentBehaviour>()._northEntrance = true;
                     }
 
                     // Generate each segment
@@ -374,25 +374,25 @@ public class OverworldGenerator : MonoBehaviour
         _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
 
         // Preview surrounding tiles
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._northEntrance &&
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
-        {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
-        }
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._southEntrance &&
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
-        {
-            _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
-        }
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._eastEntrance &&
-            _world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
-        {
-            _world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
-        }
-        if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._westEntrance &&
-            _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
-        {
-            _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
-        }
+        //if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._northEntrance &&
+        //    _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
+        //{
+        //    _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) - 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        //}
+        //if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._southEntrance &&
+        //    _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
+        //{
+        //    _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y) + 1].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        //}
+        //if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._eastEntrance &&
+        //    _world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
+        //{
+        //    _world[Mathf.RoundToInt(_selectedTile.x) + 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        //}
+        //if (_world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>()._westEntrance &&
+        //    _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().displayType == SegmentBehaviour.DisplayCategory.INVISIBLE)
+        //{
+        //    _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
+        //}
     }
 }
