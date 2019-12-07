@@ -149,7 +149,7 @@ public class SegmentBehaviour : MonoBehaviour
             }
         }
 
-        _centre = segSize / 2;
+        _centre = (segSize - Vector2.right) / 2;
     }
 
     /// <summary>
@@ -655,7 +655,7 @@ public class SegmentBehaviour : MonoBehaviour
         //        break;
         //}
 
-        Debug.Log(displayType);
+        //Debug.Log(displayType);
     }
 
     /// <summary>

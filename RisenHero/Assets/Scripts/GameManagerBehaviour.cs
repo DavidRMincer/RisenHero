@@ -53,8 +53,8 @@ public class GameManagerBehaviour : MonoBehaviour
     /// <param name="direction"></param>
     public void OpenSegment(Vector2 direction)
     {
+        Vector2 spawnPoint = currentSegment.GetCentre() + (direction * ((currentSegment.segSize / 2) - new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y))));
         Debug.Log(currentSegment.GetCentre());
-        Vector2 spawnPoint = currentSegment.GetCentre() + (direction * ((currentSegment.segSize / 2) + direction));
 
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
