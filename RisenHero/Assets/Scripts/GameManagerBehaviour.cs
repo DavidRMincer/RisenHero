@@ -31,7 +31,8 @@ public class GameManagerBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!_inSegment &&
+            Input.GetButtonDown("Select"))
         {
             currentSegment = _overworldScript.GetSelected();
             OpenSegment(_overworldScript.GetDirection());
