@@ -14,7 +14,7 @@ public class PlayerBehaviour : CharacterBehaviour
     void Update()
     {
         //Input movement
-        if (inputEnabled)
+        if (true)
         {
             _directionFacing = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             Move(_directionFacing);
@@ -50,5 +50,13 @@ public class PlayerBehaviour : CharacterBehaviour
     public Vector2 GetDirectionFacing()
     {
         return _directionFacing;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            collision.GetComponent<MonsterBehaviour>().EngageCombat(this.gameObject);
+        }
     }
 }
