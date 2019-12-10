@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManagerBehaviour : MonoBehaviour
 {
     public GameObject           overworldManager,
-                                player;
+                                player,
+                                companionTest;
     public Camera               currentCam;
 
     internal SegmentBehaviour   currentSegment;
@@ -23,6 +24,8 @@ public class GameManagerBehaviour : MonoBehaviour
         _camOffset = currentCam.transform.position;
 
         currentSegment = _overworldScript.GetSelected();
+        _playerScript.AddCompanion(companionTest);
+        _playerScript.DespawnCompanions();
         player.SetActive(false);
     }
 
@@ -67,6 +70,7 @@ public class GameManagerBehaviour : MonoBehaviour
         _inSegment = true;
         player.SetActive(true);
         _playerScript.inputEnabled = true;
+        _playerScript.SpawnCompanions(direction * _overworldScript.tileSize);
     }
 
     /// <summary>
@@ -86,6 +90,7 @@ public class GameManagerBehaviour : MonoBehaviour
 
         _inSegment = false;
         _playerScript.inputEnabled = false;
+        _playerScript.DespawnCompanions();
         player.SetActive(false);
     }
 
