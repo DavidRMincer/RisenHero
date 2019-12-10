@@ -6,14 +6,22 @@ using UnityEngine;
 
 public class CharacterBehaviour : MonoBehaviour
 {
-    public float walkSpeed;
+    public float                    walkSpeed;
+    public int                      maxHealth,
+                                    damage,
+                                    actionCooldown;
+    public List<ActionBehaviour>    actions;
 
-    internal Rigidbody2D _rb;
+    internal Rigidbody2D            _rb;
+
+    private int                     _currentHealth,
+                                    _currentActionCooldown;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -38,5 +46,29 @@ public class CharacterBehaviour : MonoBehaviour
     public void StopMoving()
     {
         _rb.velocity = Vector2.zero;
+    }
+
+    public int GetHealth()
+    {
+        return _currentHealth;
+    }
+
+    public void AddHealth(int health)
+    {
+        _currentHealth += health;
+
+        if (_currentHealth > maxHealth)
+        {
+            _currentHealth = maxHealth;
+        }
+        else if (_currentHealth < 0)
+        {
+            _currentHealth = 0;
+        }
+    }
+
+    public void ReplenishCooldown()
+    {
+        _currentActionCooldown = actionCooldown;
     }
 }

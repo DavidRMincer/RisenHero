@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterBehaviour : MonoBehaviour
+public class MonsterBehaviour : CharacterBehaviour
 {
     public enum MonsterState
     {
@@ -39,6 +39,11 @@ public class MonsterBehaviour : MonoBehaviour
             default:
                 break;
         }
+
+        if (GetHealth() <= 0)
+        {
+            Die();
+        }
     }
 
     public void EngageCombat(GameObject challenger)
@@ -50,7 +55,11 @@ public class MonsterBehaviour : MonoBehaviour
 
     public void Die()
     {
-        target.GetComponent<PlayerBehaviour>().AddCompanion(captive);
+        if (captive)
+        {
+            target.GetComponent<PlayerBehaviour>().AddCompanion(captive);
+        }
+        
         Destroy(gameObject);
     }
 }

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CompanionBehaviour : CharacterBehaviour
 {
+    public enum CompanionType
+    {
+        WARRIOR, MAGE, CHEF, BACKPACKER
+    };
+
+    public CompanionType        type;
     public float                minDistance,
                                 maxDistance,
                                 teleportDistance;
