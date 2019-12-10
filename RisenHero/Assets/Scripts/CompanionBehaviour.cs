@@ -4,24 +4,32 @@ using UnityEngine;
 
 public class CompanionBehaviour : CharacterBehaviour
 {
-    public CharacterBehaviour   leader;
     public float                minDistance,
-                                maxDistance;
+                                maxDistance,
+                                teleportDistance;
 
-    bool                        _inRange;
-
+    private bool                _inRange;
+    private PlayerBehaviour     _leader;
+    
     // Update is called once per frame
     void Update()
     {
-        if (!InRangeofLeader())
+        if (_leader)
         {
-            _inRange = false;
-            Follow();
-        }
-        else
-        {
-            _inRange = true;
-            StopMoving();
+            if (!InRangeofLeader(teleportDistance))
+            {
+                transform.position = new Vector2(_leader.transform.position.x, _leader.transform.position.y) - _leader.GetDirectionFacing();
+            }
+            else if (!InRangeofLeader(_inRange ? maxDistance : minDistance))
+            {
+                _inRange = false;
+                Follow();
+            }
+            else
+            {
+                _inRange = true;
+                StopMoving();
+            }
         }
     }
 
@@ -30,12 +38,10 @@ public class CompanionBehaviour : CharacterBehaviour
     /// Range changes depending if already in range of leader.
     /// </summary>
     /// <returns></returns>
-    private bool InRangeofLeader()
+    private bool InRangeofLeader(float range)
     {
-        float range = _inRange ? maxDistance : minDistance;
-
-        float   xDist = leader._rb.transform.position.x - _rb.transform.position.x,
-                yDist = leader._rb.transform.position.y - _rb.transform.position.y;
+        float   xDist = _leader._rb.transform.position.x - _rb.transform.position.x,
+                yDist = _leader._rb.transform.position.y - _rb.transform.position.y;
 
         float   distance = Mathf.Sqrt((xDist * xDist) + (yDist * yDist));
 
@@ -48,8 +54,17 @@ public class CompanionBehaviour : CharacterBehaviour
     /// </summary>
     private void Follow()
     {
-        Vector2 direction = (leader._rb.transform.position - _rb.transform.position).normalized;
+        Vector2 direction = (_leader._rb.transform.position - _rb.transform.position).normalized;
 
         Move(direction);
+    }
+
+    /// <summary>
+    /// Set leader
+    /// </summary>
+    /// <param name="leader"></param>
+    public void SetLeader(PlayerBehaviour leader)
+    {
+        _leader = leader;
     }
 }

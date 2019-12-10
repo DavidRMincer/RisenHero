@@ -8,21 +8,23 @@ public class PlayerBehaviour : CharacterBehaviour
 
     internal bool           inputEnabled = false;
 
+    private Vector2         _directionFacing = Vector2.zero;
+
     // Update is called once per frame
     void Update()
     {
         //Input movement
         if (inputEnabled)
         {
-            Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+            _directionFacing = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            Move(_directionFacing);
         }
     }
 
     public void AddCompanion(GameObject newCompanion)
     {
-        newCompanion.GetComponent<CompanionBehaviour>().leader = this;
-
-
+        newCompanion.GetComponent<CompanionBehaviour>().SetLeader(this);
+        
         partyMembers.Add(newCompanion);
     }
 
@@ -43,5 +45,10 @@ public class PlayerBehaviour : CharacterBehaviour
             partyMembers[i].SetActive(true);
             partyMembers[i].transform.position = newPos;
         }
+    }
+
+    public Vector2 GetDirectionFacing()
+    {
+        return _directionFacing;
     }
 }

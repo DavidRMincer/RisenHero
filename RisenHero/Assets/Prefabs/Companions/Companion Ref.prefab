@@ -87,6 +87,7 @@ MonoBehaviour:
   leader: {fileID: 0}
   minDistance: 1
   maxDistance: 2
+  teleportDistance: 10
 --- !u!1 &6553599354647175438
 GameObject:
   m_ObjectHideFlags: 0
