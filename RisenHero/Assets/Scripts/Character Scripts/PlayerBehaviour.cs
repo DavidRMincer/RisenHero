@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerBehaviour : CharacterBehaviour
 {
     public List<GameObject> partyMembers = new List<GameObject>();
+    public CombatBehaviour  combatManager;
 
     internal bool           inputEnabled = false;
 
@@ -56,7 +57,7 @@ public class PlayerBehaviour : CharacterBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<MonsterBehaviour>().EngageCombat(this.gameObject);
+            combatManager.Setup(this, collision.GetComponent<MonsterBehaviour>());
         }
     }
 }

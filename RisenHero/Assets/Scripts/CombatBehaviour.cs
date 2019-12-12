@@ -16,12 +16,36 @@ public class CombatBehaviour : MonoBehaviour
 
     private CombatState             _currentState;
     private float                   _currentTurnDuration;
-    private bool                    _turnInProgress = false;
+    private bool                    _turnInProgress = false,
+                                    _inCombat = false;
 
-    private void Start()
+    void Start()
     {
         _currentState = CombatState.NONE;
         _currentTurnDuration = turnDuration;
+    }
+
+    public void Setup(PlayerBehaviour p, MonsterBehaviour e)
+    {
+        // Set player and enemy
+        player = p;
+        enemy = e;
+
+        e.target = p.gameObject;
+
+        // Add allies
+        for (int i = 0; i < p.partyMembers.Count; i++)
+        {
+            AddAlly(p.partyMembers[i].GetComponent<CompanionBehaviour>());
+        }
+
+        if (e.captive)
+        {
+            AddAlly(e.captive.GetComponent<CompanionBehaviour>());
+        }
+
+        // Start turns
+        _inCombat = true;
     }
 
     public void AddPlayer(PlayerBehaviour p)
@@ -40,21 +64,31 @@ public class CombatBehaviour : MonoBehaviour
         enemy = e;
     }
 
+    void Update()
+    {
+        if (_inCombat)
+        {
+            PlayTurn();
+        }
+    }
+
     IEnumerator PlayAllyTurn()
     {
-        // Countdown
+        bool inputted = false;
+
         do
         {
-            _currentTurnDuration -= Time.deltaTime;
-        } while (_currentTurnDuration > 0f);
+            if (Input.GetButtonDown("Action_1"))
+            {
+                player.actions[0].Perform(enemy);
+            }
+        } while (!inputted);
+
+        ActionDelay(turnDuration);
 
         for (int i = 0; i < allyTeam.Count; ++i)
         {
-            // Countdown
-            do
-            {
-                _currentTurnDuration -= Time.deltaTime;
-            } while (_currentTurnDuration > 0f);
+            ActionDelay(turnDuration);
 
             int index = Random.Range(0, allyTeam[i].actions.Count - 1);
 
@@ -72,7 +106,20 @@ public class CombatBehaviour : MonoBehaviour
 
         }
 
+        // End turn
         _currentState = CombatState.ENEMY_TURN;
+        _turnInProgress = false;
+        yield return null;
+    }
+
+    IEnumerator PlayEnemyTurn()
+    {
+        ActionDelay(turnDuration);
+
+        enemy.actions[0].Perform(player);
+
+        // End turn
+        _currentState = CombatState.ALLY_TURN;
         _turnInProgress = false;
         yield return null;
     }
@@ -89,15 +136,32 @@ public class CombatBehaviour : MonoBehaviour
                 }
                 break;
             case CombatState.ENEMY_TURN:
+                if (!_turnInProgress)
+                {
+                    StartCoroutine("PlayEnemyTurn");
+                    _turnInProgress = true;
+                }
                 break;
             default:
                 break;
         }
     }
 
+    public void ActionDelay(float duration)
+    {
+        _currentTurnDuration = duration;
+
+        // Countdown
+        do
+        {
+            _currentTurnDuration -= Time.deltaTime;
+        } while (_currentTurnDuration > 0f);
+    }
+
     public void EndCombat()
     {
         allyTeam = new List<CompanionBehaviour>();
-        enemy = null;
+
+        _inCombat = false;
     }
 }

@@ -18,7 +18,7 @@ public class CharacterBehaviour : MonoBehaviour
                                     _currentActionCooldown;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _currentHealth = maxHealth;

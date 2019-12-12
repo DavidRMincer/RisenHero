@@ -13,8 +13,9 @@ public class MonsterBehaviour : CharacterBehaviour
                             captive;
     internal MonsterState   currentState;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         currentState = MonsterState.PASSIVE;
     }
 
