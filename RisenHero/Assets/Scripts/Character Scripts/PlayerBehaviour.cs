@@ -7,18 +7,23 @@ public class PlayerBehaviour : CharacterBehaviour
     public List<GameObject> partyMembers = new List<GameObject>();
     public CombatBehaviour  combatManager;
 
-    internal bool           inputEnabled = false;
+    internal bool           inputEnabled = true;
 
     private Vector2         _directionFacing = Vector2.zero;
 
     // Update is called once per frame
     void Update()
     {
-        //Input movement
-        if (true)
+        // Input movement
+        if (inputEnabled)
         {
             _directionFacing = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
             Move(_directionFacing);
+        }
+        // Stop movement
+        else if (_rb.velocity != Vector2.zero)
+        {
+            _rb.velocity = Vector2.zero;
         }
     }
 

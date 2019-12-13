@@ -6,7 +6,7 @@ public class CombatBehaviour : MonoBehaviour
 {
     public enum CombatState
     {
-        NONE, ALLY_TURN, ENEMY_TURN
+        NONE, PLAYER_TURN, ALLY_TURN, ENEMY_TURN
     };
 
     public PlayerBehaviour          player;
@@ -27,11 +27,13 @@ public class CombatBehaviour : MonoBehaviour
 
     public void Setup(PlayerBehaviour p, MonsterBehaviour e)
     {
+        Debug.Log("Setup");
         // Set player and enemy
         player = p;
         enemy = e;
 
         e.target = p.gameObject;
+        p.inputEnabled = false;
 
         // Add allies
         for (int i = 0; i < p.partyMembers.Count; i++)
@@ -45,6 +47,7 @@ public class CombatBehaviour : MonoBehaviour
         }
 
         // Start turns
+        _currentState = CombatState.PLAYER_TURN;
         _inCombat = true;
     }
 
@@ -66,25 +69,44 @@ public class CombatBehaviour : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(_currentState);
         if (_inCombat)
         {
-            PlayTurn();
+            switch (_currentState)
+            {
+                case CombatState.PLAYER_TURN:
+                    PlayerTurn();
+                    break;
+                case CombatState.ALLY_TURN:
+                    AllyTurn();
+                    break;
+                case CombatState.ENEMY_TURN:
+                    EnemyTurn();
+                    break;
+                default:
+                    break;
+            }
+
+            if (player.GetHealth() <= 0 ||
+                enemy.GetHealth() <= 0)
+            {
+                EndCombat();
+            }
         }
     }
 
-    IEnumerator PlayAllyTurn()
+    private void PlayerTurn()
     {
-        bool inputted = false;
-
-        do
+        if (Input.GetButtonDown("Action_1"))
         {
-            if (Input.GetButtonDown("Action_1"))
-            {
-                player.actions[0].Perform(enemy);
-            }
-        } while (!inputted);
+            player.actions[0].Perform(enemy);
+            _currentState = CombatState.ALLY_TURN;
+        }
+    }
 
-        ActionDelay(turnDuration);
+    private void AllyTurn()
+    {
+        Debug.Log("Allies");
 
         for (int i = 0; i < allyTeam.Count; ++i)
         {
@@ -103,48 +125,23 @@ public class CombatBehaviour : MonoBehaviour
                 default:
                     break;
             }
-
         }
 
         // End turn
         _currentState = CombatState.ENEMY_TURN;
         _turnInProgress = false;
-        yield return null;
     }
 
-    IEnumerator PlayEnemyTurn()
+    private void EnemyTurn()
     {
+        Debug.Log("Enemy");
         ActionDelay(turnDuration);
 
         enemy.actions[0].Perform(player);
 
         // End turn
-        _currentState = CombatState.ALLY_TURN;
+        _currentState = CombatState.PLAYER_TURN;
         _turnInProgress = false;
-        yield return null;
-    }
-
-    public void PlayTurn()
-    {
-        switch (_currentState)
-        {
-            case CombatState.ALLY_TURN:
-                if (!_turnInProgress)
-                {
-                    StartCoroutine("PlayAllyTurn");
-                    _turnInProgress = true;
-                }
-                break;
-            case CombatState.ENEMY_TURN:
-                if (!_turnInProgress)
-                {
-                    StartCoroutine("PlayEnemyTurn");
-                    _turnInProgress = true;
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     public void ActionDelay(float duration)
@@ -160,8 +157,16 @@ public class CombatBehaviour : MonoBehaviour
 
     public void EndCombat()
     {
+        if (enemy.GetHealth() <= 0)
+        {
+            enemy.Die();
+        }
+
         allyTeam = new List<CompanionBehaviour>();
 
+        player.inputEnabled = true;
+
+        _currentState = CombatState.NONE;
         _inCombat = false;
     }
 }

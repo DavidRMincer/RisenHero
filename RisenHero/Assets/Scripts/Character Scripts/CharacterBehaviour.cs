@@ -22,6 +22,11 @@ public class CharacterBehaviour : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _currentHealth = maxHealth;
+
+        for (int i = 0; i < actions.Count; i++)
+        {
+            actions[i].user = this;
+        }
     }
 
     // Update is called once per frame
