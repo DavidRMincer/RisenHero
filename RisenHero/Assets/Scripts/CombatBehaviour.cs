@@ -27,7 +27,6 @@ public class CombatBehaviour : MonoBehaviour
 
     public void Setup(PlayerBehaviour p, MonsterBehaviour e)
     {
-        Debug.Log("Setup");
         // Set player and enemy
         player = p;
         enemy = e;
@@ -69,7 +68,6 @@ public class CombatBehaviour : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(_currentState);
         if (_inCombat)
         {
             switch (_currentState)
@@ -106,7 +104,6 @@ public class CombatBehaviour : MonoBehaviour
 
     private void AllyTurn()
     {
-        Debug.Log("Allies");
 
         for (int i = 0; i < allyTeam.Count; ++i)
         {
@@ -134,7 +131,6 @@ public class CombatBehaviour : MonoBehaviour
 
     private void EnemyTurn()
     {
-        Debug.Log("Enemy");
         ActionDelay(turnDuration);
 
         enemy.actions[0].Perform(player);
@@ -160,6 +156,10 @@ public class CombatBehaviour : MonoBehaviour
         if (enemy.GetHealth() <= 0)
         {
             enemy.Die();
+        }
+        if (player.GetHealth() <= 0)
+        {
+            player.gameObject.SetActive(false);
         }
 
         allyTeam = new List<CompanionBehaviour>();

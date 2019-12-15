@@ -92,9 +92,10 @@ GameObject:
   - component: {fileID: 5649899502390176709}
   - component: {fileID: 5649899502390176705}
   - component: {fileID: 4601376524917035647}
+  - component: {fileID: 4528689734771970035}
   m_Layer: 9
   m_Name: Warrior
-  m_TagString: Untagged
+  m_TagString: Companion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,8 +169,21 @@ MonoBehaviour:
   damage: 2
   actionCooldown: 0
   actions:
-  - {fileID: 630142909071184910, guid: e7ba7b8911dd8724db089860d550d467, type: 3}
+  - {fileID: 4528689734771970035}
   type: 0
   minDistance: 1
   maxDistance: 2
   teleportDistance: 10
+--- !u!114 &4528689734771970035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5649899502390176698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e671a2f4733c9194893e06fc32f47705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0

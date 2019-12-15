@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 506512667829558279}
   - component: {fileID: 506512667829558275}
   - component: {fileID: 506512667829558276}
+  - component: {fileID: -7167078836835169890}
   m_Layer: 8
   m_Name: Player Ref
   m_TagString: Player
@@ -88,8 +89,22 @@ MonoBehaviour:
   damage: 1
   actionCooldown: 0
   actions:
-  - {fileID: 630142909071184910, guid: e7ba7b8911dd8724db089860d550d467, type: 3}
+  - {fileID: -7167078836835169890}
   partyMembers: []
+  combatManager: {fileID: 0}
+--- !u!114 &-7167078836835169890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506512667829558392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e671a2f4733c9194893e06fc32f47705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1898233440293355999
 GameObject:
   m_ObjectHideFlags: 0

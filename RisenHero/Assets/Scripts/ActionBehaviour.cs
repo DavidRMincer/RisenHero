@@ -13,23 +13,16 @@ public class ActionBehaviour : MonoBehaviour
 
     internal CharacterBehaviour user;
 
-    public void SetUser(CharacterBehaviour c)
-    {
-        user = c;
-    }
-
     public void Perform(CharacterBehaviour target)
     {
-        Debug.Log(type);
         switch (type)
         {
             case ActionType.ATTACK:
                 target.AddHealth(-user.damage);
-                Debug.Log(target.GetHealth());
+                Debug.Log(user.tag + " -> " + user.damage + " -> " + target.tag);
                 break;
             case ActionType.HEAL:
                 target.AddHealth(user.damage);
-                Debug.Log(target.GetHealth());
                 break;
             default:
                 break;

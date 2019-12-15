@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3155734499619247603}
   - component: {fileID: 3155734499619247607}
   - component: {fileID: 6519046183776627785}
+  - component: {fileID: -248613337835948917}
+  - component: {fileID: 2752681830281965346}
   m_Layer: 9
   m_Name: Mage
   m_TagString: Untagged
@@ -88,12 +90,38 @@ MonoBehaviour:
   damage: 1
   actionCooldown: 0
   actions:
-  - {fileID: 630142909071184910, guid: e7ba7b8911dd8724db089860d550d467, type: 3}
-  - {fileID: 9192730668354579187, guid: 2be65457d9f11df45acf8ee35dd27f49, type: 3}
+  - {fileID: -248613337835948917}
+  - {fileID: 2752681830281965346}
   type: 1
   minDistance: 1
   maxDistance: 2
   teleportDistance: 10
+--- !u!114 &-248613337835948917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3155734499619247500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e671a2f4733c9194893e06fc32f47705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+--- !u!114 &2752681830281965346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3155734499619247500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e671a2f4733c9194893e06fc32f47705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &4821858820388249739
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3687057999317096514}
   - component: {fileID: 3687057999317096518}
   - component: {fileID: 4798631098975379960}
+  - component: {fileID: 4802391115441820247}
   m_Layer: 9
   m_Name: Backpacker
   m_TagString: Untagged
@@ -86,13 +87,26 @@ MonoBehaviour:
   walkSpeed: 60
   maxHealth: 0
   damage: 2
-  actionCooldown: 0
+  actionCooldown: 1
   actions:
-  - {fileID: 9192730668354579187, guid: 2be65457d9f11df45acf8ee35dd27f49, type: 3}
+  - {fileID: 4802391115441820247}
   type: 3
   minDistance: 1
   maxDistance: 2
   teleportDistance: 10
+--- !u!114 &4802391115441820247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3687057999317096509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e671a2f4733c9194893e06fc32f47705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &6488221918005407034
 GameObject:
   m_ObjectHideFlags: 0
