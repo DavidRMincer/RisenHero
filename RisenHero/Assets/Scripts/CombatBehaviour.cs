@@ -109,7 +109,6 @@ public class CombatBehaviour : MonoBehaviour
         // Countdown
         else
         {
-            Debug.Log(_currentTurnDuration);
             _currentTurnDuration -= Time.deltaTime;
         }
     }

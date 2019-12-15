@@ -19,7 +19,6 @@ public class ActionBehaviour : MonoBehaviour
         {
             case ActionType.ATTACK:
                 target.AddHealth(-user.damage);
-                Debug.Log(user.tag + " -> " + user.damage + " -> " + target.tag);
                 break;
             case ActionType.HEAL:
                 target.AddHealth(user.damage);
