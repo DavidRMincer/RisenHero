@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1233758099422343522}
   - component: {fileID: -3378723769753351527}
   - component: {fileID: 6939520109564695736}
+  - component: {fileID: 564074969}
   m_Layer: 10
   m_Name: Monster Ref
   m_TagString: Enemy
@@ -102,14 +103,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 0
-  maxHealth: 3
+  maxHealth: 4
   damage: 1
   actionCooldown: 0
   actions:
-  - {fileID: 6939520109564695736}
+  - {fileID: 564074969}
   target: {fileID: 0}
   captive: {fileID: 0}
 --- !u!114 &6939520109564695736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853017016869275605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e671a2f4733c9194893e06fc32f47705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+--- !u!114 &564074969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -95,60 +95,87 @@ public class CombatBehaviour : MonoBehaviour
 
     private void PlayerTurn()
     {
-        if (Input.GetButtonDown("Action_1"))
+        ResetTurnTimer(turnDuration);
+
+        if (_currentTurnDuration <= 0f)
         {
-            player.actions[0].Perform(enemy);
-            _currentState = CombatState.ALLY_TURN;
+            if (Input.GetButtonDown("Action_1"))
+            {
+                player.actions[0].Perform(enemy);
+                _turnInProgress = false;
+                _currentState = CombatState.ALLY_TURN;
+            }
+        }
+        // Countdown
+        else
+        {
+            Debug.Log(_currentTurnDuration);
+            _currentTurnDuration -= Time.deltaTime;
         }
     }
 
     private void AllyTurn()
     {
+        ResetTurnTimer(turnDuration);
 
-        for (int i = 0; i < allyTeam.Count; ++i)
+        if (_currentTurnDuration <= 0f)
         {
-            ActionDelay(turnDuration);
-
-            int index = Random.Range(0, allyTeam[i].actions.Count - 1);
-
-            switch (allyTeam[i].actions[index].type)
+            for (int i = 0; i < allyTeam.Count; ++i)
             {
-                case ActionBehaviour.ActionType.ATTACK:
-                    allyTeam[i].actions[index].Perform(enemy);
-                    break;
-                case ActionBehaviour.ActionType.HEAL:
-                    allyTeam[i].actions[index].Perform(player);
-                    break;
-                default:
-                    break;
-            }
-        }
+                ResetTurnTimer(turnDuration);
 
-        // End turn
-        _currentState = CombatState.ENEMY_TURN;
-        _turnInProgress = false;
+                int index = Random.Range(0, allyTeam[i].actions.Count - 1);
+
+                switch (allyTeam[i].actions[index].type)
+                {
+                    case ActionBehaviour.ActionType.ATTACK:
+                        allyTeam[i].actions[index].Perform(enemy);
+                        break;
+                    case ActionBehaviour.ActionType.HEAL:
+                        allyTeam[i].actions[index].Perform(player);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // End turn
+            _currentState = CombatState.ENEMY_TURN;
+            _turnInProgress = false;
+        }
+        // Countdown
+        else
+        {
+            _currentTurnDuration -= Time.deltaTime;
+        }
     }
 
     private void EnemyTurn()
     {
-        ActionDelay(turnDuration);
+        ResetTurnTimer(turnDuration);
 
-        enemy.actions[0].Perform(player);
+        if (_currentTurnDuration <= 0f)
+        {
+            enemy.actions[0].Perform(player);
 
-        // End turn
-        _currentState = CombatState.PLAYER_TURN;
-        _turnInProgress = false;
-    }
-
-    public void ActionDelay(float duration)
-    {
-        _currentTurnDuration = duration;
-
+            // End turn
+            _currentState = CombatState.PLAYER_TURN;
+            _turnInProgress = false;
+        }
         // Countdown
-        do
+        else
         {
             _currentTurnDuration -= Time.deltaTime;
-        } while (_currentTurnDuration > 0f);
+        }
+    }
+
+    public void ResetTurnTimer(float duration)
+    {
+        if (!_turnInProgress)
+        {
+            _currentTurnDuration = duration;
+            _turnInProgress = true;
+        }
     }
 
     public void EndCombat()
