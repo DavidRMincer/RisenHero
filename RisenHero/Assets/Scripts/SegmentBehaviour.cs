@@ -48,20 +48,20 @@ public class SegmentBehaviour : MonoBehaviour
     private int                 _radius = 0;
     private Vector2             _centre;
     private Sprite              _tileSprite;
-    private const char          emptyChar = '.',
-                                pathChar = '-',
-                                cliffChar = '/',
-                                rubbleChar = 'R',
-                                treeChar = 't',
-                                bushChar = 'b',
-                                rockChar = 'r',
-                                shopChar = 's',
-                                innChar = 'i',
-                                houseChar = 'h',
-                                checkpointChar = '!',
-                                threatChar = 'x',
-                                wallChar = 'w',
-                                exitChar = 'X';
+    private const char          _emptyChar = '.',
+                                _pathChar = '-',
+                                _cliffChar = '/',
+                                _rubbleChar = 'R',
+                                _treeChar = 't',
+                                _bushChar = 'b',
+                                _rockChar = 'r',
+                                _shopChar = 's',
+                                _innChar = 'i',
+                                _houseChar = 'h',
+                                _checkpointChar = '!',
+                                _threatChar = 'x',
+                                _wallChar = 'w',
+                                _exitChar = 'X';
     private List<GameObject>    _listofObjects;
 
     // Start is called before the first frame update
@@ -137,25 +137,25 @@ public class SegmentBehaviour : MonoBehaviour
                     (_eastEntrance && xIndex == Mathf.RoundToInt(segSize.x) - 1 && yIndex == Mathf.RoundToInt(segSize.y) / 2) ||
                     (_westEntrance && xIndex == 0 && yIndex == Mathf.RoundToInt(segSize.y) / 2))
                 {
-                    _segment[xIndex, yIndex] = exitChar;
+                    _segment[xIndex, yIndex] = _exitChar;
                 }
                 else if ((_northEntrance && xIndex >= Mathf.RoundToInt(_centre.x) - 1 && xIndex <= Mathf.RoundToInt(_centre.x) + 1 && yIndex == 0) ||
                     (_southEntrance && xIndex >= Mathf.RoundToInt(_centre.x) - 1 && xIndex <= Mathf.RoundToInt(_centre.x) + 1 && yIndex == Mathf.RoundToInt(segSize.y) - 1) ||
                     (_westEntrance && yIndex >= Mathf.RoundToInt(_centre.y) - 1 && yIndex <= Mathf.RoundToInt(_centre.y) + 1 && xIndex == 0) ||
                     (_eastEntrance && yIndex >= Mathf.RoundToInt(_centre.y) - 1 && yIndex <= Mathf.RoundToInt(_centre.y) + 1 && xIndex == Mathf.RoundToInt(segSize.x) - 1))
                 {
-                    _segment[xIndex, yIndex] = emptyChar;
+                    _segment[xIndex, yIndex] = _emptyChar;
                 }
                 else if (xIndex == 0 ||
                     yIndex == 0 ||
                     xIndex == Mathf.RoundToInt(segSize.x) - 1 ||
                     yIndex == Mathf.RoundToInt(segSize.y) - 1)
                 {                    
-                    _segment[xIndex, yIndex] = cliffChar;
+                    _segment[xIndex, yIndex] = _cliffChar;
                 }
                 else
                 {
-                    _segment[xIndex, yIndex] = treeChar;
+                    _segment[xIndex, yIndex] = _treeChar;
                 }
             }
         }
@@ -178,14 +178,14 @@ public class SegmentBehaviour : MonoBehaviour
             for (int x = 1; x < segSize.x - 1; ++x)
             {
                 // Replace trees with cliffs
-                if (_segment[x, y] == treeChar)
+                if (_segment[x, y] == _treeChar)
                 {
-                    _segment[x, y] = cliffChar;
+                    _segment[x, y] = _cliffChar;
                 }
                 // Add checkpoint for start
-                else if (!startSet && _segment[x, y] == pathChar)
+                else if (!startSet && _segment[x, y] == _pathChar)
                 {
-                    _segment[x, y] = checkpointChar;
+                    _segment[x, y] = _checkpointChar;
                     startSet = true;
                 }
             }
@@ -208,12 +208,12 @@ public class SegmentBehaviour : MonoBehaviour
                 if (x == Mathf.RoundToInt(_centre.x) &&
                     y == Mathf.RoundToInt(_centre.y))
                 {
-                    _segment[x, y] = threatChar;
+                    _segment[x, y] = _threatChar;
                 }
                 // Replace trees with cliffs
-                else if (_segment[x, y] == treeChar)
+                else if (_segment[x, y] == _treeChar)
                 {
-                    _segment[x, y] = cliffChar;
+                    _segment[x, y] = _cliffChar;
                 }
             }
         }
@@ -306,7 +306,7 @@ public class SegmentBehaviour : MonoBehaviour
 
             int distance = Random.Range(_radius / 3, _radius / 2);
 
-            _segment[Mathf.RoundToInt(centre.x + (angle.x * distance)), Mathf.RoundToInt(centre.y + (angle.y * distance))] = houseChar;
+            _segment[Mathf.RoundToInt(centre.x + (angle.x * distance)), Mathf.RoundToInt(centre.y + (angle.y * distance))] = _houseChar;
         }
     }
 
@@ -334,7 +334,7 @@ public class SegmentBehaviour : MonoBehaviour
                     distance = Mathf.RoundToInt(Mathf.Sqrt((xDist * xDist) + (yDist * yDist)));
 
                 // Add houses and shops
-                char newChar = (Mathf.Sqrt((x * x) + (y * y)) <= distance) ? shopChar : houseChar;
+                char newChar = (Mathf.Sqrt((x * x) + (y * y)) <= distance) ? _shopChar : _houseChar;
 
                 _segment[Mathf.RoundToInt(_centre.x) + x, Mathf.RoundToInt(_centre.y) + y] = newChar;
                 _segment[Mathf.RoundToInt(_centre.x) - x, Mathf.RoundToInt(_centre.y) + y] = newChar;
@@ -357,10 +357,10 @@ public class SegmentBehaviour : MonoBehaviour
                 for (int y = 0; y < houseWidth * 5; ++y)
                 {
                     if ((!finished) &&
-                        (_segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == houseChar ||
-                        _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == shopChar))
+                        (_segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == _houseChar ||
+                        _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] == _shopChar))
                     {
-                        _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] = innChar;
+                        _segment[xInn + (x * Mathf.RoundToInt(dirFromCentre.x)), yInn + (y * Mathf.RoundToInt(dirFromCentre.y))] = _innChar;
                         finished = true;
                     }
                 }
@@ -390,18 +390,18 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int y = 1; y < Mathf.RoundToInt(segSize.y) - 1; ++y)
             {
-                if (_segment[x, y] == houseChar ||
-                    _segment[x, y] == shopChar ||
-                    _segment[x, y] == innChar ||
-                    _segment[x, y] == wallChar)
+                if (_segment[x, y] == _houseChar ||
+                    _segment[x, y] == _shopChar ||
+                    _segment[x, y] == _innChar ||
+                    _segment[x, y] == _wallChar)
                 {
                     if (Random.Range(0, 2) == 0)
                     {
-                        _segment[x, y] = rubbleChar;
+                        _segment[x, y] = _rubbleChar;
                     }
                     else
                     {
-                        _segment[x, y] = emptyChar;
+                        _segment[x, y] = _emptyChar;
                     }
                 }
             }
@@ -423,7 +423,7 @@ public class SegmentBehaviour : MonoBehaviour
         // Generate wall
         for (int i = 0; i < Mathf.RoundToInt(segSize.y); i++)
         {
-            _segment[Mathf.RoundToInt(_centre.x), i] = wallChar;
+            _segment[Mathf.RoundToInt(_centre.x), i] = _wallChar;
         }
     }
     
@@ -444,7 +444,7 @@ public class SegmentBehaviour : MonoBehaviour
 
                 if (distance <= _radius)
                 {
-                    _segment[x, y] = emptyChar;
+                    _segment[x, y] = _emptyChar;
                 }
             }
         }
@@ -527,10 +527,10 @@ public class SegmentBehaviour : MonoBehaviour
                 --y;
             }
 
-            if (_segment[x, y] != cliffChar &&
-                _segment[x, y] != exitChar)
+            if (_segment[x, y] != _cliffChar &&
+                _segment[x, y] != _exitChar)
             {
-                _segment[x, y] = pathChar;
+                _segment[x, y] = _pathChar;
             }
         }
 
@@ -546,7 +546,7 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int y = 1; y < segSize.y - 1; ++y)
             {
-                if (_segment[x, y] == pathChar)
+                if (_segment[x, y] == _pathChar)
                 {
                     for (int i = x - pathRadius; i <= x + pathRadius; ++i)
                     {
@@ -556,9 +556,9 @@ public class SegmentBehaviour : MonoBehaviour
                                 x < segSize.x &&
                                 y > 0 &&
                                 y < segSize.y &&
-                                _segment[i, j] == treeChar)
+                                _segment[i, j] == _treeChar)
                             {
-                                _segment[i, j] = emptyChar;
+                                _segment[i, j] = _emptyChar;
                             }
                         }
                     }
@@ -587,44 +587,44 @@ public class SegmentBehaviour : MonoBehaviour
             {
                 switch (_segment[xIndex, yIndex])
                 {
-                    case cliffChar:
+                    case _cliffChar:
                         //Debug.Log(xIndex + ", " + yIndex);
                         //SegmentArrayDebug();
                         Debug.Log(_listofObjects);
                         _listofObjects.Add(Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         //Debug.Log(true);
                         break;
-                    case treeChar:
+                    case _treeChar:
                         _listofObjects.Add(Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case rockChar:
+                    case _rockChar:
                         _listofObjects.Add(Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case bushChar:
+                    case _bushChar:
                         _listofObjects.Add(Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case houseChar:
+                    case _houseChar:
                         _listofObjects.Add(Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case shopChar:
+                    case _shopChar:
                         _listofObjects.Add(Instantiate(shopPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case innChar:
+                    case _innChar:
                         _listofObjects.Add(Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case rubbleChar:
+                    case _rubbleChar:
                         _listofObjects.Add(Instantiate(rubblePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case wallChar:
+                    case _wallChar:
                         _listofObjects.Add(Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case checkpointChar:
+                    case _checkpointChar:
                         _listofObjects.Add(Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case threatChar:
+                    case _threatChar:
                         _listofObjects.Add(Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case exitChar:
+                    case _exitChar:
                         Vector2 direction = _centre - new Vector2(xIndex, yIndex);
                         float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
                         _listofObjects.Add(Instantiate(exitPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.AngleAxis(angle, Vector3.forward)));
@@ -719,7 +719,7 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int y = 0; y < Mathf.RoundToInt(segSize.y); ++y)
             {
-                if (_segment[x, y] == checkpointChar)
+                if (_segment[x, y] == _checkpointChar)
                 {
                     checkpointTile = new Vector2(x, y);
                     break;
