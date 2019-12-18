@@ -87,7 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 60
   maxHealth: 100
-  damage: 1
+  damage: 2
   actionCooldown: 0
   actions:
   - {fileID: -248613337835948917}

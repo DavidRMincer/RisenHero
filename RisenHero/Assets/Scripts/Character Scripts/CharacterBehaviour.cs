@@ -14,8 +14,7 @@ public class CharacterBehaviour : MonoBehaviour
 
     internal Rigidbody2D            _rb;
 
-    private int                     _currentHealth,
-                                    _currentActionCooldown;
+    private int                     _currentHealth;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -26,6 +25,7 @@ public class CharacterBehaviour : MonoBehaviour
         for (int i = 0; i < actions.Count; i++)
         {
             actions[i].user = this;
+            actions[i].cooldown = actionCooldown;
         }
     }
 
@@ -42,7 +42,7 @@ public class CharacterBehaviour : MonoBehaviour
     /// <param name="speed"></param>
     public void Move(Vector2 direction)
     {
-        _rb.velocity = direction * walkSpeed * Time.deltaTime;
+        _rb.velocity = direction.normalized * walkSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -74,6 +74,9 @@ public class CharacterBehaviour : MonoBehaviour
 
     public void ReplenishCooldown()
     {
-        _currentActionCooldown = actionCooldown;
+        for (int i = 0; i < actions.Count; i++)
+        {
+            actions[i].ReplenishCooldown();
+        }
     }
 }

@@ -34,15 +34,20 @@ public class CombatBehaviour : MonoBehaviour
         e.target = p.gameObject;
         p.inputEnabled = false;
 
+        p.ReplenishCooldown();
+        e.ReplenishCooldown();
+
         // Add allies
         for (int i = 0; i < p.partyMembers.Count; i++)
         {
             AddAlly(p.partyMembers[i].GetComponent<CompanionBehaviour>());
+            p.partyMembers[i].GetComponent<CompanionBehaviour>().ReplenishCooldown();
         }
 
         if (e.captive)
         {
             AddAlly(e.captive.GetComponent<CompanionBehaviour>());
+            e.captive.GetComponent<CompanionBehaviour>().ReplenishCooldown();
         }
 
         // Start turns
