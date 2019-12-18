@@ -8,17 +8,13 @@ public class PlayerBehaviour : CharacterBehaviour
     public CombatBehaviour  combatManager;
 
     internal bool           inputEnabled = true;
-
-    private Vector2         _directionFacing = Vector2.zero;
-
-    // Update is called once per frame
+    
     void Update()
     {
         // Input movement
         if (inputEnabled)
         {
-            _directionFacing = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            Move(_directionFacing);
+            Move(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
         }
         // Stop movement
         else if (_rb.velocity != Vector2.zero)
@@ -27,6 +23,10 @@ public class PlayerBehaviour : CharacterBehaviour
         }
     }
 
+    /// <summary>
+    /// Add companion to list of partyMembers
+    /// </summary>
+    /// <param name="newCompanion"></param>
     public void AddCompanion(GameObject newCompanion)
     {
         newCompanion.GetComponent<CompanionBehaviour>().SetLeader(this);
@@ -34,6 +34,9 @@ public class PlayerBehaviour : CharacterBehaviour
         partyMembers.Add(newCompanion);
     }
 
+    /// <summary>
+    /// Despawn companions when segment closes
+    /// </summary>
     public void DespawnCompanions()
     {
         for (int i = 0; i < partyMembers.Count; ++i)
@@ -42,6 +45,10 @@ public class PlayerBehaviour : CharacterBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawn companions when segment loads
+    /// </summary>
+    /// <param name="direction"></param>
     public void SpawnCompanions(Vector2 direction)
     {
         for (int i = 0; i < partyMembers.Count; ++i)
@@ -52,12 +59,7 @@ public class PlayerBehaviour : CharacterBehaviour
             partyMembers[i].transform.position = newPos;
         }
     }
-
-    public Vector2 GetDirectionFacing()
-    {
-        return _directionFacing;
-    }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))

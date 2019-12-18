@@ -31,7 +31,8 @@ public class OverworldGenerator : MonoBehaviour
                                 _endPoint,
                                 _selectedTile,
                                 _tileScale,
-                                _direction = Vector2.zero;
+                                _direction = Vector2.zero,
+                                _checkpointSegment;
     private List<GameObject>    _segmentstoSpawn = new List<GameObject>();
     private int                 _timePeriod = 0;
 
@@ -177,6 +178,10 @@ public class OverworldGenerator : MonoBehaviour
 
         // Generate branching path
         BranchPath(Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y), true);
+
+        // Set first checkpoint
+        _checkpointSegment = _startPoint;
+        
     }
 
     /// <summary>
@@ -356,6 +361,11 @@ public class OverworldGenerator : MonoBehaviour
     {
         return _direction;
     }
+    
+    internal SegmentBehaviour GetCheckpoint()
+    {
+        return _world[Mathf.RoundToInt(_checkpointSegment.x), Mathf.RoundToInt(_checkpointSegment.y)].GetComponent<SegmentBehaviour>();
+    }
 
     /// <summary>
     /// Moves tile selection
@@ -394,5 +404,16 @@ public class OverworldGenerator : MonoBehaviour
         //{
         //    _world[Mathf.RoundToInt(_selectedTile.x) - 1, Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.PREVIEW);
         //}
+    }
+
+    public void SettoCheckpoint()
+    {
+        _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
+
+        // Move selection
+        _selectedTile = _checkpointSegment;
+
+        // Make selected tile visible
+        _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
     }
 }

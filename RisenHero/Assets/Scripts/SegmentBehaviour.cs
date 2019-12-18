@@ -41,6 +41,7 @@ public class SegmentBehaviour : MonoBehaviour
                                 _southEntrance,
                                 _eastEntrance,
                                 _westEntrance;
+    internal Vector2            checkpointTile = Vector2.zero;
 
     private string              _name;
     private char[,]             _segment = new char[0, 0];
@@ -106,6 +107,8 @@ public class SegmentBehaviour : MonoBehaviour
             default:
                 break;
         }
+
+        SetCheckpointTile();
     }
 
     /// <summary>
@@ -577,6 +580,7 @@ public class SegmentBehaviour : MonoBehaviour
                 switch (_segment[xIndex, yIndex])
                 {
                     case cliffChar:
+                        Debug.Log(cliffPrefab);
                         _listofObjects.Add(Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case treeChar:
@@ -672,6 +676,11 @@ public class SegmentBehaviour : MonoBehaviour
         }
     }
 
+    public Vector2 GetCheckpointTile()
+    {
+        return checkpointTile;
+    }
+
     /// <summary>
     /// Prints _segment in the debug log
     /// </summary>
@@ -687,6 +696,24 @@ public class SegmentBehaviour : MonoBehaviour
             }
 
             Debug.Log(row);
+        }
+    }
+
+    /// <summary>
+    /// Set checkpointTile as position of checkpoint
+    /// </summary>
+    private void SetCheckpointTile()
+    {
+        for (int x = 0; x < Mathf.RoundToInt(segSize.x); ++x)
+        {
+            for (int y = 0; y < Mathf.RoundToInt(segSize.y); ++y)
+            {
+                if (_segment[x, y] == checkpointChar)
+                {
+                    checkpointTile = new Vector2(x, y);
+                    break;
+                }
+            }
         }
     }
 }

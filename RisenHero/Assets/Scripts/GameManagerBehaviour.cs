@@ -5,8 +5,7 @@ using UnityEngine;
 public class GameManagerBehaviour : MonoBehaviour
 {
     public GameObject           overworldManager,
-                                player,
-                                companionTest;
+                                player;
     public Camera               currentCam;
 
     internal SegmentBehaviour   currentSegment;
@@ -22,11 +21,9 @@ public class GameManagerBehaviour : MonoBehaviour
         _playerScript = player.GetComponent<PlayerBehaviour>();
 
         _camOffset = currentCam.transform.position;
-
+        
         currentSegment = _overworldScript.GetSelected();
-        _playerScript.AddCompanion(companionTest);
-        _playerScript.DespawnCompanions();
-        player.SetActive(false);
+        //OpenSegment(Vector2.zero);
     }
 
     private void Update()
@@ -93,6 +90,23 @@ public class GameManagerBehaviour : MonoBehaviour
         _playerScript.inputEnabled = false;
         _playerScript.DespawnCompanions();
         player.SetActive(false);
+    }
+
+    public void LoadCheckpoint()
+    {
+        currentSegment = _overworldScript.GetCheckpoint();
+        _overworldScript.SettoCheckpoint();
+
+        _overworldScript.SetVisibility(false);
+        overworldManager.SetActive(false);
+
+        currentSegment.DrawSegment();
+        player.GetComponent<Rigidbody2D>().transform.position = currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down);
+
+        _inSegment = true;
+        player.SetActive(true);
+        _playerScript.inputEnabled = true;
+        _playerScript.SpawnCompanions(Vector2.left);
     }
 
     /// <summary>

@@ -15,6 +15,7 @@ public class CharacterBehaviour : MonoBehaviour
     internal Rigidbody2D            _rb;
 
     private int                     _currentHealth;
+    private Vector2                 _directionFacing = Vector2.right;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -29,12 +30,6 @@ public class CharacterBehaviour : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Move in direction at speed
     /// </summary>
@@ -43,6 +38,11 @@ public class CharacterBehaviour : MonoBehaviour
     public void Move(Vector2 direction)
     {
         _rb.velocity = direction.normalized * walkSpeed * Time.deltaTime;
+
+        if (direction != Vector2.zero)
+        {
+            _directionFacing = direction;
+        }
     }
 
     /// <summary>
@@ -53,11 +53,19 @@ public class CharacterBehaviour : MonoBehaviour
         _rb.velocity = Vector2.zero;
     }
 
+    /// <summary>
+    /// Returns current health
+    /// </summary>
+    /// <returns></returns>
     public int GetHealth()
     {
         return _currentHealth;
     }
 
+    /// <summary>
+    /// Add to health
+    /// </summary>
+    /// <param name="health"></param>
     public void AddHealth(int health)
     {
         _currentHealth += health;
@@ -72,11 +80,23 @@ public class CharacterBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets cooldown to max
+    /// </summary>
     public void ReplenishCooldown()
     {
         for (int i = 0; i < actions.Count; i++)
         {
             actions[i].ReplenishCooldown();
         }
+    }
+
+    /// <summary>
+    /// Returns Vector2 of facing direction
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 GetDirectionFacing()
+    {
+        return _directionFacing;
     }
 }

@@ -46,14 +46,10 @@ public class MonsterBehaviour : CharacterBehaviour
             Die();
         }
     }
-
-    public void EngageCombat(GameObject challenger)
-    {
-        target = challenger;
-
-        currentState = MonsterState.COMBAT;
-    }
-
+    
+    /// <summary>
+    /// Death
+    /// </summary>
     public void Die()
     {
         if (captive)
