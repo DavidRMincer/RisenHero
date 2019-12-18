@@ -21,9 +21,8 @@ public class GameManagerBehaviour : MonoBehaviour
         _playerScript = player.GetComponent<PlayerBehaviour>();
 
         _camOffset = currentCam.transform.position;
-        
-        currentSegment = _overworldScript.GetSelected();
-        //OpenSegment(Vector2.zero);
+
+        LoadCheckpoint();
     }
 
     private void Update()

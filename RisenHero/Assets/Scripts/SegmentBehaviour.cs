@@ -67,7 +67,10 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y));
+        if (_listofObjects == null)
+        {
+            _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y));
+        }
 
         _tileSprite = GetComponent<SpriteRenderer>().sprite;
         //GenerateSegment();
@@ -79,6 +82,11 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     public void GenerateSegment()
     {
+        if (_listofObjects == null)
+        {
+            _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y));
+        }
+
         switch (tileType)
         {
             case TileCategory.EMPTY:
@@ -580,8 +588,11 @@ public class SegmentBehaviour : MonoBehaviour
                 switch (_segment[xIndex, yIndex])
                 {
                     case cliffChar:
-                        Debug.Log(cliffPrefab);
+                        //Debug.Log(xIndex + ", " + yIndex);
+                        //SegmentArrayDebug();
+                        Debug.Log(_listofObjects);
                         _listofObjects.Add(Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        //Debug.Log(true);
                         break;
                     case treeChar:
                         _listofObjects.Add(Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
