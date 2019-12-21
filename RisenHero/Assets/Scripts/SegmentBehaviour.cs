@@ -73,8 +73,8 @@ public class SegmentBehaviour : MonoBehaviour
         }
 
         _tileSprite = GetComponent<SpriteRenderer>().sprite;
-        GenerateSegment();
-        DrawSegment();
+        //GenerateSegment();
+        //DrawSegment();
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class SegmentBehaviour : MonoBehaviour
         SetupSegment();
         ClearRadius();
 
-        for (int y = 1; y < segSize.x - 1; ++y)
+        for (int y = 1; y < segSize.y - 1; ++y)
         {
             for (int x = 1; x < segSize.x - 1; ++x)
             {
