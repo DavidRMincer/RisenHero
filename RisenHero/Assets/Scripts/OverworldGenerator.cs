@@ -406,7 +406,7 @@ public class OverworldGenerator : MonoBehaviour
         //}
     }
 
-    public void SettoCheckpoint()
+    public void SetSelectedToCheckpoint()
     {
         _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].transform.localScale = _tileScale;
 
@@ -415,5 +415,25 @@ public class OverworldGenerator : MonoBehaviour
 
         // Make selected tile visible
         _world[Mathf.RoundToInt(_selectedTile.x), Mathf.RoundToInt(_selectedTile.y)].GetComponent<SegmentBehaviour>().UpdateDisplayType(SegmentBehaviour.DisplayCategory.VISIBLE);
+    }
+
+    /// <summary>
+    /// Set checkpoint tile
+    /// </summary>
+    /// <param name="tile"></param>
+    public void SetCheckpoint(GameObject tile)
+    {
+        for (int x = 0; x < worldSize.x; ++x)
+        {
+            for (int y = 0; y < worldSize.y; ++y)
+            {
+                if (_world[x, y] &&
+                    _world[x,y] == tile)
+                {
+                    _checkpointSegment = new Vector2(x, y);
+                    break;
+                }
+            }
+        }
     }
 }

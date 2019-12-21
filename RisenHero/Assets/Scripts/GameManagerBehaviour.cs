@@ -87,7 +87,6 @@ public class GameManagerBehaviour : MonoBehaviour
     /// <param name="direction"></param>
     public void ExitSegment(Vector2 direction)
     {
-        Debug.Log(direction);
         currentSegment.UnloadSegment();
 
         overworldManager.SetActive(true);
@@ -105,7 +104,7 @@ public class GameManagerBehaviour : MonoBehaviour
     public void LoadCheckpoint()
     {
         currentSegment = _overworldScript.GetCheckpoint();
-        _overworldScript.SettoCheckpoint();
+        _overworldScript.SetSelectedToCheckpoint();
 
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
@@ -128,6 +127,18 @@ public class GameManagerBehaviour : MonoBehaviour
         return currentSegment.GetCentre();
     }
 
+    /// <summary>
+    /// Set overworld checkpoint tile as current segment
+    /// </summary>
+    public void SetCheckpointAsCurrent()
+    {
+        _overworldScript.SetCheckpoint(currentSegment.gameObject);
+    }
+
+    /// <summary>
+    /// Player dies, loses party & world ages
+    /// </summary>
+    /// <param name="ageMultiplier"></param>
     public void PlayerDeath(int ageMultiplier)
     {
         // Close segment
