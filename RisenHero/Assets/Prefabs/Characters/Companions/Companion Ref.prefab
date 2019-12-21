@@ -83,8 +83,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce4bca86a4f97f2478794837ec3bd49f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 60
-  leader: {fileID: 0}
+  walkSpeed: 120
+  maxHealth: 0
+  damage: 0
+  actionCooldown: 0
+  actions: []
+  type: 0
   minDistance: 1
   maxDistance: 2
   teleportDistance: 10

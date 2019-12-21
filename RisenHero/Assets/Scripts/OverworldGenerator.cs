@@ -302,13 +302,13 @@ public class OverworldGenerator : MonoBehaviour
                                 _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.RUINS &&
                                 Random.Range(0, 100) <= ruinUpgradeChance * multiplier)
                     {
-                        ReplaceTile(xIndex, yIndex, villageTile);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().GenerateVillage();
                     }
                     // Update village to town
                     else if (   _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.VILLAGE &&
                                 Random.Range(0, 100) <= villageUpgradeChance * multiplier)
                     {
-                        ReplaceTile(xIndex, yIndex, townTile);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().GenerateTown();
                     }
                     // Update to ruins
                     else if (   (_world[xIndex, yIndex].GetComponent<SegmentBehaviour>().tileType == SegmentBehaviour.TileCategory.VILLAGE &&
@@ -319,7 +319,7 @@ public class OverworldGenerator : MonoBehaviour
                                 (xIndex == Mathf.RoundToInt(worldSize.x / 3) * 2 && _timePeriod >= 2) ||
                                 (xIndex == Mathf.RoundToInt(worldSize.x - 2) && _timePeriod == maxTimePeriod - 1))
                     {
-                        ReplaceTile(xIndex, yIndex, ruinsTile);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().GenerateRuins();
                     }
                 }
             }

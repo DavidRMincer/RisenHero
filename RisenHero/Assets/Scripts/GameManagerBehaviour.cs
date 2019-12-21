@@ -33,6 +33,17 @@ public class GameManagerBehaviour : MonoBehaviour
             currentSegment = _overworldScript.GetSelected();
             OpenSegment(_overworldScript.GetDirection());
         }
+
+        if (_inSegment &&
+            Input.GetKeyDown(KeyCode.Return))
+        {
+            _playerScript.AddHealth(-_playerScript.maxHealth);
+        }
+
+        if (_playerScript.GetHealth() <= 0)
+        {
+            PlayerDeath(1);
+        }
     }
 
     private void LateUpdate()
@@ -115,5 +126,30 @@ public class GameManagerBehaviour : MonoBehaviour
     public Vector2 GetSegCentre()
     {
         return currentSegment.GetCentre();
+    }
+
+    public void PlayerDeath(int ageMultiplier)
+    {
+        // Close segment
+        ExitSegment(Vector2.zero);
+
+        // Age world
+        _overworldScript.AgeWorld(ageMultiplier);
+
+        // Destroy all companions
+        for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
+        {
+            if (_playerScript.partyMembers[i])
+            {
+                Destroy(_playerScript.partyMembers[i]);
+            }
+        }
+        _playerScript.partyMembers = new List<GameObject>();
+
+        // Restore health
+        _playerScript.AddHealth(_playerScript.maxHealth);
+
+        // Load checkpoint
+        LoadCheckpoint();
     }
 }
