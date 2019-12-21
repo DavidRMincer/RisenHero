@@ -19,7 +19,6 @@ public class CheckpointBehaviour : MonoBehaviour
             if (Input.GetButtonDown("Action_1"))
             {
                 _gm.SetCheckpointAsCurrent();
-                Debug.Log("TRIGGERED");
             }
         }
     }

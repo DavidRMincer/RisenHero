@@ -33,7 +33,9 @@ public class SegmentBehaviour : MonoBehaviour
                                 minClearanceRadius,
                                 maxClearanceRadius,
                                 minHouses,
-                                maxHouses;
+                                maxHouses,
+                                minMonsters,
+                                maxMonsters;
     public Sprite               blankSprite;
 
     internal DisplayCategory    displayType;
@@ -42,6 +44,7 @@ public class SegmentBehaviour : MonoBehaviour
                                 _eastEntrance,
                                 _westEntrance;
     internal Vector2            checkpointTile = Vector2.zero;
+    internal List<GameObject>   monsters = new List<GameObject>();
 
     private string              _name;
     private char[,]             _segment = new char[0, 0];
@@ -69,7 +72,7 @@ public class SegmentBehaviour : MonoBehaviour
     {
         if (_listofObjects == null)
         {
-            _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y));
+            _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y) + maxMonsters);
         }
 
         _tileSprite = GetComponent<SpriteRenderer>().sprite;
@@ -584,6 +587,7 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     public void DrawSegment()
     {
+        // Instantiate tiles
         for (int xIndex = 0; xIndex < Mathf.RoundToInt(segSize.x); ++xIndex)
         {
             for (int yIndex = 0; yIndex < Mathf.RoundToInt(segSize.y); ++yIndex)
@@ -630,6 +634,30 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     default:
                         break;
+                }
+            }
+        }
+
+        for (int i = 0; i < Random.Range(minMonsters, maxMonsters); ++i)
+        {
+            int xPos = Random.Range(1, Mathf.RoundToInt(segSize.x - 1)),
+                yPos = Random.Range(1, Mathf.RoundToInt(segSize.y - 1));
+            bool completed = false;
+
+            for (int x = xPos; x < Mathf.RoundToInt(segSize.x) && x > 0; ++x)
+            {
+                for (int y = yPos; y < Mathf.RoundToInt(segSize.y) && y > 0; ++y)
+                {
+                    if (!completed &&
+                        _segment[x, y] ==_pathChar)
+                    {
+                        int mIndex = Random.Range(0, monsters.Count - 1);
+
+                        Debug.Log(mIndex + " / " + (monsters.Count - 1));
+                        _listofObjects.Add(Instantiate(monsters[mIndex], new Vector2(x, -y) * tileSize, Quaternion.identity));
+
+                        completed = true;
+                    }
                 }
             }
         }

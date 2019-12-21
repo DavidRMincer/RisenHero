@@ -13,7 +13,10 @@ public class OverworldGenerator : MonoBehaviour
                                 townTile,
                                 ruinsTile,
                                 startTile,
-                                endTile;
+                                endTile,
+                                smallMonster,
+                                mediumMonster,
+                                largeMonster;
     public int                  numofVillages,
                                 numofTowns,
                                 numofRuins,
@@ -262,6 +265,26 @@ public class OverworldGenerator : MonoBehaviour
                 else
                 {
                     _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
+
+                    // Add monsters to list of monsters
+                    if (xIndex > (worldSize.x / 3) * 2)
+                    {
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters = new List<GameObject>(3);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters.Add(largeMonster);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters.Add(mediumMonster);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters.Add(smallMonster);
+                    }
+                    else if (xIndex > worldSize.x / 3)
+                    {
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters = new List<GameObject>(2);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters.Add(mediumMonster);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters.Add(smallMonster);
+                    }
+                    else
+                    {
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters = new List<GameObject>(1);
+                        _world[xIndex, yIndex].GetComponent<SegmentBehaviour>().monsters.Add(smallMonster);
+                    }
 
                     --gapCounter;
                 }
