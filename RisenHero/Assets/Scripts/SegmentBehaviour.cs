@@ -73,8 +73,8 @@ public class SegmentBehaviour : MonoBehaviour
         }
 
         _tileSprite = GetComponent<SpriteRenderer>().sprite;
-        //GenerateSegment();
-        //DrawSegment();
+        GenerateSegment();
+        DrawSegment();
     }
 
     /// <summary>
@@ -425,6 +425,9 @@ public class SegmentBehaviour : MonoBehaviour
         {
             _segment[Mathf.RoundToInt(_centre.x), i] = _wallChar;
         }
+
+        // Add checkpoint
+        _segment[Mathf.RoundToInt(_centre.x) - 2, Mathf.RoundToInt(_centre.y)] = _checkpointChar;
     }
     
     /// <summary>
@@ -588,11 +591,7 @@ public class SegmentBehaviour : MonoBehaviour
                 switch (_segment[xIndex, yIndex])
                 {
                     case _cliffChar:
-                        //Debug.Log(xIndex + ", " + yIndex);
-                        //SegmentArrayDebug();
-                        Debug.Log(_listofObjects);
                         _listofObjects.Add(Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
-                        //Debug.Log(true);
                         break;
                     case _treeChar:
                         _listofObjects.Add(Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
