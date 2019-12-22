@@ -173,14 +173,8 @@ public class OverworldGenerator : MonoBehaviour
         _startPoint.y = Mathf.RoundToInt(worldSize.y / 2);
         _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(startTile, _startPoint * tileSize, Quaternion.identity);
 
-        // Add path below start point
-        // Through forest to village
-        _world[Mathf.RoundToInt(_startPoint.x) + 1, Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(forestTile, (_startPoint + Vector2.right) * tileSize, Quaternion.identity);
-        _world[Mathf.RoundToInt(_startPoint.x) + 2, Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(forestTile, (_startPoint + (Vector2.right * 2)) * tileSize, Quaternion.identity);
-        _world[Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(villageTile, (_startPoint + (Vector2.right * 3)) * tileSize, Quaternion.identity);
-
         // Generate branching path
-        BranchPath(Mathf.RoundToInt(_startPoint.x) + 3, Mathf.RoundToInt(_startPoint.y), true);
+        BranchPath(Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y), true);
 
         // Set first checkpoint
         _checkpointSegment = _startPoint;
