@@ -70,8 +70,6 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(monsters.Count);
-
         if (_listofObjects == null)
         {
             _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y) + maxMonsters);
@@ -629,7 +627,10 @@ public class SegmentBehaviour : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < Random.Range(minMonsters, maxMonsters); ++i)
+        int numofMonsters = Random.Range(minMonsters, maxMonsters);
+        Debug.Log(numofMonsters);
+
+        for (int i = 0; i < numofMonsters; ++i)
         {
             int xPos = Random.Range(1, Mathf.RoundToInt(segSize.x - 1)),
                 yPos = Random.Range(1, Mathf.RoundToInt(segSize.y - 1));
@@ -644,7 +645,6 @@ public class SegmentBehaviour : MonoBehaviour
                     {
                         int mIndex = Random.Range(0, monsters.Count - 1);
 
-                        Debug.Log((mIndex + 1) + " / " + monsters.Count);
                         _listofObjects.Add(Instantiate(monsters[mIndex], new Vector2(x, -y) * tileSize, Quaternion.identity));
 
                         completed = true;
