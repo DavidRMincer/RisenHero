@@ -70,6 +70,8 @@ public class SegmentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(monsters.Count);
+
         if (_listofObjects == null)
         {
             _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y) + maxMonsters);
@@ -172,27 +174,16 @@ public class SegmentBehaviour : MonoBehaviour
     public void GenerateStart()
     {
         // Generate forest
-        GenerateForest();
+        SetupSegment();
 
-        bool startSet = false;
+        // Set centre of radius
+        Vector2 radiusCentre = (_centre * Vector2.up) + (Vector2.right * maxClearanceRadius);
 
-        for (int y = 1; y < segSize.x - 1; ++y)
-        {
-            for (int x = 1; x < segSize.x - 1; ++x)
-            {
-                // Replace trees with cliffs
-                if (_segment[x, y] == _treeChar)
-                {
-                    _segment[x, y] = _cliffChar;
-                }
-                // Add checkpoint for start
-                else if (!startSet && _segment[x, y] == _pathChar)
-                {
-                    _segment[x, y] = _checkpointChar;
-                    startSet = true;
-                }
-            }
-        }
+        // Clear starting radius
+        ClearRadius(radiusCentre);
+
+        // Add checkpoint
+        _segment[Mathf.RoundToInt(radiusCentre.x), Mathf.RoundToInt(radiusCentre.y)] = _checkpointChar;
     }
 
     /// <summary>
@@ -201,7 +192,7 @@ public class SegmentBehaviour : MonoBehaviour
     public void GenerateEnd()
     {
         SetupSegment();
-        ClearRadius();
+        ClearRadius(_centre);
 
         for (int y = 1; y < segSize.y - 1; ++y)
         {
@@ -292,7 +283,7 @@ public class SegmentBehaviour : MonoBehaviour
         SetupSegment();
 
         // Clear radius around centre
-        ClearRadius();
+        ClearRadius(_centre);
         
         // Random spawn houses
         Vector2 centre = segSize / 2;
@@ -319,7 +310,7 @@ public class SegmentBehaviour : MonoBehaviour
     public void GenerateTown()
     {
         SetupSegment();
-        ClearRadius();
+        ClearRadius(_centre);
         
         // Fit town inside cleared radius
         int houseWidth = Mathf.RoundToInt(housePrefab.GetComponent<SpriteRenderer>().size.x / tileSize) + (tileSize * 2),
@@ -421,7 +412,7 @@ public class SegmentBehaviour : MonoBehaviour
         _southEntrance = false;
 
         SetupSegment();
-        ClearRadius();
+        ClearRadius(_centre);
 
         // Generate wall
         for (int i = 0; i < Mathf.RoundToInt(segSize.y); i++)
@@ -436,7 +427,7 @@ public class SegmentBehaviour : MonoBehaviour
     /// <summary>
     /// Clear random radius in trees
     /// </summary>
-    private void ClearRadius()
+    private void ClearRadius(Vector2 radiusCentre)
     {
         _radius = Random.Range(minClearanceRadius, maxClearanceRadius);
 
@@ -444,8 +435,8 @@ public class SegmentBehaviour : MonoBehaviour
         {
             for (int y = 1; y < Mathf.RoundToInt(segSize.y) - 1; ++y)
             {
-                int xDist = x - (Mathf.RoundToInt(segSize.x) / 2),
-                    yDist = y - (Mathf.RoundToInt(segSize.y) / 2),
+                int xDist = x - Mathf.RoundToInt(radiusCentre.x),
+                    yDist = y - Mathf.RoundToInt(radiusCentre.y),
                     distance = Mathf.RoundToInt(Mathf.Sqrt((xDist * xDist) + (yDist * yDist)));
 
                 if (distance <= _radius)
@@ -458,19 +449,19 @@ public class SegmentBehaviour : MonoBehaviour
         // Paths from entrances
         if (_northEntrance)
         {
-            PathPoints(new Vector2(segSize.x / 2, 0), new Vector2(segSize.x / 2, segSize.y / 2));
+            PathPoints(new Vector2(segSize.x / 2, 0), radiusCentre);
         }
         if (_southEntrance)
         {
-            PathPoints(new Vector2(segSize.x / 2, segSize.y - 1), segSize / 2);
+            PathPoints(new Vector2(segSize.x / 2, segSize.y - 1), radiusCentre);
         }
         if (_eastEntrance)
         {
-            PathPoints(new Vector2(segSize.x - 1, segSize.y / 2), segSize / 2);
+            PathPoints(new Vector2(segSize.x - 1, segSize.y / 2), radiusCentre);
         }
         if (_westEntrance)
         {
-            PathPoints(new Vector2(0, segSize.y / 2), segSize / 2);
+            PathPoints(new Vector2(0, segSize.y / 2), radiusCentre);
         }
 
         PadPaths();
@@ -653,7 +644,7 @@ public class SegmentBehaviour : MonoBehaviour
                     {
                         int mIndex = Random.Range(0, monsters.Count - 1);
 
-                        Debug.Log(mIndex + " / " + (monsters.Count - 1));
+                        Debug.Log((mIndex + 1) + " / " + monsters.Count);
                         _listofObjects.Add(Instantiate(monsters[mIndex], new Vector2(x, -y) * tileSize, Quaternion.identity));
 
                         completed = true;

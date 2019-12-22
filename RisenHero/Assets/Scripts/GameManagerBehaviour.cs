@@ -67,7 +67,6 @@ public class GameManagerBehaviour : MonoBehaviour
         Vector2 extraDistance = direction * (currentSegment.segSize / 2);
         extraDistance = (direction * ((currentSegment.segSize / 2) - (new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y) * 2))));
         Vector2 spawnPoint = currentSegment.GetCentre() + extraDistance;
-        Debug.Log(currentSegment.GetCentre());
 
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
