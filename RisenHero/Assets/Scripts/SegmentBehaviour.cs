@@ -300,6 +300,8 @@ public class SegmentBehaviour : MonoBehaviour
 
             _segment[Mathf.RoundToInt(centre.x + (angle.x * distance)), Mathf.RoundToInt(centre.y + (angle.y * distance))] = _houseChar;
         }
+
+        _segment[Mathf.RoundToInt(_centre.x), Mathf.RoundToInt(_centre.y)] = _checkpointChar;
     }
 
     /// <summary>
@@ -358,6 +360,8 @@ public class SegmentBehaviour : MonoBehaviour
                 }
             }
         } while (!finished);
+
+        _segment[Mathf.RoundToInt(_centre.x), Mathf.RoundToInt(_centre.y)] = _checkpointChar;
     }
 
     /// <summary>
