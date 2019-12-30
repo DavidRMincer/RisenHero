@@ -119,10 +119,10 @@ public class OverworldGenerator : MonoBehaviour
     private void Update()
     {
         // For debugging only
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            AgeWorld(1);
-        }
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    AgeWorld(1);
+        //}
 
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
@@ -174,7 +174,7 @@ public class OverworldGenerator : MonoBehaviour
         _world[Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y)] = GameObject.Instantiate(startTile, _startPoint * tileSize, Quaternion.identity);
 
         // Generate branching path
-        BranchPath(Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y), true);
+        BranchPath(Mathf.RoundToInt(_startPoint.x), Mathf.RoundToInt(_startPoint.y));
 
         // Set first checkpoint
         _checkpointSegment = _startPoint;
@@ -188,7 +188,7 @@ public class OverworldGenerator : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="major"></param>
-    private void BranchPath(int x, int y, bool major)
+    private void BranchPath(int x, int y)
     {
         bool complete = false;
         int xIndex = x,
@@ -202,7 +202,8 @@ public class OverworldGenerator : MonoBehaviour
                 xDir = 0,
                 yDir = 0;
 
-            if (randomDir == 0)
+            if (xIndex == _startPoint.x ||
+                randomDir == 0)
             {
                 xDir = 1;
             }
@@ -212,8 +213,7 @@ public class OverworldGenerator : MonoBehaviour
             }
             
             // Reached end
-            if (major &&
-                xIndex == worldSize.x - 1)
+            if (xIndex == worldSize.x - 1)
             {
                 complete = true;
             }
@@ -259,8 +259,6 @@ public class OverworldGenerator : MonoBehaviour
                 else
                 {
                     _world[xIndex, yIndex] = GameObject.Instantiate(forestTile, new Vector2(xIndex, yIndex) * tileSize, Quaternion.identity);
-
-                    //Debug.Log(xIndex + ", " + yIndex);
 
                     // Add monsters to list of monsters
                     if (xIndex > (worldSize.x / 3) * 2)
