@@ -278,27 +278,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1436987503 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3911563644364969095, guid: a6be8d19fa52fb242b36a6a4351730b1,
-    type: 3}
-  m_PrefabInstance: {fileID: 3911563645780387048}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1436987504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1436987503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9108922e94528dd4486bae41f5ca7f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overworldManager: {fileID: 738573932}
-  player: {fileID: 1987273390}
-  currentCam: {fileID: 973746674}
 --- !u!114 &1689631693 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1037835055156269615, guid: c7d8d37a356305f4d810a469da1cc38d,
@@ -560,5 +539,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1436987504, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}
+      propertyPath: overworldManager
+      value: 
+      objectReference: {fileID: 738573932}
+    - target: {fileID: 1436987504, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1987273390}
+    - target: {fileID: 1436987504, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}
+      propertyPath: currentCam
+      value: 
+      objectReference: {fileID: 973746674}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}

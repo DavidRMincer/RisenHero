@@ -749,4 +749,24 @@ public class SegmentBehaviour : MonoBehaviour
             }
         }
     }
+
+    public void AssignCaptive(GameObject captive)
+    {
+        bool found = false;
+
+        for (int i = 0; i < _listofObjects.Count; ++i)
+        {
+            if (!found &&
+                _listofObjects[i].GetComponent<MonsterBehaviour>())
+            {
+                GameObject newCaptive = Instantiate(captive, _listofObjects[i].transform.position + Vector3.right, Quaternion.identity);
+
+                _listofObjects[i].GetComponent<MonsterBehaviour>().captive = newCaptive;
+                _listofObjects.Add(newCaptive);
+
+                found = true;
+                break;
+            }
+        }
+    }
 }

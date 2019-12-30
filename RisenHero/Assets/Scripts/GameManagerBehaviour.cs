@@ -7,6 +7,7 @@ public class GameManagerBehaviour : MonoBehaviour
     public GameObject           overworldManager,
                                 player;
     public Camera               currentCam;
+    public List<GameObject>     companionTypes;
 
     internal SegmentBehaviour   currentSegment;
 
@@ -71,7 +72,7 @@ public class GameManagerBehaviour : MonoBehaviour
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
 
-        currentSegment.DrawSegment();
+        DrawSegment();
         player.GetComponent<Rigidbody2D>().transform.position = spawnPoint;
 
         _inSegment = true;
@@ -111,7 +112,7 @@ public class GameManagerBehaviour : MonoBehaviour
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
 
-        currentSegment.DrawSegment();
+        DrawSegment();
 
         // Position player next to checkpoint
         player.GetComponent<Rigidbody2D>().transform.position = (currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down)) + (Vector2.right * currentSegment.tileSize);
@@ -183,5 +184,15 @@ public class GameManagerBehaviour : MonoBehaviour
 
         // Load checkpoint
         LoadCheckpoint();
+    }
+
+    public void DrawSegment()
+    {
+        currentSegment.DrawSegment();
+
+        if (_playerScript.partyMembers.Count < 2)
+        {
+            currentSegment.AssignCaptive(companionTypes[Random.Range(0, companionTypes.Count - 1)]);
+        }
     }
 }

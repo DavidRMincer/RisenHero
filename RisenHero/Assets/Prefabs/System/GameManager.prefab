@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3911563644364969112}
+  - component: {fileID: 1436987504}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -30,3 +31,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1436987504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3911563644364969095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9108922e94528dd4486bae41f5ca7f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overworldManager: {fileID: 0}
+  player: {fileID: 0}
+  currentCam: {fileID: 0}
+  companionTypes:
+  - {fileID: 3687057999317096509, guid: 4465ba99ba73e214c83a4d0f412ef244, type: 3}
+  - {fileID: 4309122839964639140, guid: 45edc28e4881ef8459d24d436ba6f0dd, type: 3}
+  - {fileID: 3155734499619247500, guid: 324378eaddc122748862f8f3e5d4148f, type: 3}
+  - {fileID: 5649899502390176698, guid: 3dd1a683cb6e1b842958355200eb6f6b, type: 3}
