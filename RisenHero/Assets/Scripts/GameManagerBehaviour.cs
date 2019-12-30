@@ -100,6 +100,9 @@ public class GameManagerBehaviour : MonoBehaviour
         player.SetActive(false);
     }
 
+    /// <summary>
+    /// Open segment and spawn player at checkpoint
+    /// </summary>
     public void LoadCheckpoint()
     {
         currentSegment = _overworldScript.GetCheckpoint();
@@ -109,7 +112,10 @@ public class GameManagerBehaviour : MonoBehaviour
         overworldManager.SetActive(false);
 
         currentSegment.DrawSegment();
-        player.GetComponent<Rigidbody2D>().transform.position = currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down);
+
+        // Position player next to checkpoint
+        player.GetComponent<Rigidbody2D>().transform.position = (currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down)) + (Vector2.right * currentSegment.tileSize);
+        _playerScript.SetDirectionFacing(Vector2.left);
 
         _inSegment = true;
         player.SetActive(true);

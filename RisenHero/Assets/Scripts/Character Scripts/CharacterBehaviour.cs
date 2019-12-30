@@ -99,4 +99,13 @@ public class CharacterBehaviour : MonoBehaviour
     {
         return _directionFacing;
     }
+
+    /// <summary>
+    /// Sets _directionFacing
+    /// </summary>
+    /// <param name="dir"></param>
+    public void SetDirectionFacing(Vector2 dir)
+    {
+        _directionFacing = dir.normalized;
+    }
 }
