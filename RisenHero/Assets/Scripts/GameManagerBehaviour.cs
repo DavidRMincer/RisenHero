@@ -117,10 +117,26 @@ public class GameManagerBehaviour : MonoBehaviour
         player.GetComponent<Rigidbody2D>().transform.position = (currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down)) + (Vector2.right * currentSegment.tileSize);
         _playerScript.SetDirectionFacing(Vector2.left);
 
+        // Position party members next to checkpoint
+        _playerScript.SpawnCompanions(Vector2.left);
+
+        for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
+        {
+            if (i == 0)
+            {
+                _playerScript.partyMembers[i].GetComponent<Rigidbody2D>().transform.position = (currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down)) + ((Vector2.left + Vector2.up) * currentSegment.tileSize);
+            }
+            else
+            {
+                _playerScript.partyMembers[i].GetComponent<Rigidbody2D>().transform.position = (currentSegment.GetCheckpointTile() * currentSegment.tileSize * (Vector2.right + Vector2.down)) + ((Vector2.left + Vector2.down) * currentSegment.tileSize);
+            }
+
+            _playerScript.partyMembers[i].GetComponent<CompanionBehaviour>().SetDirectionFacing(Vector2.right);
+        }
+
         _inSegment = true;
         player.SetActive(true);
         _playerScript.inputEnabled = true;
-        _playerScript.SpawnCompanions(Vector2.left);
     }
 
     /// <summary>

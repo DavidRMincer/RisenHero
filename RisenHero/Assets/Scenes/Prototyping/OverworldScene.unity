@@ -380,9 +380,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 506512667829558276, guid: cdb02ac815f11e14a9bd6347b0c3ea11,
         type: 3}
+      propertyPath: partyMembers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 506512667829558276, guid: cdb02ac815f11e14a9bd6347b0c3ea11,
+        type: 3}
       propertyPath: combatManager
       value: 
       objectReference: {fileID: 1689631693}
+    - target: {fileID: 506512667829558276, guid: cdb02ac815f11e14a9bd6347b0c3ea11,
+        type: 3}
+      propertyPath: partyMembers.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 506512667829558276, guid: cdb02ac815f11e14a9bd6347b0c3ea11,
+        type: 3}
+      propertyPath: partyMembers.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb02ac815f11e14a9bd6347b0c3ea11, type: 3}
 --- !u!1 &1987273390 stripped
