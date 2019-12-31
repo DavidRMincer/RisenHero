@@ -204,6 +204,9 @@ public class GameManagerBehaviour : MonoBehaviour
         LoadCheckpoint();
     }
 
+    /// <summary>
+    /// Draw current segment
+    /// </summary>
     public void DrawSegment()
     {
         currentSegment.DrawSegment();
