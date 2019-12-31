@@ -695,10 +695,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1436987504, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}
-      propertyPath: startingMonster.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436987504, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}
       propertyPath: overworldManager
       value: 
       objectReference: {fileID: 738573932}
@@ -718,5 +714,9 @@ PrefabInstance:
       propertyPath: startingMonster.Array.data[1]
       value: 
       objectReference: {fileID: 1936980785}
+    - target: {fileID: 1436987504, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}
+      propertyPath: campfireDuration
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6be8d19fa52fb242b36a6a4351730b1, type: 3}

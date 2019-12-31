@@ -9,6 +9,7 @@ public class GameManagerBehaviour : MonoBehaviour
     public Camera               currentCam;
     public List<GameObject>     companionTypes,
                                 startingMonster;
+    public float                campfireDuration;
 
     internal SegmentBehaviour   currentSegment;
 
@@ -26,6 +27,7 @@ public class GameManagerBehaviour : MonoBehaviour
 
         LoadCheckpoint();
 
+        // Firstmonster and captive spawned
         startingMonster[0].transform.position = new Vector2(currentSegment.segSize.x * 0.75f, currentSegment.GetCheckpointTile().y) * (Vector2.right + Vector2.down) * currentSegment.tileSize;
         startingMonster[1].transform.position = new Vector2(startingMonster[0].transform.position.x, startingMonster[0].transform.position.y) + (Vector2.right * currentSegment.tileSize);
     }
@@ -158,6 +160,8 @@ public class GameManagerBehaviour : MonoBehaviour
     /// </summary>
     public void SetCheckpointAsCurrent()
     {
+        StartCoroutine(DisableInputForDuration(campfireDuration));
+
         _overworldScript.SetCheckpoint(currentSegment.gameObject);
 
         player.transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.right * currentSegment.tileSize);
@@ -215,5 +219,19 @@ public class GameManagerBehaviour : MonoBehaviour
         {
             currentSegment.AssignCaptive(companionTypes[Random.Range(0, companionTypes.Count - 1)]);
         }
+    }
+
+    /// <summary>
+    /// Disable input while counting down
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
+    public IEnumerator DisableInputForDuration(float duration)
+    {
+        _playerScript.inputEnabled = false;
+
+        yield return new WaitForSeconds(duration);
+
+        _playerScript.inputEnabled = true;
     }
 }

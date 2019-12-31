@@ -51,3 +51,6 @@ MonoBehaviour:
   - {fileID: 4309122839964639140, guid: 45edc28e4881ef8459d24d436ba6f0dd, type: 3}
   - {fileID: 3155734499619247500, guid: 324378eaddc122748862f8f3e5d4148f, type: 3}
   - {fileID: 5649899502390176698, guid: 3dd1a683cb6e1b842958355200eb6f6b, type: 3}
+  startingMonster:
+  - {fileID: 0}
+  - {fileID: 0}
