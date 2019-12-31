@@ -750,6 +750,10 @@ public class SegmentBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Assign captive to first monster in list
+    /// </summary>
+    /// <param name="captive"></param>
     public void AssignCaptive(GameObject captive)
     {
         bool found = false;
@@ -766,6 +770,20 @@ public class SegmentBehaviour : MonoBehaviour
 
                 found = true;
                 break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Remove captive from list of objects
+    /// </summary>
+    public void RemoveCaptive()
+    {
+        for (int i = 0; i < _listofObjects.Count; ++i)
+        {
+            if (_listofObjects[i].GetComponent<CompanionBehaviour>())
+            {
+                _listofObjects.Remove(_listofObjects[i]);
             }
         }
     }

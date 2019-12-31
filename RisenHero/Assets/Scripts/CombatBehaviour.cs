@@ -18,11 +18,13 @@ public class CombatBehaviour : MonoBehaviour
     private float                   _currentTurnDuration;
     private bool                    _turnInProgress = false,
                                     _inCombat = false;
+    private GameManagerBehaviour    _gm;
 
     void Start()
     {
         _currentState = CombatState.NONE;
         _currentTurnDuration = turnDuration;
+        _gm = FindObjectOfType<GameManagerBehaviour>();
     }
 
     public void Setup(PlayerBehaviour p, MonsterBehaviour e)
@@ -196,6 +198,8 @@ public class CombatBehaviour : MonoBehaviour
         allyTeam = new List<CompanionBehaviour>();
 
         player.inputEnabled = true;
+
+        _gm.currentSegment.RemoveCaptive();
 
         _currentState = CombatState.NONE;
         _inCombat = false;
