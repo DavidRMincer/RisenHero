@@ -90,7 +90,7 @@ MonoBehaviour:
   actions: []
   type: 0
   minDistance: 1
-  maxDistance: 2
+  maxDistance: 3
   teleportDistance: 10
 --- !u!1 &6553599354647175438
 GameObject:

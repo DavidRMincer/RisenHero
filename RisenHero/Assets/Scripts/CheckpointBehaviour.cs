@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class CheckpointBehaviour : MonoBehaviour
 {
-    private GameManagerBehaviour _gm;
+    internal int                    tileSize;
+
+    private GameManagerBehaviour    _gm;
 
     private void Start()
     {
@@ -18,6 +20,7 @@ public class CheckpointBehaviour : MonoBehaviour
             // Press action_1 to set checkpoint
             if (Input.GetButtonDown("Action_1"))
             {
+                Debug.Log("TRIGGERED!");
                 _gm.SetCheckpointAsCurrent();
             }
         }

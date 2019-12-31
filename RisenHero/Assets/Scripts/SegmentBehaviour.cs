@@ -615,7 +615,10 @@ public class SegmentBehaviour : MonoBehaviour
                         _listofObjects.Add(Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _checkpointChar:
-                        _listofObjects.Add(Instantiate(checkpointPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newCheckpoint = checkpointPrefab;
+                        newCheckpoint.GetComponent<CheckpointBehaviour>().tileSize = tileSize;
+
+                        _listofObjects.Add(Instantiate(newCheckpoint, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _threatChar:
                         _listofObjects.Add(Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));

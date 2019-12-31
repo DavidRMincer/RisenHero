@@ -92,7 +92,7 @@ MonoBehaviour:
   - {fileID: 4802391115441820247}
   type: 3
   minDistance: 1
-  maxDistance: 2
+  maxDistance: 3
   teleportDistance: 10
 --- !u!114 &4802391115441820247
 MonoBehaviour:

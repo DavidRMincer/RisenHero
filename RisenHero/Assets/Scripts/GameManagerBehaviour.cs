@@ -159,6 +159,20 @@ public class GameManagerBehaviour : MonoBehaviour
     public void SetCheckpointAsCurrent()
     {
         _overworldScript.SetCheckpoint(currentSegment.gameObject);
+
+        player.transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.right * currentSegment.tileSize);
+
+        for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
+        {
+            if (i == 0)
+            {
+                _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.up * currentSegment.tileSize);
+            }
+            else
+            {
+                _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.down * currentSegment.tileSize);
+            }
+        }
     }
 
     /// <summary>
