@@ -784,6 +784,7 @@ public class SegmentBehaviour : MonoBehaviour
             if (_listofObjects[i].GetComponent<CompanionBehaviour>())
             {
                 _listofObjects.Remove(_listofObjects[i]);
+                break;
             }
         }
     }
