@@ -11,6 +11,7 @@ public class CharacterBehaviour : MonoBehaviour
                                     damage,
                                     actionCooldown;
     public List<ActionBehaviour>    actions;
+    public Renderer                 rend;
 
     internal Rigidbody2D            _rb;
 

@@ -58,6 +58,13 @@ public class GameManagerBehaviour : MonoBehaviour
         if (_inSegment)
         {
             currentCam.transform.position = player.transform.position + _camOffset;
+
+            _playerScript.rend.sortingOrder = (Mathf.RoundToInt(-player.transform.position.y) / currentSegment.tileSize) + 2;
+
+            //for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
+            //{
+            //    _playerScript.partyMembers[i].GetComponent<CompanionBehaviour>().rend.sortingOrder = (Mathf.RoundToInt(player.transform.position.y) / currentSegment.tileSize) + 1;
+            //}
         }
         else
         {

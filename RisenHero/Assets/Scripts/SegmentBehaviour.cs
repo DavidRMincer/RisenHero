@@ -588,40 +588,54 @@ public class SegmentBehaviour : MonoBehaviour
                 switch (_segment[xIndex, yIndex])
                 {
                     case _cliffChar:
-                        _listofObjects.Add(Instantiate(cliffPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newCliff = cliffPrefab;
+                        newCliff.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        _listofObjects.Add(Instantiate(newCliff, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _treeChar:
-                        _listofObjects.Add(Instantiate(treePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newTree = treePrefab;
+                        newTree.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        _listofObjects.Add(Instantiate(newTree, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case _rockChar:
-                        _listofObjects.Add(Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
-                        break;
-                    case _bushChar:
-                        _listofObjects.Add(Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
-                        break;
+                    //case _rockChar:
+                    //    _listofObjects.Add(Instantiate(rockPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                    //    break;
+                    //case _bushChar:
+                    //    _listofObjects.Add(Instantiate(bushPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                    //    break;
                     case _houseChar:
-                        _listofObjects.Add(Instantiate(housePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newHouse = housePrefab;
+                        newHouse.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        _listofObjects.Add(Instantiate(newHouse, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
-                    case _shopChar:
-                        _listofObjects.Add(Instantiate(shopPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
-                        break;
-                    case _innChar:
-                        _listofObjects.Add(Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
-                        break;
+                    //case _shopChar:
+                    //    GameObject newShop = treePrefab;
+                    //    newShop.layer = yIndex + 1;
+                    //    _listofObjects.Add(Instantiate(newShop, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                    //    break;
+                    //case _innChar:
+                    //    _listofObjects.Add(Instantiate(innPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                    //    break;
                     case _rubbleChar:
-                        _listofObjects.Add(Instantiate(rubblePrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newRubble = rubblePrefab;
+                        newRubble.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        _listofObjects.Add(Instantiate(newRubble, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _wallChar:
-                        _listofObjects.Add(Instantiate(wallPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newWall = wallPrefab;
+                        newWall.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        _listofObjects.Add(Instantiate(newWall, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _checkpointChar:
                         GameObject newCheckpoint = checkpointPrefab;
                         newCheckpoint.GetComponent<CheckpointBehaviour>().tileSize = tileSize;
-
+                        newCheckpoint.GetComponent<Renderer>().sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newCheckpoint, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _threatChar:
-                        _listofObjects.Add(Instantiate(threatPrefab, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
+                        GameObject newThreat = threatPrefab;
+                        newThreat.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        _listofObjects.Add(Instantiate(newThreat, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _exitChar:
                         Vector2 direction = _centre - new Vector2(xIndex, yIndex);
