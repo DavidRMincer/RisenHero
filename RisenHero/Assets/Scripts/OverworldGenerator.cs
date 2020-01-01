@@ -40,7 +40,7 @@ public class OverworldGenerator : MonoBehaviour
     private int                 _timePeriod = 0;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         for (int i = numofRuins; i > 0; --i)
         {
@@ -166,6 +166,7 @@ public class OverworldGenerator : MonoBehaviour
     /// </summary>
     public void GenerateWorld()
     {
+        Debug.Log(true);
         _world = new GameObject[Mathf.RoundToInt(worldSize.x), Mathf.RoundToInt(worldSize.y)];
 
         // Set start point
@@ -390,6 +391,7 @@ public class OverworldGenerator : MonoBehaviour
     
     internal SegmentBehaviour GetCheckpoint()
     {
+        Debug.Log(_world);
         return _world[Mathf.RoundToInt(_checkpointSegment.x), Mathf.RoundToInt(_checkpointSegment.y)].GetComponent<SegmentBehaviour>();
     }
 

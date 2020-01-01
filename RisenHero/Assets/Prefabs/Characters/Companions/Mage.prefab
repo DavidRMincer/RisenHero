@@ -92,6 +92,7 @@ MonoBehaviour:
   actions:
   - {fileID: -248613337835948917}
   - {fileID: 2752681830281965346}
+  rend: {fileID: 9040598247244232172}
   type: 1
   minDistance: 1
   maxDistance: 3

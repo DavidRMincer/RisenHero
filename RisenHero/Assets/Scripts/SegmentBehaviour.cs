@@ -65,14 +65,16 @@ public class SegmentBehaviour : MonoBehaviour
                                 _threatChar = 'x',
                                 _wallChar = 'w',
                                 _exitChar = 'X';
-    private List<GameObject>    _listofObjects;
+    private List<GameObject>    _listofObjects,
+                                _listofCharacters;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (_listofObjects == null)
         {
-            _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y) + maxMonsters);
+            _listofObjects = new List<GameObject>(Mathf.RoundToInt(segSize.x * segSize.y));
+            _listofCharacters = new List<GameObject>(Mathf.RoundToInt(maxMonsters));
         }
 
         _tileSprite = GetComponent<SpriteRenderer>().sprite;
@@ -665,8 +667,9 @@ public class SegmentBehaviour : MonoBehaviour
                         _segment[x, y] ==_pathChar)
                     {
                         int mIndex = Random.Range(0, monsters.Count - 1);
-
-                        _listofObjects.Add(Instantiate(monsters[mIndex], new Vector2(x, -y) * tileSize, Quaternion.identity));
+                        GameObject newMonster = monsters[mIndex];
+                        newMonster.GetComponent<MonsterBehaviour>().rend.sortingOrder = (y / tileSize) + 1;
+                        _listofCharacters.Add(Instantiate(newMonster, new Vector2(x, -y) * tileSize, Quaternion.identity));
 
                         completed = true;
                     }
@@ -724,6 +727,14 @@ public class SegmentBehaviour : MonoBehaviour
                 Destroy(_listofObjects[i]);
             }
         }
+
+        for (int i = 0; i < _listofCharacters.Count; ++i)
+        {
+            if (_listofCharacters[i])
+            {
+                Destroy(_listofCharacters[i]);
+            }
+        }
     }
 
     public Vector2 GetCheckpointTile()
@@ -775,15 +786,15 @@ public class SegmentBehaviour : MonoBehaviour
     {
         bool found = false;
 
-        for (int i = 0; i < _listofObjects.Count; ++i)
+        for (int i = 0; i < _listofCharacters.Count; ++i)
         {
             if (!found &&
-                _listofObjects[i].GetComponent<MonsterBehaviour>())
+                _listofCharacters[i].GetComponent<MonsterBehaviour>())
             {
-                GameObject newCaptive = Instantiate(captive, _listofObjects[i].transform.position + Vector3.right, Quaternion.identity);
+                GameObject newCaptive = Instantiate(captive, _listofCharacters[i].transform.position + Vector3.right, Quaternion.identity);
 
-                _listofObjects[i].GetComponent<MonsterBehaviour>().captive = newCaptive;
-                _listofObjects.Add(newCaptive);
+                _listofCharacters[i].GetComponent<MonsterBehaviour>().captive = newCaptive;
+                _listofCharacters.Add(newCaptive);
 
                 found = true;
                 break;
@@ -796,11 +807,11 @@ public class SegmentBehaviour : MonoBehaviour
     /// </summary>
     public void RemoveCaptive()
     {
-        for (int i = 0; i < _listofObjects.Count; ++i)
+        for (int i = 0; i < _listofCharacters.Count; ++i)
         {
-            if (_listofObjects[i].GetComponent<CompanionBehaviour>())
+            if (_listofCharacters[i].GetComponent<CompanionBehaviour>())
             {
-                _listofObjects.Remove(_listofObjects[i]);
+                _listofCharacters.Remove(_listofCharacters[i]);
                 break;
             }
         }

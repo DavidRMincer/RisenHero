@@ -88,6 +88,7 @@ MonoBehaviour:
   damage: 0
   actionCooldown: 0
   actions: []
+  rend: {fileID: 7309070460487529577}
   type: 0
   minDistance: 1
   maxDistance: 3

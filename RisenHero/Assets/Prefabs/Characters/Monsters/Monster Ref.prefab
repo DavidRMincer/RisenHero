@@ -43,7 +43,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853017016869275605}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   actionCooldown: 0
   actions:
   - {fileID: 564074969}
+  rend: {fileID: 5695644860661213109}
   target: {fileID: 0}
   captive: {fileID: 0}
 --- !u!114 &564074969

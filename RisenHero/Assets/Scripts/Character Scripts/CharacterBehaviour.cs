@@ -17,8 +17,7 @@ public class CharacterBehaviour : MonoBehaviour
 
     private int                     _currentHealth;
     private Vector2                 _directionFacing = Vector2.right;
-
-    // Start is called before the first frame update
+    
     public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -30,7 +29,7 @@ public class CharacterBehaviour : MonoBehaviour
             actions[i].cooldown = actionCooldown;
         }
     }
-
+    
     /// <summary>
     /// Move in direction at speed
     /// </summary>

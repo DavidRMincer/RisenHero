@@ -90,6 +90,7 @@ MonoBehaviour:
   actionCooldown: 0
   actions:
   - {fileID: -7167078836835169890}
+  rend: {fileID: 2265906915259027101}
   partyMembers: []
   combatManager: {fileID: 0}
 --- !u!114 &-7167078836835169890

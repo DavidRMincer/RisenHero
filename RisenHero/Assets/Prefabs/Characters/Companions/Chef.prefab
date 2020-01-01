@@ -90,6 +90,7 @@ MonoBehaviour:
   actionCooldown: 1
   actions:
   - {fileID: -6829582342703884023}
+  rend: {fileID: 7886040022118285252}
   type: 2
   minDistance: 1
   maxDistance: 3
