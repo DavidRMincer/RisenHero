@@ -59,11 +59,11 @@ public class GameManagerBehaviour : MonoBehaviour
         {
             currentCam.transform.position = player.transform.position + _camOffset;
 
-            _playerScript.rend.sortingOrder = (Mathf.CeilToInt(-player.transform.position.y) / currentSegment.tileSize) + 1;
+            _playerScript.rend.sortingOrder = Mathf.Abs(Mathf.CeilToInt(-player.transform.position.y) / currentSegment.tileSize) + 1;
 
             for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
             {
-                _playerScript.partyMembers[i].GetComponent<CompanionBehaviour>().rend.sortingOrder = (Mathf.CeilToInt(_playerScript.partyMembers[i].transform.position.y) / currentSegment.tileSize) + 1;
+                _playerScript.partyMembers[i].GetComponent<CompanionBehaviour>().rend.sortingOrder = Mathf.Abs(Mathf.CeilToInt(_playerScript.partyMembers[i].transform.position.y) / currentSegment.tileSize) + 1;
             }
         }
         else
