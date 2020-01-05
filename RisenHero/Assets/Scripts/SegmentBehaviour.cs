@@ -596,7 +596,7 @@ public class SegmentBehaviour : MonoBehaviour
                         break;
                     case _treeChar:
                         GameObject newTree = treePrefab;
-                        newTree.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        newTree.GetComponent<EnvironmentAssetBehaviour>().rend.sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newTree, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     //case _rockChar:
@@ -631,7 +631,7 @@ public class SegmentBehaviour : MonoBehaviour
                     case _checkpointChar:
                         GameObject newCheckpoint = checkpointPrefab;
                         newCheckpoint.GetComponent<CheckpointBehaviour>().tileSize = tileSize;
-                        newCheckpoint.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        newCheckpoint.GetComponent<EnvironmentAssetBehaviour>().rend.sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newCheckpoint, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _threatChar:
