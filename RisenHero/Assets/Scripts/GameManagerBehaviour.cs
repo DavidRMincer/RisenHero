@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManagerBehaviour : MonoBehaviour
 {
     public GameObject           overworldManager,
-                                player;
+                                player,
+                                grassTile;
     public Camera               currentCam;
     public List<GameObject>     companionTypes,
                                 startingMonster;
@@ -55,6 +56,8 @@ public class GameManagerBehaviour : MonoBehaviour
 
     private void LateUpdate()
     {
+        grassTile.SetActive(_inSegment);
+
         if (_inSegment)
         {
             currentCam.transform.position = player.transform.position + _camOffset;

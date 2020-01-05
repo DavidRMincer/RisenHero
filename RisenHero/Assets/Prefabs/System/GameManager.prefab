@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overworldManager: {fileID: 0}
   player: {fileID: 0}
+  grassTile: {fileID: 0}
   currentCam: {fileID: 0}
   companionTypes:
   - {fileID: 3687057999317096509, guid: 4465ba99ba73e214c83a4d0f412ef244, type: 3}
@@ -54,3 +55,4 @@ MonoBehaviour:
   startingMonster:
   - {fileID: 0}
   - {fileID: 0}
+  campfireDuration: 3
