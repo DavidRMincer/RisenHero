@@ -591,7 +591,7 @@ public class SegmentBehaviour : MonoBehaviour
                 {
                     case _cliffChar:
                         GameObject newCliff = cliffPrefab;
-                        newCliff.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        newCliff.GetComponent<EnvironmentAssetBehaviour>().rend.sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newCliff, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _treeChar:
@@ -607,7 +607,7 @@ public class SegmentBehaviour : MonoBehaviour
                     //    break;
                     case _houseChar:
                         GameObject newHouse = housePrefab;
-                        newHouse.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        newHouse.GetComponent<EnvironmentAssetBehaviour>().rend.sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newHouse, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     //case _shopChar:
@@ -620,12 +620,12 @@ public class SegmentBehaviour : MonoBehaviour
                     //    break;
                     case _rubbleChar:
                         GameObject newRubble = rubblePrefab;
-                        newRubble.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        newRubble.GetComponent<EnvironmentAssetBehaviour>().rend.sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newRubble, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _wallChar:
                         GameObject newWall = wallPrefab;
-                        newWall.GetComponent<Renderer>().sortingOrder = yIndex + 1;
+                        newWall.GetComponent<EnvironmentAssetBehaviour>().rend.sortingOrder = yIndex + 1;
                         _listofObjects.Add(Instantiate(newWall, new Vector2(xIndex, -yIndex) * tileSize, Quaternion.identity));
                         break;
                     case _checkpointChar:
