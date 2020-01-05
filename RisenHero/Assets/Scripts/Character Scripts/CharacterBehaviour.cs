@@ -11,7 +11,7 @@ public class CharacterBehaviour : MonoBehaviour
                                     damage,
                                     actionCooldown;
     public List<ActionBehaviour>    actions;
-    public Renderer                 rend;
+    public SpriteRenderer           rend;
 
     internal Rigidbody2D            _rb;
 
@@ -42,6 +42,11 @@ public class CharacterBehaviour : MonoBehaviour
         if (direction != Vector2.zero)
         {
             _directionFacing = direction;
+
+            if (direction.x != 0f)
+            {
+                rend.flipX = direction.x < 0;
+            }
         }
     }
 

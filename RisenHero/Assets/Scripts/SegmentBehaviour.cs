@@ -27,7 +27,8 @@ public class SegmentBehaviour : MonoBehaviour
                                 wallPrefab,
                                 checkpointPrefab,
                                 threatPrefab,
-                                exitPrefab;
+                                exitPrefab,
+                                grassPrefab;
     public int                  pathRadius,
                                 tileSize,
                                 minClearanceRadius,
