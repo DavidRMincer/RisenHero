@@ -11,6 +11,8 @@ public class GameManagerBehaviour : MonoBehaviour
     public List<GameObject>     companionTypes,
                                 startingMonster;
     public float                campfireDuration;
+    public Vector2              minOverworldCamPos,
+                                maxOverworldCamPos;
 
     internal SegmentBehaviour   currentSegment;
 
@@ -18,13 +20,16 @@ public class GameManagerBehaviour : MonoBehaviour
     private PlayerBehaviour     _playerScript;
     private bool                _inSegment = false;
     private Vector3             _camOffset;
-    
+    private Vector2             _minSegmentCamPos = Vector2.zero - (Vector2.one / 2),
+                                _maxSegmentCamPos = Vector2.zero;
+
+
     private void Start()
     {
         _overworldScript = overworldManager.GetComponent<OverworldGenerator>();
         _playerScript = player.GetComponent<PlayerBehaviour>();
 
-        _camOffset = currentCam.transform.position;
+        _camOffset = currentCam.transform.position.z * Vector3.forward;
 
         LoadCheckpoint();
 
@@ -56,11 +61,22 @@ public class GameManagerBehaviour : MonoBehaviour
 
     private void LateUpdate()
     {
+        float height = Mathf.Abs(currentCam.ScreenToWorldPoint(new Vector2(0, 0)).y - currentCam.transform.position.y);
+        float width = Mathf.Abs(currentCam.ScreenToWorldPoint(new Vector2(1, 0)).x - currentCam.transform.position.x);
+        Debug.Log(width + ", " + height);
+
         grassTile.SetActive(_inSegment);
 
         if (_inSegment)
         {
             currentCam.transform.position = player.transform.position + _camOffset;
+
+            Vector2 newCamPos = currentCam.transform.position;
+
+            newCamPos.x = Mathf.Clamp(newCamPos.x, _minSegmentCamPos.x + width, _maxSegmentCamPos.x - width);
+            newCamPos.y = Mathf.Clamp(newCamPos.y, _minSegmentCamPos.y + height, _maxSegmentCamPos.y - height);
+
+            currentCam.transform.position = newCamPos;
 
             _playerScript.rend.sortingOrder = Mathf.Abs(Mathf.CeilToInt(-player.transform.position.y) / currentSegment.tileSize) + 1;
 
@@ -72,6 +88,15 @@ public class GameManagerBehaviour : MonoBehaviour
         else
         {
             currentCam.transform.position = currentSegment.transform.position + _camOffset;
+
+            Vector2 newCamPos = currentCam.transform.position;
+
+            newCamPos.x = Mathf.Clamp(newCamPos.x, minOverworldCamPos.x - width, maxOverworldCamPos.x + width);
+            newCamPos.y = Mathf.Clamp(newCamPos.y, minOverworldCamPos.y - height, maxOverworldCamPos.y + height);
+
+            currentCam.transform.position = newCamPos;
+
+            currentCam.transform.position = newCamPos;
         }
     }
 
@@ -90,6 +115,9 @@ public class GameManagerBehaviour : MonoBehaviour
 
         DrawSegment();
         player.GetComponent<Rigidbody2D>().transform.position = spawnPoint;
+
+        _minSegmentCamPos.y = -(currentSegment.segSize.y * currentSegment.tileSize);
+        _maxSegmentCamPos.x = currentSegment.segSize.x * currentSegment.tileSize;
 
         _inSegment = true;
         player.SetActive(true);
@@ -127,6 +155,9 @@ public class GameManagerBehaviour : MonoBehaviour
 
         _overworldScript.SetVisibility(false);
         overworldManager.SetActive(false);
+
+        _minSegmentCamPos.y = -(currentSegment.segSize.y * currentSegment.tileSize);
+        _maxSegmentCamPos.x = currentSegment.segSize.x * currentSegment.tileSize;
 
         DrawSegment();
 
