@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class EnvironmentAssetBehaviour : MonoBehaviour
 {
-    public Renderer rend;
+    public SpriteRenderer rend;
     
 }

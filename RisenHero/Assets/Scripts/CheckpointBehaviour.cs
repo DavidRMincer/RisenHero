@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CheckpointBehaviour : MonoBehaviour
 {
+    public GameObject               flameParticles;
+
     internal int                    tileSize;
 
     private GameManagerBehaviour    _gm;
@@ -11,8 +13,9 @@ public class CheckpointBehaviour : MonoBehaviour
     private void Start()
     {
         _gm = FindObjectOfType<GameManagerBehaviour>();
+        flameParticles.SetActive(true);
     }
-
+    
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -24,5 +27,10 @@ public class CheckpointBehaviour : MonoBehaviour
                 _gm.SetCheckpointAsCurrent();
             }
         }
+    }
+
+    public void SetFireState(bool lit)
+    {
+        flameParticles.SetActive(lit);
     }
 }
