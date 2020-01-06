@@ -72,8 +72,8 @@ public class GameManagerBehaviour : MonoBehaviour
 
             Vector3 newCamPos = currentCam.transform.position;
 
-            newCamPos.x = Mathf.Clamp(newCamPos.x, _minSegmentCamPos.x + (width * 1.025f), _maxSegmentCamPos.x - (width * 1.1f));
-            newCamPos.y = Mathf.Clamp(newCamPos.y, _minSegmentCamPos.y + (height * 1.2f), _maxSegmentCamPos.y - (height * 1.0f));
+            newCamPos.x = Mathf.Clamp(newCamPos.x, _minSegmentCamPos.x + width + (currentSegment.tileSize * 0.25f), _maxSegmentCamPos.x - width - (currentSegment.tileSize * 0.75f));
+            newCamPos.y = Mathf.Clamp(newCamPos.y, _minSegmentCamPos.y + height + (currentSegment.tileSize * 1f), _maxSegmentCamPos.y - height);
 
             currentCam.transform.position = newCamPos;
 
