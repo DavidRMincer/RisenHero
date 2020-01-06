@@ -62,8 +62,7 @@ public class GameManagerBehaviour : MonoBehaviour
     private void LateUpdate()
     {
         float height = Mathf.Abs(currentCam.ScreenToWorldPoint(new Vector2(0, 0)).y - currentCam.transform.position.y);
-        float width = Mathf.Abs(currentCam.ScreenToWorldPoint(new Vector2(1, 0)).x - currentCam.transform.position.x);
-        Debug.Log(width + ", " + height);
+        float width = Mathf.Abs(currentCam.ScreenToWorldPoint(new Vector2(0, 0)).x - currentCam.transform.position.x);
 
         grassTile.SetActive(_inSegment);
 
@@ -73,8 +72,8 @@ public class GameManagerBehaviour : MonoBehaviour
 
             Vector3 newCamPos = currentCam.transform.position;
 
-            newCamPos.x = Mathf.Clamp(newCamPos.x, _minSegmentCamPos.x + width, _maxSegmentCamPos.x - width);
-            newCamPos.y = Mathf.Clamp(newCamPos.y, _minSegmentCamPos.y + height, _maxSegmentCamPos.y - height);
+            newCamPos.x = Mathf.Clamp(newCamPos.x, _minSegmentCamPos.x + (width * 1.025f), _maxSegmentCamPos.x - (width * 1.1f));
+            newCamPos.y = Mathf.Clamp(newCamPos.y, _minSegmentCamPos.y + (height * 1.2f), _maxSegmentCamPos.y - (height * 1.0f));
 
             currentCam.transform.position = newCamPos;
 
