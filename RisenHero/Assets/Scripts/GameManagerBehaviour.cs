@@ -6,7 +6,8 @@ public class GameManagerBehaviour : MonoBehaviour
 {
     public GameObject           overworldManager,
                                 player,
-                                grassTile;
+                                grassTile,
+                                leafParticles;
     public Camera               currentCam;
     public List<GameObject>     companionTypes,
                                 startingMonster;
@@ -65,6 +66,7 @@ public class GameManagerBehaviour : MonoBehaviour
         float width = Mathf.Abs(currentCam.ScreenToWorldPoint(new Vector2(0, 0)).x - currentCam.transform.position.x);
 
         grassTile.SetActive(_inSegment);
+        leafParticles.SetActive(_inSegment);
 
         if (_inSegment)
         {
