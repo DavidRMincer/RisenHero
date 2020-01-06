@@ -9,7 +9,7 @@ public class PlayerBehaviour : CharacterBehaviour
 
     internal bool           inputEnabled = true;
     
-    void Update()
+    void FixedUpdate()
     {
         // Input movement
         if (inputEnabled)

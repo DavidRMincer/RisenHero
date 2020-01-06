@@ -18,7 +18,7 @@ public class CompanionBehaviour : CharacterBehaviour
     private PlayerBehaviour     _leader;
     
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (_leader)
         {
