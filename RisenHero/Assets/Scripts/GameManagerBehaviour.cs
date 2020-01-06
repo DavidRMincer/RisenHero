@@ -20,8 +20,8 @@ public class GameManagerBehaviour : MonoBehaviour
     private PlayerBehaviour     _playerScript;
     private bool                _inSegment = false;
     private Vector3             _camOffset;
-    private Vector2             _minSegmentCamPos = Vector2.zero - (Vector2.one / 2),
-                                _maxSegmentCamPos = Vector2.zero;
+    private Vector2             _minSegmentCamPos = -(Vector2.one / 2),
+                                _maxSegmentCamPos = Vector2.one / 2;
 
 
     private void Start()
@@ -71,7 +71,7 @@ public class GameManagerBehaviour : MonoBehaviour
         {
             currentCam.transform.position = player.transform.position + _camOffset;
 
-            Vector2 newCamPos = currentCam.transform.position;
+            Vector3 newCamPos = currentCam.transform.position;
 
             newCamPos.x = Mathf.Clamp(newCamPos.x, _minSegmentCamPos.x + width, _maxSegmentCamPos.x - width);
             newCamPos.y = Mathf.Clamp(newCamPos.y, _minSegmentCamPos.y + height, _maxSegmentCamPos.y - height);
@@ -89,7 +89,7 @@ public class GameManagerBehaviour : MonoBehaviour
         {
             currentCam.transform.position = currentSegment.transform.position + _camOffset;
 
-            Vector2 newCamPos = currentCam.transform.position;
+            Vector3 newCamPos = currentCam.transform.position;
 
             newCamPos.x = Mathf.Clamp(newCamPos.x, minOverworldCamPos.x - width, maxOverworldCamPos.x + width);
             newCamPos.y = Mathf.Clamp(newCamPos.y, minOverworldCamPos.y - height, maxOverworldCamPos.y + height);
