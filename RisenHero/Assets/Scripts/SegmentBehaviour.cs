@@ -792,7 +792,11 @@ public class SegmentBehaviour : MonoBehaviour
             if (!found &&
                 _listofCharacters[i].GetComponent<MonsterBehaviour>())
             {
-                GameObject newCaptive = Instantiate(captive, _listofCharacters[i].transform.position + Vector3.right, Quaternion.identity);
+                GameObject newCaptive = captive;
+                newCaptive.GetComponent<CompanionBehaviour>().rend.sortingOrder = _listofCharacters[i].GetComponent<MonsterBehaviour>().rend.sortingOrder;
+                newCaptive.GetComponent<CompanionBehaviour>().rend.flipX = true;
+
+                Instantiate(newCaptive, _listofCharacters[i].transform.position + Vector3.right, Quaternion.identity);
 
                 _listofCharacters[i].GetComponent<MonsterBehaviour>().captive = newCaptive;
                 _listofCharacters.Add(newCaptive);
