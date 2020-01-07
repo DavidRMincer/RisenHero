@@ -57,6 +57,6 @@ public class MonsterBehaviour : CharacterBehaviour
             target.GetComponent<PlayerBehaviour>().AddCompanion(captive);
         }
         
-        Destroy(gameObject);
+        Destroy(gameObject, 1);
     }
 }

@@ -98,6 +98,8 @@ public class CombatBehaviour : MonoBehaviour
             {
                 EndCombat();
             }
+
+            UIManager.UpdateHealth(player.GetHealth());
         }
     }
 

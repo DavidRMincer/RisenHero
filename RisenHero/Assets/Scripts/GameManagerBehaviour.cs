@@ -38,6 +38,8 @@ public class GameManagerBehaviour : MonoBehaviour
         // Firstmonster and captive spawned
         startingMonster[0].transform.position = new Vector2(currentSegment.segSize.x * 0.75f, currentSegment.GetCheckpointTile().y) * (Vector2.right + Vector2.down) * currentSegment.tileSize;
         startingMonster[1].transform.position = new Vector2(startingMonster[0].transform.position.x, startingMonster[0].transform.position.y) + (Vector2.right * currentSegment.tileSize);
+
+        uiManager.SetupHearts(_playerScript.maxHealth);
     }
 
     private void Update()
