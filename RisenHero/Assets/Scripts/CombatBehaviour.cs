@@ -56,6 +56,12 @@ public class CombatBehaviour : MonoBehaviour
         // Start turns
         _currentState = CombatState.PLAYER_TURN;
         _inCombat = true;
+        Debug.Log(player);
+        Debug.Log(enemy);
+        for (int i = 0; i < allyTeam.Count; i++)
+        {
+            Debug.Log(allyTeam[i]);
+        }
     }
 
     public void AddPlayer(PlayerBehaviour p)
@@ -67,6 +73,7 @@ public class CombatBehaviour : MonoBehaviour
     public void AddAlly(CompanionBehaviour c)
     {
         allyTeam.Add(c);
+
     }
 
     public void AddEnemy(MonsterBehaviour e)
@@ -193,23 +200,12 @@ public class CombatBehaviour : MonoBehaviour
 
     public void EndCombat()
     {
-        Debug.Log("END");
         if (player.GetHealth() <= 0)
         {
-            Debug.Log("PLAYER DEATH");
             _gm.PlayerDeath(1);
         }
         else
         {
-            //if (enemy.GetHealth() <= 0)
-            //{
-            //    Debug.Log("ENEMY DEATH");
-            //    Debug.Log(enemy);
-            //    enemy.Die();
-            //}
-
-            Debug.Log("ENEMY DEATH");
-            Debug.Log(enemy);
             if (enemy)
             {
                 enemy.Die();
@@ -223,7 +219,6 @@ public class CombatBehaviour : MonoBehaviour
 
             _currentState = CombatState.NONE;
             _inCombat = false;
-            Debug.Log(_inCombat);
         }
     }
 }
