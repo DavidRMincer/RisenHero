@@ -40,11 +40,6 @@ public class MonsterBehaviour : CharacterBehaviour
             default:
                 break;
         }
-
-        if (GetHealth() <= 0)
-        {
-            Die();
-        }
     }
     
     /// <summary>
@@ -57,6 +52,6 @@ public class MonsterBehaviour : CharacterBehaviour
             target.GetComponent<PlayerBehaviour>().AddCompanion(captive);
         }
         
-        Destroy(gameObject, 1);
+        Destroy(gameObject);
     }
 }

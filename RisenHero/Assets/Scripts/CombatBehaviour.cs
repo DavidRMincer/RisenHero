@@ -193,22 +193,29 @@ public class CombatBehaviour : MonoBehaviour
 
     public void EndCombat()
     {
-        if (enemy.GetHealth() <= 0)
-        {
-            enemy.Die();
-        }
+        Debug.Log("END");
         if (player.GetHealth() <= 0)
         {
-            player.gameObject.SetActive(false);
+            Debug.Log("PLAYER DEATH");
+            _gm.PlayerDeath(1);
         }
+        else
+        {
+            if (enemy.GetHealth() <= 0)
+            {
+                Debug.Log("ENEMY DEATH");
+                enemy.Die();
+            }
 
-        allyTeam = new List<CompanionBehaviour>();
+            allyTeam = new List<CompanionBehaviour>();
 
-        player.inputEnabled = true;
+            player.inputEnabled = true;
 
-        _gm.currentSegment.RemoveCaptive();
+            _gm.currentSegment.RemoveCaptive();
 
-        _currentState = CombatState.NONE;
-        _inCombat = false;
+            _currentState = CombatState.NONE;
+            _inCombat = false;
+            Debug.Log(_inCombat);
+        }
     }
 }
