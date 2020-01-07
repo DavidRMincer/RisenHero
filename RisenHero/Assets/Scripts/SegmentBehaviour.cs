@@ -810,7 +810,7 @@ public class SegmentBehaviour : MonoBehaviour
     {
         for (int i = 0; i < _listofCharacters.Count; ++i)
         {
-            if (_listofCharacters[i].GetComponent<CompanionBehaviour>())
+            if (_listofCharacters[i] && _listofCharacters[i].GetComponent<CompanionBehaviour>())
             {
                 _listofCharacters.Remove(_listofCharacters[i]);
                 break;

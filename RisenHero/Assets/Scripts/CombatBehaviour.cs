@@ -201,9 +201,17 @@ public class CombatBehaviour : MonoBehaviour
         }
         else
         {
-            if (enemy.GetHealth() <= 0)
+            //if (enemy.GetHealth() <= 0)
+            //{
+            //    Debug.Log("ENEMY DEATH");
+            //    Debug.Log(enemy);
+            //    enemy.Die();
+            //}
+
+            Debug.Log("ENEMY DEATH");
+            Debug.Log(enemy);
+            if (enemy)
             {
-                Debug.Log("ENEMY DEATH");
                 enemy.Die();
             }
 
