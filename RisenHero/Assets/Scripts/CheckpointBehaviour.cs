@@ -9,10 +9,13 @@ public class CheckpointBehaviour : MonoBehaviour
     internal int                    tileSize;
 
     private GameManagerBehaviour    _gm;
+    private UIManagerBehaviour      _uiM;
 
     private void Start()
     {
         _gm = FindObjectOfType<GameManagerBehaviour>();
+        _uiM = _gm.uiManager;
+
         flameParticles.SetActive(true);
     }
     
@@ -27,6 +30,18 @@ public class CheckpointBehaviour : MonoBehaviour
                 _gm.SetCheckpointAsCurrent();
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+            _uiM.actionInputImg.gameObject.SetActive(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+            _uiM.actionInputImg.gameObject.SetActive(false);
     }
 
     public void SetFireState(bool lit)

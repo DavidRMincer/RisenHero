@@ -14,6 +14,7 @@ public class GameManagerBehaviour : MonoBehaviour
     public float                campfireDuration;
     public Vector2              minOverworldCamPos,
                                 maxOverworldCamPos;
+    public UIManagerBehaviour   uiManager;
 
     internal SegmentBehaviour   currentSegment;
 

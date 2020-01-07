@@ -13,6 +13,7 @@ public class CombatBehaviour : MonoBehaviour
     public List<CompanionBehaviour> allyTeam = new List<CompanionBehaviour>();
     public MonsterBehaviour         enemy;
     public float                    turnDuration;
+    public UIManagerBehaviour       UIManager;
 
     private CombatState             _currentState;
     private float                   _currentTurnDuration;
@@ -106,11 +107,15 @@ public class CombatBehaviour : MonoBehaviour
 
         if (_currentTurnDuration <= 0f)
         {
+            UIManager.actionInputImg.gameObject.SetActive(true);
+
             if (Input.GetButtonDown("Action_1"))
             {
                 player.actions[0].Perform(enemy);
                 _turnInProgress = false;
                 _currentState = CombatState.ALLY_TURN;
+
+                UIManager.actionInputImg.gameObject.SetActive(false);
             }
         }
         // Countdown
