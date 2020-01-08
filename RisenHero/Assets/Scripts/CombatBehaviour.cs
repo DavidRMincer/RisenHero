@@ -146,9 +146,14 @@ public class CombatBehaviour : MonoBehaviour
 
                 int index = Random.Range(0, allyTeam[i].actions.Count - 1);
 
+                Debug.Log(enemy);
+
                 switch (allyTeam[i].actions[index].type)
                 {
                     case ActionBehaviour.ActionType.ATTACK:
+                        allyTeam[i].actions[index].Perform(enemy);
+                        break;
+                    case ActionBehaviour.ActionType.HEAVY_ATTACK:
                         allyTeam[i].actions[index].Perform(enemy);
                         break;
                     case ActionBehaviour.ActionType.HEAL:

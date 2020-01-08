@@ -18,7 +18,8 @@ public class ActionBehaviour : MonoBehaviour
 
     public void Perform(CharacterBehaviour target)
     {
-        if (_currentCooldown >= cooldown)
+        if (target && user &&
+            _currentCooldown >= cooldown)
         {
             switch (type)
             {
