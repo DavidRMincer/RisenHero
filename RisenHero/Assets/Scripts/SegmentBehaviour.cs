@@ -670,6 +670,7 @@ public class SegmentBehaviour : MonoBehaviour
                         int mIndex = Random.Range(0, monsters.Count - 1);
                         GameObject newMonster = monsters[mIndex];
                         newMonster.GetComponent<MonsterBehaviour>().rend.sortingOrder = (y / tileSize) + 1;
+                        newMonster.SetActive(true);
                         _listofCharacters.Add(Instantiate(newMonster, new Vector2(x, -y) * tileSize, Quaternion.identity));
 
                         completed = true;
@@ -795,10 +796,9 @@ public class SegmentBehaviour : MonoBehaviour
                 GameObject newCaptive = captive;
                 newCaptive.GetComponent<CompanionBehaviour>().rend.sortingOrder = _listofCharacters[i].GetComponent<MonsterBehaviour>().rend.sortingOrder;
                 newCaptive.GetComponent<CompanionBehaviour>().rend.flipX = true;
-
-                Instantiate(newCaptive, _listofCharacters[i].transform.position + Vector3.right, Quaternion.identity);
-
-                _listofCharacters[i].GetComponent<MonsterBehaviour>().captive = newCaptive;
+                newCaptive.SetActive(true);
+                
+                _listofCharacters[i].GetComponent<MonsterBehaviour>().captive = Instantiate(newCaptive, _listofCharacters[i].transform.position + Vector3.right, Quaternion.identity);
                 _listofCharacters.Add(newCaptive);
 
                 found = true;
@@ -816,7 +816,9 @@ public class SegmentBehaviour : MonoBehaviour
         {
             if (_listofCharacters[i] && _listofCharacters[i].GetComponent<CompanionBehaviour>())
             {
+                //_listofCharacters[i].SetActive(false);
                 _listofCharacters.Remove(_listofCharacters[i]);
+                //Destroy(_listofCharacters[i]);
                 break;
             }
         }

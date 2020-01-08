@@ -56,12 +56,6 @@ public class CombatBehaviour : MonoBehaviour
         // Start turns
         _currentState = CombatState.PLAYER_TURN;
         _inCombat = true;
-        Debug.Log(player);
-        Debug.Log(enemy);
-        for (int i = 0; i < allyTeam.Count; i++)
-        {
-            Debug.Log(allyTeam[i]);
-        }
     }
 
     public void AddPlayer(PlayerBehaviour p)
@@ -145,9 +139,7 @@ public class CombatBehaviour : MonoBehaviour
                 ResetTurnTimer(turnDuration);
 
                 int index = Random.Range(0, allyTeam[i].actions.Count - 1);
-
-                Debug.Log(enemy);
-
+                
                 switch (allyTeam[i].actions[index].type)
                 {
                     case ActionBehaviour.ActionType.ATTACK:
@@ -220,7 +212,11 @@ public class CombatBehaviour : MonoBehaviour
 
             player.inputEnabled = true;
 
-            _gm.currentSegment.RemoveCaptive();
+            //if (_gm.startingMonster[1])
+            //{
+            //    _gm.startingMonster.Remove(_gm.startingMonster[1]);
+            //}
+            //_gm.currentSegment.RemoveCaptive();
 
             _currentState = CombatState.NONE;
             _inCombat = false;

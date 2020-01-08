@@ -26,12 +26,15 @@ public class PlayerBehaviour : CharacterBehaviour
     /// <summary>
     /// Add companion to list of partyMembers
     /// </summary>
-    /// <param name="newCompanion"></param>
-    public void AddCompanion(GameObject newCompanion)
+    /// <param name="companion"></param>
+    public void AddCompanion(ref GameObject companion)
     {
-        newCompanion.GetComponent<CompanionBehaviour>().SetLeader(this);
+        //Debug.Log(companion.transform.position);
+        //GameObject newCompanion = Instantiate(companion, new Vector2(companion.transform.position.x, companion.transform.position.y), Quaternion.identity);
+        companion.GetComponent<CompanionBehaviour>().SetLeader(this);
         
-        partyMembers.Add(newCompanion);
+        partyMembers.Add(companion);
+        //Debug.Log(companion.transform.position);
     }
 
     /// <summary>

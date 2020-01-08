@@ -49,7 +49,12 @@ public class MonsterBehaviour : CharacterBehaviour
     {
         if (captive)
         {
-            target.GetComponent<PlayerBehaviour>().AddCompanion(captive);
+            //GameObject newCaptive = Instantiate(captive, new Vector2(captive.transform.position.x, captive.transform.position.y), Quaternion.identity);
+
+            target.GetComponent<PlayerBehaviour>().AddCompanion(ref captive);
+            Debug.Log("Before: " + captive.activeInHierarchy);
+            //captive.SetActive(false);
+            Debug.Log("After: " + captive.activeInHierarchy);
         }
         
         Destroy(gameObject);
