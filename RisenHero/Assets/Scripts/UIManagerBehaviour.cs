@@ -8,12 +8,16 @@ public class UIManagerBehaviour : MonoBehaviour
     public GameObject   healthBar;
     public Image        movementInputImg,
                         actionInputImg,
-                        heartImage;
+                        heartImage,
+                        blackoutImage;
     public float        movementTutorialDuration,
                         heartGap;
     public Image[]      hearts;
     public Sprite       heartSprite,
                         shatteredHeartSprite;
+    public Color        blackout,
+                        whiteout,
+                        transparent;
 
     private bool _moved = false;
 
@@ -57,6 +61,32 @@ public class UIManagerBehaviour : MonoBehaviour
             {
                 hearts[i].sprite = shatteredHeartSprite;
             }
+        }
+    }
+
+    public IEnumerator FadeTo(Color newColour, float duration)
+    {
+        float counter = 0f;
+        Color currentColour = blackoutImage.color;
+
+        do
+        {
+            counter += Time.deltaTime;
+
+            counter = (counter > duration ? duration : counter);
+
+            blackoutImage.color = Color.Lerp(currentColour, newColour, counter / duration);
+
+            yield return new WaitForSeconds(Time.deltaTime);
+
+        } while (counter < duration);
+    }
+
+    public void SetHealthVisibility(bool visible)
+    {
+        for (int i = 0; i < hearts.Length; ++i)
+        {
+            hearts[i].gameObject.SetActive(visible);
         }
     }
 }

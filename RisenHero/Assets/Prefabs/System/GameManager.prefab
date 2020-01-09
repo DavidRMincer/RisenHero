@@ -46,6 +46,7 @@ MonoBehaviour:
   overworldManager: {fileID: 0}
   player: {fileID: 0}
   grassTile: {fileID: 0}
+  leafParticles: {fileID: 0}
   currentCam: {fileID: 0}
   companionTypes:
   - {fileID: 3687057999317096509, guid: 4465ba99ba73e214c83a4d0f412ef244, type: 3}
@@ -56,3 +57,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   campfireDuration: 3
+  fadeToBlackDuration: 0.5
+  fadeToWhiteDuration: 0.5
+  minOverworldCamPos: {x: -5.1, y: -1.6}
+  maxOverworldCamPos: {x: 78.3, y: 24.8}
+  uiManager: {fileID: 0}

@@ -11,7 +11,10 @@ public class GameManagerBehaviour : MonoBehaviour
     public Camera               currentCam;
     public List<GameObject>     companionTypes,
                                 startingMonster;
-    public float                campfireDuration;
+    public float                campfireDuration,
+                                fadeToBlackDuration,
+                                fadeToWhiteDuration,
+                                fadeInDuration;
     public Vector2              minOverworldCamPos,
                                 maxOverworldCamPos;
     public UIManagerBehaviour   uiManager;
@@ -40,6 +43,9 @@ public class GameManagerBehaviour : MonoBehaviour
         startingMonster[1].transform.position = new Vector2(startingMonster[0].transform.position.x, startingMonster[0].transform.position.y) + (Vector2.right * currentSegment.tileSize);
 
         uiManager.SetupHearts(_playerScript.maxHealth);
+
+        StartCoroutine(DisableInputForDuration(fadeInDuration + 0.3f));
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeInDuration));
     }
 
     private void Update()
@@ -70,6 +76,7 @@ public class GameManagerBehaviour : MonoBehaviour
 
         grassTile.SetActive(_inSegment);
         leafParticles.SetActive(_inSegment);
+        uiManager.healthBar.SetActive(_inSegment);
 
         if (_inSegment)
         {
@@ -203,13 +210,39 @@ public class GameManagerBehaviour : MonoBehaviour
     /// <summary>
     /// Set overworld checkpoint tile as current segment
     /// </summary>
-    public void SetCheckpointAsCurrent()
+    public IEnumerator SetCheckpointAsCurrent()
     {
-        StartCoroutine(DisableInputForDuration(campfireDuration));
+        //StartCoroutine(DisableInputForDuration(campfireDuration));
+
+        //_overworldScript.SetCheckpoint(currentSegment.gameObject);
+
+        //player.transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.right * currentSegment.tileSize);
+
+        //for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
+        //{
+        //    if (i == 0)
+        //    {
+        //        _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.up * currentSegment.tileSize);
+        //    }
+        //    else
+        //    {
+        //        _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.down * currentSegment.tileSize);
+        //    }
+        //}
+
+        _playerScript.inputEnabled = false;
+
+        StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
+
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
+
+        uiManager.SetHealthVisibility(false);
+        uiManager.actionInputImg.gameObject.SetActive(false);
 
         _overworldScript.SetCheckpoint(currentSegment.gameObject);
 
         player.transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.right * currentSegment.tileSize);
+        _playerScript.rend.flipX = true;
 
         for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
         {
@@ -221,7 +254,28 @@ public class GameManagerBehaviour : MonoBehaviour
             {
                 _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.down * currentSegment.tileSize);
             }
+            _playerScript.partyMembers[i].GetComponent<CompanionBehaviour>().rend.flipX = false;
         }
+
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
+
+        yield return new WaitForSeconds(fadeToBlackDuration + 1f);
+
+        StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
+
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
+
+        uiManager.SetHealthVisibility(true);
+        uiManager.actionInputImg.gameObject.SetActive(false);
+
+        _playerScript.rend.flipX = true;
+
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
+
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
+
+        _playerScript.inputEnabled = true;
+        uiManager.actionInputImg.gameObject.SetActive(true);
     }
 
     /// <summary>
