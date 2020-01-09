@@ -737,6 +737,8 @@ public class SegmentBehaviour : MonoBehaviour
                 Destroy(_listofCharacters[i]);
             }
         }
+
+        _listofCharacters = new List<GameObject>();
     }
 
     public Vector2 GetCheckpointTile()
@@ -787,10 +789,16 @@ public class SegmentBehaviour : MonoBehaviour
     public void AssignCaptive(GameObject captive)
     {
         bool found = false;
+        for (int i = 0; i < _listofCharacters.Count; ++i)
+        {
+            Debug.Log(_listofCharacters[i]);
+        }
 
         for (int i = 0; i < _listofCharacters.Count; ++i)
         {
+            Debug.Log(_listofCharacters[i]);
             if (!found &&
+                _listofCharacters[i] != null &&
                 _listofCharacters[i].GetComponent<MonsterBehaviour>())
             {
                 GameObject newCaptive = captive;
@@ -799,7 +807,7 @@ public class SegmentBehaviour : MonoBehaviour
                 newCaptive.SetActive(true);
                 
                 _listofCharacters[i].GetComponent<MonsterBehaviour>().captive = Instantiate(newCaptive, _listofCharacters[i].transform.position + Vector3.right, Quaternion.identity);
-                _listofCharacters.Add(newCaptive);
+                _listofCharacters.Add(_listofCharacters[i].GetComponent<MonsterBehaviour>().captive);
 
                 found = true;
                 break;
