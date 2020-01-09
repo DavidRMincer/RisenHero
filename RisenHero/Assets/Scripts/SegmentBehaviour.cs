@@ -789,14 +789,9 @@ public class SegmentBehaviour : MonoBehaviour
     public void AssignCaptive(GameObject captive)
     {
         bool found = false;
-        for (int i = 0; i < _listofCharacters.Count; ++i)
-        {
-            Debug.Log(_listofCharacters[i]);
-        }
 
         for (int i = 0; i < _listofCharacters.Count; ++i)
         {
-            Debug.Log(_listofCharacters[i]);
             if (!found &&
                 _listofCharacters[i] != null &&
                 _listofCharacters[i].GetComponent<MonsterBehaviour>())

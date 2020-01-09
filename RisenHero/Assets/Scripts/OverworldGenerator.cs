@@ -462,4 +462,19 @@ public class OverworldGenerator : MonoBehaviour
             }
         }
     }
+
+    public int GetTimePeriod()
+    {
+        return _timePeriod;
+    }
+
+    public int GetDeadline()
+    {
+        return maxTimePeriod;
+    }
+
+    public int GetYearsRemaining()
+    {
+        return (maxTimePeriod - _timePeriod) * 50;
+    }
 }

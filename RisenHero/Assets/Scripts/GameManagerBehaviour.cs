@@ -260,7 +260,8 @@ public class GameManagerBehaviour : MonoBehaviour
     {
         currentSegment.DrawSegment();
 
-        if (_playerScript.partyMembers.Count < 2)
+        if (_overworldScript.GetTimePeriod() < _overworldScript.GetDeadline() - 1 &&
+            _playerScript.partyMembers.Count < 2)
         {
             currentSegment.AssignCaptive(companionTypes[Random.Range(0, companionTypes.Count - 1)]);
         }
