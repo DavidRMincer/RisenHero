@@ -14,7 +14,8 @@ public class GameManagerBehaviour : MonoBehaviour
     public float                campfireDuration,
                                 fadeToBlackDuration,
                                 fadeToWhiteDuration,
-                                fadeInDuration;
+                                fadeInDuration,
+                                deathDuration;
     public Vector2              minOverworldCamPos,
                                 maxOverworldCamPos;
     public UIManagerBehaviour   uiManager;
@@ -23,7 +24,8 @@ public class GameManagerBehaviour : MonoBehaviour
 
     private OverworldGenerator  _overworldScript;
     private PlayerBehaviour     _playerScript;
-    private bool                _inSegment = false;
+    private bool                _inSegment = false,
+                                _dying = false;
     private Vector3             _camOffset;
     private Vector2             _minSegmentCamPos = -(Vector2.one / 2),
                                 _maxSegmentCamPos = Vector2.one / 2;
@@ -63,9 +65,10 @@ public class GameManagerBehaviour : MonoBehaviour
             _playerScript.AddHealth(-_playerScript.maxHealth);
         }
 
-        if (_playerScript.GetHealth() <= 0)
+        if (!_dying &&
+            _playerScript.GetHealth() <= 0)
         {
-            PlayerDeath(1);
+            StartCoroutine(PlayerDeath(1));
         }
     }
 
@@ -277,8 +280,18 @@ public class GameManagerBehaviour : MonoBehaviour
     /// Player dies, loses party & world ages
     /// </summary>
     /// <param name="ageMultiplier"></param>
-    public void PlayerDeath(int ageMultiplier)
+    public IEnumerator PlayerDeath(int ageMultiplier)
     {
+        _dying = true;
+        _playerScript.inputEnabled = false;
+
+        yield return new WaitForSeconds(0.2f);
+
+        StartCoroutine(uiManager.FadeTo(uiManager.whiteout, fadeToWhiteDuration));
+        yield return new WaitForSeconds(fadeToWhiteDuration);
+
+        yield return new WaitForSeconds(deathDuration);
+
         // Close segment
         ExitSegment(Vector2.zero);
 
@@ -300,6 +313,13 @@ public class GameManagerBehaviour : MonoBehaviour
 
         // Load checkpoint
         LoadCheckpoint();
+        _playerScript.inputEnabled = false;
+
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToWhiteDuration));
+        yield return new WaitForSeconds(fadeToWhiteDuration + 0.2f);
+
+        _playerScript.inputEnabled = true;
+        _dying = false;
     }
 
     /// <summary>

@@ -58,7 +58,9 @@ MonoBehaviour:
   - {fileID: 0}
   campfireDuration: 3
   fadeToBlackDuration: 0.5
-  fadeToWhiteDuration: 0.5
+  fadeToWhiteDuration: 1
+  fadeInDuration: 1
+  deathDuration: 2
   minOverworldCamPos: {x: -5.1, y: -1.6}
   maxOverworldCamPos: {x: 78.3, y: 24.8}
   uiManager: {fileID: 0}
