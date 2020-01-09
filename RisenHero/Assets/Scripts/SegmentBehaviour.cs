@@ -656,8 +656,8 @@ public class SegmentBehaviour : MonoBehaviour
 
         for (int i = 0; i < numofMonsters; ++i)
         {
-            int xPos = Random.Range(1, Mathf.RoundToInt(segSize.x - 1)),
-                yPos = Random.Range(1, Mathf.RoundToInt(segSize.y - 1));
+            int xPos = Random.Range(Mathf.RoundToInt(segSize.x * 0.25f), Mathf.RoundToInt(segSize.x * 0.75f)),
+                yPos = Random.Range(Mathf.RoundToInt(segSize.y * 0.25f), Mathf.RoundToInt(segSize.y * 0.75f));
             bool completed = false;
 
             for (int x = xPos; x < Mathf.RoundToInt(segSize.x) && x > 0; ++x)
