@@ -140,8 +140,13 @@ public class GameManagerBehaviour : MonoBehaviour
     /// Close segment and move through overworld
     /// </summary>
     /// <param name="direction"></param>
-    public void ExitSegment(Vector2 direction)
+    public IEnumerator ExitSegment(Vector2 direction)
     {
+        _playerScript.inputEnabled = false;
+
+        StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.5f);
+
         currentSegment.UnloadSegment();
 
         overworldManager.SetActive(true);
@@ -151,9 +156,10 @@ public class GameManagerBehaviour : MonoBehaviour
         currentSegment = _overworldScript.GetSelected();
 
         _inSegment = false;
-        _playerScript.inputEnabled = false;
         _playerScript.DespawnCompanions();
         player.SetActive(false);
+
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
     }
 
     /// <summary>
@@ -212,24 +218,6 @@ public class GameManagerBehaviour : MonoBehaviour
     /// </summary>
     public IEnumerator SetCheckpointAsCurrent()
     {
-        //StartCoroutine(DisableInputForDuration(campfireDuration));
-
-        //_overworldScript.SetCheckpoint(currentSegment.gameObject);
-
-        //player.transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.right * currentSegment.tileSize);
-
-        //for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
-        //{
-        //    if (i == 0)
-        //    {
-        //        _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.up * currentSegment.tileSize);
-        //    }
-        //    else
-        //    {
-        //        _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.down * currentSegment.tileSize);
-        //    }
-        //}
-
         _playerScript.inputEnabled = false;
 
         StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));

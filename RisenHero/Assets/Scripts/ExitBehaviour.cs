@@ -17,7 +17,7 @@ public class ExitBehaviour : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _gameManager.ExitSegment(_direction);
+            StartCoroutine(_gameManager.ExitSegment(_direction));
         }
     }
 }
