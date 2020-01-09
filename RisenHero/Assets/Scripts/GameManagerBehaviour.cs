@@ -54,7 +54,7 @@ public class GameManagerBehaviour : MonoBehaviour
             Input.GetButtonDown("Select"))
         {
             currentSegment = _overworldScript.GetSelected();
-            OpenSegment(_overworldScript.GetDirection());
+            StartCoroutine(OpenSegment(_overworldScript.GetDirection()));
         }
 
         if (_inSegment &&
@@ -115,8 +115,11 @@ public class GameManagerBehaviour : MonoBehaviour
     /// Load current segment
     /// </summary>
     /// <param name="direction"></param>
-    public void OpenSegment(Vector2 direction)
+    public IEnumerator OpenSegment(Vector2 direction)
     {
+        StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.5f);
+
         Vector2 extraDistance = direction * (currentSegment.segSize / 2);
         extraDistance = (direction * ((currentSegment.segSize / 2) - (new Vector2(Mathf.Abs(direction.x), Mathf.Abs(direction.y) * 2))));
         Vector2 spawnPoint = currentSegment.GetCentre() + extraDistance;
@@ -132,8 +135,12 @@ public class GameManagerBehaviour : MonoBehaviour
 
         _inSegment = true;
         player.SetActive(true);
-        _playerScript.inputEnabled = true;
         _playerScript.SpawnCompanions(direction * _overworldScript.tileSize);
+
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
+
+        _playerScript.inputEnabled = true;
     }
 
     /// <summary>
