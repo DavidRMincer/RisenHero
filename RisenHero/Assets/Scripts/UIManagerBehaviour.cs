@@ -12,10 +12,8 @@ public class UIManagerBehaviour : MonoBehaviour
                         heartImage,
                         blackoutImage;
     public float        movementTutorialDuration,
-                        heartGap,
-                        scrollSpeed;
+                        heartGap;
     public Image[]      hearts;
-    public List<Button> menuButtons;
     public Sprite       heartSprite,
                         shatteredHeartSprite;
     public Color        blackout,
