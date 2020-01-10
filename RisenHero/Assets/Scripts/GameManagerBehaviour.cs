@@ -286,6 +286,42 @@ public class GameManagerBehaviour : MonoBehaviour
         uiManager.actionInputImg.gameObject.SetActive(true);
     }
 
+    public IEnumerator CheckpointDeath()
+    {
+        _playerScript.inputEnabled = false;
+
+        StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
+
+        yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
+
+        uiManager.SetHealthVisibility(false);
+        uiManager.actionInputImg.gameObject.SetActive(false);
+
+        _overworldScript.SetCheckpoint(currentSegment.gameObject);
+
+        player.transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.right * currentSegment.tileSize);
+        _playerScript.rend.flipX = true;
+
+        for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
+        {
+            if (i == 0)
+            {
+                _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.up * currentSegment.tileSize);
+            }
+            else
+            {
+                _playerScript.partyMembers[i].transform.position = (currentSegment.GetCheckpointTile() * (Vector2.down + Vector2.right)) + (Vector2.left + Vector2.down * currentSegment.tileSize);
+            }
+            _playerScript.partyMembers[i].GetComponent<CompanionBehaviour>().rend.flipX = false;
+        }
+
+        StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
+
+        yield return new WaitForSeconds(fadeToBlackDuration + 1f);
+
+        StartCoroutine(PlayerDeath(1));
+    }
+
     /// <summary>
     /// Player dies, loses party & world ages
     /// </summary>
@@ -303,7 +339,7 @@ public class GameManagerBehaviour : MonoBehaviour
         yield return new WaitForSeconds(deathDuration);
 
         // Close segment
-        ExitSegment(Vector2.zero);
+        currentSegment.UnloadSegment();
 
         // Age world
         _overworldScript.AgeWorld(ageMultiplier);
