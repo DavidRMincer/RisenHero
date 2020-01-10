@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class UIManagerBehaviour : MonoBehaviour
 {
-    public GameObject   healthBar;
+    public GameObject   healthBar,
+                        pauseMenu;
     public Image        movementInputImg,
                         actionInputImg,
                         heartImage,

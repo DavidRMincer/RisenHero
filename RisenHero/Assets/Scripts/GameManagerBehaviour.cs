@@ -25,7 +25,8 @@ public class GameManagerBehaviour : MonoBehaviour
     private OverworldGenerator  _overworldScript;
     private PlayerBehaviour     _playerScript;
     private bool                _inSegment = false,
-                                _dying = false;
+                                _dying = false,
+                                _paused = false;
     private Vector3             _camOffset;
     private Vector2             _minSegmentCamPos = -(Vector2.one / 2),
                                 _maxSegmentCamPos = Vector2.one / 2;
@@ -83,6 +84,13 @@ public class GameManagerBehaviour : MonoBehaviour
 
         if (_inSegment)
         {
+            if (!_paused &&
+                Input.GetButtonDown("Pause"))
+            {
+                uiManager.pauseMenu.SetActive(true);
+                Time.timeScale = 0;
+            }
+
             currentCam.transform.position = player.transform.position + _camOffset;
 
             Vector3 newCamPos = currentCam.transform.position;
@@ -348,5 +356,11 @@ public class GameManagerBehaviour : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         _playerScript.inputEnabled = true;
+    }
+
+    public void ResumeTime()
+    {
+        Time.timeScale = 1;
+        uiManager.pauseMenu.SetActive(false);
     }
 }
