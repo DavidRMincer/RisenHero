@@ -12,19 +12,66 @@ public class UIManagerBehaviour : MonoBehaviour
                         heartImage,
                         blackoutImage;
     public float        movementTutorialDuration,
-                        heartGap;
+                        heartGap,
+                        scrollSpeed;
     public Image[]      hearts;
+    public List<Button> menuButtons;
     public Sprite       heartSprite,
                         shatteredHeartSprite;
     public Color        blackout,
                         whiteout,
                         transparent;
 
+    private float       _scrollCounter = 0f;
+    private int         _menuIndex = 0;
+
     private bool _moved = false;
 
     private void Start()
     {
         actionInputImg.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        //if (pauseMenu.activeInHierarchy)
+        //{
+        //    if (_scrollCounter == 0f)
+        //    {
+        //        if (Input.GetAxis("Vertical") < 0)
+        //        {
+        //            --_menuIndex;
+        //        }
+        //        else if (Input.GetAxis("Vertical") > 0)
+        //        {
+        //            ++_menuIndex;
+        //        }
+
+        //        if (_menuIndex > menuButtons.Count)
+        //        {
+        //            _menuIndex = 0;
+        //        }
+        //        else if (_menuIndex < 0)
+        //        {
+        //            _menuIndex = menuButtons.Count;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        _scrollCounter -= Time.unscaledDeltaTime;
+        //        _scrollCounter = (_scrollCounter < 0f ? 0 : _scrollCounter);
+        //    }
+
+        //    menuButtons[_menuIndex].Select();
+
+        //    //for (int i = 0; i < menuButtons.Count; ++i)
+        //    //{
+        //    //    if (i == _menuIndex)
+        //    //    {
+        //    //        menuButtons[i].Select();
+        //    //    }
+        //    //}
+        //}
     }
 
     private void LateUpdate()
