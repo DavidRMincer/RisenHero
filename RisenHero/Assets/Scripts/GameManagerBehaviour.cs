@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagerBehaviour : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameManagerBehaviour : MonoBehaviour
     public Vector2              minOverworldCamPos,
                                 maxOverworldCamPos;
     public UIManagerBehaviour   uiManager;
+    public string               mainMenuScene;
 
     internal SegmentBehaviour   currentSegment;
 
@@ -362,5 +364,11 @@ public class GameManagerBehaviour : MonoBehaviour
     {
         Time.timeScale = 1;
         uiManager.pauseMenu.SetActive(false);
+    }
+
+    public void QuitToMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(mainMenuScene);
     }
 }

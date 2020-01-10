@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenuBehaviour : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class MainMenuBehaviour : MonoBehaviour
                         white,
                         transparent;
     public float        fadeDuration;
+    public string       nextScene;
 
-    void Start()
+    void Awake()
     {
         title.color = transparent;
 
@@ -32,7 +34,6 @@ public class MainMenuBehaviour : MonoBehaviour
 
         do
         {
-            Debug.Log(counter);
             counter += Time.deltaTime;
             counter = (counter > fadeDuration ? fadeDuration : counter);
 
@@ -52,6 +53,7 @@ public class MainMenuBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(fadeDuration);
 
+
         StartCoroutine(FadeTo(title, white));
         yield return new WaitForSeconds(fadeDuration);
         
@@ -61,5 +63,25 @@ public class MainMenuBehaviour : MonoBehaviour
         {
             buttons[i].gameObject.SetActive(true);
         }
+    }
+
+    public void LaunchBtn()
+    {
+        StartCoroutine(LaunchGame());
+    }
+
+    public void QuitBtn()
+    {
+        Application.Quit();
+    }
+
+    private IEnumerator LaunchGame()
+    {
+        FadeTo(blackOutImage, black);
+        yield return new WaitForSeconds(fadeDuration);
+
+        yield return new WaitForSeconds(0.2f);
+
+        SceneManager.LoadScene(nextScene);
     }
 }

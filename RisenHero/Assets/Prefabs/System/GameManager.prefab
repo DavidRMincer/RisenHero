@@ -64,3 +64,4 @@ MonoBehaviour:
   minOverworldCamPos: {x: -5.1, y: -1.6}
   maxOverworldCamPos: {x: 78.3, y: 24.8}
   uiManager: {fileID: 0}
+  mainMenuScene: Main Menu
