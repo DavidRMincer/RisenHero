@@ -10,21 +10,44 @@ public class ActionBehaviour : MonoBehaviour
     };
 
     public ActionType           type;
+    public AnimationCurve       attackCurve;
+    public float                actionDuration;
 
     internal CharacterBehaviour user;
     internal int                cooldown = 0;
 
     private int                 _currentCooldown = 0;
 
-    public void Perform(CharacterBehaviour target)
+    public IEnumerator Perform(CharacterBehaviour target)
     {
+        float counter = 0;
+        Vector2 oldPos = user.transform.position,
+            targetPos = target.transform.position;
+        bool hit = false;
+
         if (target && user &&
             _currentCooldown >= cooldown)
         {
             switch (type)
             {
                 case ActionType.ATTACK:
-                    target.AddHealth(-user.damage);
+                    do
+                    {
+                        counter += Time.deltaTime;
+                        counter = (counter > actionDuration ? actionDuration : counter);
+                        
+                        user.transform.position = Vector2.Lerp(oldPos, targetPos, attackCurve.Evaluate(counter / actionDuration));
+
+                        if (!hit &&
+                            attackCurve.Evaluate(counter / actionDuration) >= 0.975f)
+                        {
+                            target.AddHealth(-user.damage);
+                            hit = true;
+                        }
+
+                        yield return new WaitForSeconds(Time.deltaTime);
+                    } while (counter < actionDuration);
+                    
                     break;
                 case ActionType.HEAVY_ATTACK:
                     target.AddHealth(-(user.damage + (user.damage / 2)));
@@ -37,6 +60,8 @@ public class ActionBehaviour : MonoBehaviour
             }
 
             _currentCooldown = 0;
+
+            yield return null;
         }
     }
 

@@ -114,7 +114,7 @@ public class CombatBehaviour : MonoBehaviour
 
             if (Input.GetButtonDown("Action_1"))
             {
-                player.actions[0].Perform(enemy);
+                StartCoroutine(player.actions[0].Perform(enemy));
                 _turnInProgress = false;
                 _currentState = CombatState.ALLY_TURN;
 
@@ -143,13 +143,13 @@ public class CombatBehaviour : MonoBehaviour
                 switch (allyTeam[i].actions[index].type)
                 {
                     case ActionBehaviour.ActionType.ATTACK:
-                        allyTeam[i].actions[index].Perform(enemy);
+                        StartCoroutine(allyTeam[i].actions[index].Perform(enemy));
                         break;
                     case ActionBehaviour.ActionType.HEAVY_ATTACK:
-                        allyTeam[i].actions[index].Perform(enemy);
+                        StartCoroutine(allyTeam[i].actions[index].Perform(enemy));
                         break;
                     case ActionBehaviour.ActionType.HEAL:
-                        allyTeam[i].actions[index].Perform(player);
+                        StartCoroutine(allyTeam[i].actions[index].Perform(player));
                         break;
                     default:
                         break;
@@ -173,7 +173,7 @@ public class CombatBehaviour : MonoBehaviour
 
         if (_currentTurnDuration <= 0f)
         {
-            enemy.actions[0].Perform(player);
+            StartCoroutine(enemy.actions[0].Perform(player));
 
             // End turn
             _currentState = CombatState.PLAYER_TURN;
