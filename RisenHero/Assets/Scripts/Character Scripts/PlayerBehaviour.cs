@@ -6,6 +6,7 @@ public class PlayerBehaviour : CharacterBehaviour
 {
     public List<GameObject> partyMembers = new List<GameObject>();
     public CombatBehaviour  combatManager;
+    public ParticleSystem   healParticles;
 
     internal bool           inputEnabled = true;
     
