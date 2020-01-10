@@ -31,49 +31,7 @@ public class UIManagerBehaviour : MonoBehaviour
     {
         actionInputImg.gameObject.SetActive(false);
     }
-
-    private void Update()
-    {
-        //if (pauseMenu.activeInHierarchy)
-        //{
-        //    if (_scrollCounter == 0f)
-        //    {
-        //        if (Input.GetAxis("Vertical") < 0)
-        //        {
-        //            --_menuIndex;
-        //        }
-        //        else if (Input.GetAxis("Vertical") > 0)
-        //        {
-        //            ++_menuIndex;
-        //        }
-
-        //        if (_menuIndex > menuButtons.Count)
-        //        {
-        //            _menuIndex = 0;
-        //        }
-        //        else if (_menuIndex < 0)
-        //        {
-        //            _menuIndex = menuButtons.Count;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _scrollCounter -= Time.unscaledDeltaTime;
-        //        _scrollCounter = (_scrollCounter < 0f ? 0 : _scrollCounter);
-        //    }
-
-        //    menuButtons[_menuIndex].Select();
-
-        //    //for (int i = 0; i < menuButtons.Count; ++i)
-        //    //{
-        //    //    if (i == _menuIndex)
-        //    //    {
-        //    //        menuButtons[i].Select();
-        //    //    }
-        //    //}
-        //}
-    }
-
+    
     private void LateUpdate()
     {
         if (!_moved)
