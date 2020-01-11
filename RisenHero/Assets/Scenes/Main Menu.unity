@@ -524,6 +524,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 8550895556260456577, guid: 89cc34ca36734994d9fa4674769bd135,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550895556260456577, guid: 89cc34ca36734994d9fa4674769bd135,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550895556260456577, guid: 89cc34ca36734994d9fa4674769bd135,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8550895556260456576, guid: 89cc34ca36734994d9fa4674769bd135,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -579,21 +594,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8550895556260456577, guid: 89cc34ca36734994d9fa4674769bd135,
-        type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8550895556260456577, guid: 89cc34ca36734994d9fa4674769bd135,
-        type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8550895556260456577, guid: 89cc34ca36734994d9fa4674769bd135,
-        type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8550895555621168688, guid: 89cc34ca36734994d9fa4674769bd135,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.minScalar
@@ -604,6 +604,10 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 1058164955, guid: 89cc34ca36734994d9fa4674769bd135, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f87d606474840934aa965dcc17062438, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89cc34ca36734994d9fa4674769bd135, type: 3}
 --- !u!1 &1273249544
@@ -633,7 +637,7 @@ RectTransform:
   m_GameObject: {fileID: 1273249544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.9174118, y: 1.2886904, z: 1.2886904}
+  m_LocalScale: {x: 4.1208444, y: 1.1598085, z: 1.2886904}
   m_Children: []
   m_Father: {fileID: 379108287}
   m_RootOrder: 2
