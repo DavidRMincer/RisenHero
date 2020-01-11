@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 3
-  segSize: {x: 100, y: 100}
+  segSize: {x: 50, y: 50}
   cliffPrefab: {fileID: 9108449555414452993, guid: e21f1d1938116334296a494f24723185,
     type: 3}
   treePrefab: {fileID: 4457157498280451410, guid: 08271a20f445bdb4382381d2a3b934d9,
@@ -200,6 +200,7 @@ MonoBehaviour:
     type: 3}
   exitPrefab: {fileID: 7623363690092173615, guid: c37ee3ce5041e594a963f17c39d9d58b,
     type: 3}
+  grassPrefab: {fileID: 0}
   pathRadius: 1
   tileSize: 1
   minClearanceRadius: 0

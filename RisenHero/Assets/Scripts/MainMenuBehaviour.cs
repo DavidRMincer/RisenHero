@@ -96,6 +96,6 @@ public class MainMenuBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        SceneManager.LoadScene("OverworldScene");
+        SceneManager.LoadScene("Opening Cutscene");
     }
 }

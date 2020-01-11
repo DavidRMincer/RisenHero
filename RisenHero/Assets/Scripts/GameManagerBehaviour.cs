@@ -370,6 +370,12 @@ public class GameManagerBehaviour : MonoBehaviour
             _aged = true;
         }
 
+        uiManager.countdownText.text = _overworldScript.GetYearsRemaining().ToString() + " Years Left";
+        uiManager.countdownText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        uiManager.countdownText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
+
         // Destroy all companions
         for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
         {

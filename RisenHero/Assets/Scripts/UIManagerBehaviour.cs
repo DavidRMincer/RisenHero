@@ -19,6 +19,7 @@ public class UIManagerBehaviour : MonoBehaviour
     public Color        blackout,
                         whiteout,
                         transparent;
+    public Text         countdownText;
 
     private bool _moved = false;
 
