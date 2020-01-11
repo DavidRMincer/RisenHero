@@ -42,9 +42,4 @@ public class CheckpointBehaviour : MonoBehaviour
         if (collision.CompareTag("Player"))
             _uiM.actionInputImg.gameObject.SetActive(false);
     }
-
-    public void SetFireState(bool lit)
-    {
-        flameParticles.SetActive(lit);
-    }
 }
