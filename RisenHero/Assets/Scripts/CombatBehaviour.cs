@@ -197,7 +197,11 @@ public class CombatBehaviour : MonoBehaviour
 
     public void EndCombat()
     {
-        if (enemy)
+        if (player.GetComponent<PlayerBehaviour>().GetHealth() <= 0)
+        {
+            StartCoroutine(_gm.PlayerDeath(1));
+        }
+        else if (enemy)
         {
             enemy.Die();
         }

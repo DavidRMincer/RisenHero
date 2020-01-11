@@ -28,7 +28,8 @@ public class GameManagerBehaviour : MonoBehaviour
     private PlayerBehaviour     _playerScript;
     private bool                _inSegment = false,
                                 _dying = false,
-                                _paused = false;
+                                _paused = false,
+                                _aged = false;
     private Vector3             _camOffset;
     private Vector2             _minSegmentCamPos = -(Vector2.one / 2),
                                 _maxSegmentCamPos = Vector2.one / 2;
@@ -68,11 +69,11 @@ public class GameManagerBehaviour : MonoBehaviour
             _playerScript.AddHealth(-_playerScript.maxHealth);
         }
 
-        if (!_dying &&
-            _playerScript.GetHealth() <= 0)
-        {
-            StartCoroutine(PlayerDeath(1));
-        }
+        //if (!_dying &&
+        //    _playerScript.GetHealth() <= 0)
+        //{
+        //    StartCoroutine(PlayerDeath(1));
+        //}
     }
 
     private void LateUpdate()
@@ -272,7 +273,7 @@ public class GameManagerBehaviour : MonoBehaviour
             _playerScript.AddHealth(1);
             uiManager.UpdateHealth(_playerScript.GetHealth());
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return new WaitForSeconds(campfireDuration / 2);
@@ -299,8 +300,7 @@ public class GameManagerBehaviour : MonoBehaviour
         StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
 
         yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
-
-        uiManager.SetHealthVisibility(false);
+        
         uiManager.actionInputImg.gameObject.SetActive(false);
 
         _overworldScript.SetCheckpoint(currentSegment.gameObject);
@@ -323,7 +323,15 @@ public class GameManagerBehaviour : MonoBehaviour
 
         StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
 
-        yield return new WaitForSeconds(fadeToBlackDuration + 1f);
+        yield return new WaitForSeconds(fadeToBlackDuration + (campfireDuration / 2));
+
+        while (_playerScript.GetHealth() > 0)
+        {
+            _playerScript.AddHealth(-1);
+            uiManager.UpdateHealth(_playerScript.GetHealth());
+
+            yield return new WaitForSeconds(0.5f);
+        }
 
         StartCoroutine(PlayerDeath(_overworldScript.GetCheckpointPos().x > _overworldScript.worldSize.x * 0.75f ?
             _overworldScript.GetDeadline() - 1 - _overworldScript.GetTimePeriod() :
@@ -336,6 +344,8 @@ public class GameManagerBehaviour : MonoBehaviour
     /// <param name="ageMultiplier"></param>
     public IEnumerator PlayerDeath(int ageMultiplier)
     {
+        _dying = true;
+        _aged = false;
         _playerScript.inputEnabled = false;
 
         yield return new WaitForSeconds(0.2f);
@@ -349,12 +359,11 @@ public class GameManagerBehaviour : MonoBehaviour
         currentSegment.UnloadSegment();
 
         // Age world
-        if (!_dying)
+        if (!_aged)
         {
             _overworldScript.AgeWorld(ageMultiplier);
+            _aged = true;
         }
-
-        _dying = true;
 
         // Destroy all companions
         for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
@@ -368,6 +377,7 @@ public class GameManagerBehaviour : MonoBehaviour
 
         // Restore health
         _playerScript.AddHealth(_playerScript.maxHealth);
+        uiManager.UpdateHealth(_playerScript.GetHealth());
 
         // Load checkpoint
         LoadCheckpoint();
