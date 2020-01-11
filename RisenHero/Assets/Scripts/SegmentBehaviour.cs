@@ -660,22 +660,25 @@ public class SegmentBehaviour : MonoBehaviour
                 yPos = Random.Range(Mathf.RoundToInt(segSize.y * 0.25f), Mathf.RoundToInt(segSize.y * 0.75f));
             bool completed = false;
 
-            for (int x = xPos; x < Mathf.RoundToInt(segSize.x) && x > 0; ++x)
+            if (monsters.Count > 0)
             {
-                for (int y = yPos; y < Mathf.RoundToInt(segSize.y) && y > 0; ++y)
+                for (int x = xPos; x < Mathf.RoundToInt(segSize.x) && x > 0; ++x)
                 {
-                    Debug.Log(x + ", " + y);
-                    if (!completed &&
-                        _segment[x, y] ==_pathChar)
+                    for (int y = yPos; y < Mathf.RoundToInt(segSize.y) && y > 0; ++y)
                     {
-                        int mIndex = Random.Range(0, monsters.Count - 1);
-                        GameObject newMonster = monsters[mIndex];
-                        newMonster.GetComponent<MonsterBehaviour>().rend.sortingOrder = (y / tileSize) + 1;
-                        newMonster.SetActive(true);
-                        Debug.Log(newMonster);
-                        _listofCharacters.Add(Instantiate(newMonster, new Vector2(x, -y) * tileSize, Quaternion.identity));
+                        if (!completed &&
+                            _segment[x, y] == _pathChar)
+                        {
+                            int mIndex = (monsters.Count > 0 ? Random.Range(0, monsters.Count - 1) : 0);
+                            Debug.Log(mIndex + "/" + (monsters.Count - 1) + " monsters");
+                            GameObject newMonster = monsters[mIndex];
+                            newMonster.GetComponent<MonsterBehaviour>().rend.sortingOrder = (y / tileSize) + 1;
+                            newMonster.SetActive(true);
+                            Debug.Log(newMonster);
+                            _listofCharacters.Add(Instantiate(newMonster, new Vector2(x, -y) * tileSize, Quaternion.identity));
 
-                        completed = true;
+                            completed = true;
+                        }
                     }
                 }
             }

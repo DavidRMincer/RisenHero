@@ -347,6 +347,7 @@ public class GameManagerBehaviour : MonoBehaviour
         {
             _overworldScript.AgeWorld(ageMultiplier);
         }
+
         _dying = true;
 
         // Destroy all companions

@@ -313,7 +313,6 @@ public class OverworldGenerator : MonoBehaviour
     /// <param name="multiplier"></param>
     public void AgeWorld(int multiplier)
     {
-        Debug.Log("AGE");
         // Update time period
         _timePeriod += multiplier;
 
