@@ -13,7 +13,6 @@ public class MainMenuBehaviour : MonoBehaviour
                         white,
                         transparent;
     public float        fadeDuration;
-    public string       nextScene;
 
     void Awake()
     {
@@ -75,6 +74,21 @@ public class MainMenuBehaviour : MonoBehaviour
         Application.Quit();
     }
 
+    public void MenuBtn()
+    {
+        StartCoroutine(ReturnToMenu());
+    }
+
+    private IEnumerator ReturnToMenu()
+    {
+        FadeTo(blackOutImage, black);
+        yield return new WaitForSeconds(fadeDuration);
+
+        yield return new WaitForSeconds(0.2f);
+
+        SceneManager.LoadScene("Main Menu");
+    }
+
     private IEnumerator LaunchGame()
     {
         FadeTo(blackOutImage, black);
@@ -82,6 +96,6 @@ public class MainMenuBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        SceneManager.LoadScene(nextScene);
+        SceneManager.LoadScene("OverworldScene");
     }
 }

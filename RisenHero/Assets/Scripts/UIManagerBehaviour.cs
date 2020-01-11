@@ -20,9 +20,6 @@ public class UIManagerBehaviour : MonoBehaviour
                         whiteout,
                         transparent;
 
-    private float       _scrollCounter = 0f;
-    private int         _menuIndex = 0;
-
     private bool _moved = false;
 
     private void Start()

@@ -358,6 +358,11 @@ public class GameManagerBehaviour : MonoBehaviour
         // Close segment
         currentSegment.UnloadSegment();
 
+        if (_overworldScript.GetTimePeriod() + ageMultiplier >= _overworldScript.GetDeadline())
+        {
+            SceneManager.LoadScene("Game Over");
+        }
+
         // Age world
         if (!_aged)
         {

@@ -24,7 +24,6 @@ public class ActionBehaviour : MonoBehaviour
         Vector2 oldPos = user.transform.position,
             targetPos = target.transform.position;
         bool hit = false;
-        Debug.Log(user.gameObject + " start action");
 
         if (target && user &&
             _currentCooldown >= cooldown)
@@ -32,8 +31,6 @@ public class ActionBehaviour : MonoBehaviour
             switch (type)
             {
                 case ActionType.ATTACK:
-
-                    Debug.Log(user.gameObject + " HIT! = " + hit);
                     do
                     {
                         counter += Time.deltaTime;
@@ -45,15 +42,13 @@ public class ActionBehaviour : MonoBehaviour
                         if (!hit &&
                             attackCurve.Evaluate(counter / actionDuration) >= 0.9f)
                         {
-                            Debug.Log(user.gameObject + " HIT!");
                             target.AddHealth(-user.damage);
                             hit = true;
                         }
 
                         yield return new WaitForSeconds(Time.deltaTime);
                     } while (counter < actionDuration);
-
-                    Debug.Log(user.gameObject + " HIT! = " + hit);
+                    
                     break;
                 case ActionType.HEAVY_ATTACK:
                     do
@@ -105,7 +100,6 @@ public class ActionBehaviour : MonoBehaviour
             ++_currentCooldown;
         }
 
-        Debug.Log(user.gameObject + " end action");
         yield return null;
     }
 
