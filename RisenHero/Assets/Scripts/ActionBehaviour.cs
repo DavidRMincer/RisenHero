@@ -24,12 +24,7 @@ public class ActionBehaviour : MonoBehaviour
         Vector2 oldPos = user.transform.position,
             targetPos = target.transform.position;
         bool hit = false;
-
-        if (type == ActionType.HEAL)
-        {
-            Debug.Log(target);
-            Debug.Log(_currentCooldown >= cooldown);
-        }
+        Debug.Log(user.gameObject + " start action");
 
         if (target && user &&
             _currentCooldown >= cooldown)
@@ -37,6 +32,8 @@ public class ActionBehaviour : MonoBehaviour
             switch (type)
             {
                 case ActionType.ATTACK:
+
+                    Debug.Log(user.gameObject + " HIT! = " + hit);
                     do
                     {
                         counter += Time.deltaTime;
@@ -44,9 +41,11 @@ public class ActionBehaviour : MonoBehaviour
 
                         user.transform.position = Vector2.Lerp(oldPos, targetPos, attackCurve.Evaluate(counter / actionDuration));
 
+                        Debug.Log(attackCurve.Evaluate(counter / actionDuration));
                         if (!hit &&
-                            attackCurve.Evaluate(counter / actionDuration) >= 0.975f)
+                            attackCurve.Evaluate(counter / actionDuration) >= 0.9f)
                         {
+                            Debug.Log(user.gameObject + " HIT!");
                             target.AddHealth(-user.damage);
                             hit = true;
                         }
@@ -54,6 +53,7 @@ public class ActionBehaviour : MonoBehaviour
                         yield return new WaitForSeconds(Time.deltaTime);
                     } while (counter < actionDuration);
 
+                    Debug.Log(user.gameObject + " HIT! = " + hit);
                     break;
                 case ActionType.HEAVY_ATTACK:
                     do
@@ -64,7 +64,7 @@ public class ActionBehaviour : MonoBehaviour
                         user.transform.position = Vector2.Lerp(oldPos, targetPos, attackCurve.Evaluate(counter / actionDuration));
 
                         if (!hit &&
-                            attackCurve.Evaluate(counter / actionDuration) >= 0.975f)
+                            attackCurve.Evaluate(counter / actionDuration) >= 0.9f)
                         {
                             target.AddHealth(-(user.damage + (user.damage / 2)));
                             hit = true;
@@ -83,7 +83,7 @@ public class ActionBehaviour : MonoBehaviour
                         user.transform.position = Vector2.Lerp(oldPos, targetPos, attackCurve.Evaluate(counter / actionDuration));
 
                         if (!hit &&
-                            attackCurve.Evaluate(counter / actionDuration) >= 0.975f)
+                            attackCurve.Evaluate(counter / actionDuration) >= 0.9f)
                         {
                             target.AddHealth(user.damage);
                             target.GetComponent<PlayerBehaviour>().healParticles.Play();
@@ -105,6 +105,7 @@ public class ActionBehaviour : MonoBehaviour
             ++_currentCooldown;
         }
 
+        Debug.Log(user.gameObject + " end action");
         yield return null;
     }
 
