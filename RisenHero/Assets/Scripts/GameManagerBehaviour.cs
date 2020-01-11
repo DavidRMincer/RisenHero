@@ -319,7 +319,9 @@ public class GameManagerBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(fadeToBlackDuration + 1f);
 
-        StartCoroutine(PlayerDeath(1));
+        StartCoroutine(PlayerDeath(_overworldScript.GetCheckpointPos().x > _overworldScript.worldSize.x * 0.75f ?
+            _overworldScript.GetDeadline() - 1 - _overworldScript.GetTimePeriod() :
+            1));
     }
 
     /// <summary>
@@ -328,7 +330,6 @@ public class GameManagerBehaviour : MonoBehaviour
     /// <param name="ageMultiplier"></param>
     public IEnumerator PlayerDeath(int ageMultiplier)
     {
-        _dying = true;
         _playerScript.inputEnabled = false;
 
         yield return new WaitForSeconds(0.2f);
@@ -342,7 +343,11 @@ public class GameManagerBehaviour : MonoBehaviour
         currentSegment.UnloadSegment();
 
         // Age world
-        _overworldScript.AgeWorld(ageMultiplier);
+        if (!_dying)
+        {
+            _overworldScript.AgeWorld(ageMultiplier);
+        }
+        _dying = true;
 
         // Destroy all companions
         for (int i = 0; i < _playerScript.partyMembers.Count; ++i)
@@ -363,6 +368,8 @@ public class GameManagerBehaviour : MonoBehaviour
 
         StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToWhiteDuration));
         yield return new WaitForSeconds(fadeToWhiteDuration + 0.2f);
+
+        Debug.Log("Time period: " + _overworldScript.GetTimePeriod());
 
         _playerScript.inputEnabled = true;
         _dying = false;

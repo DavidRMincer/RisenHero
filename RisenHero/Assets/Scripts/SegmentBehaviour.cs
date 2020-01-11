@@ -664,6 +664,7 @@ public class SegmentBehaviour : MonoBehaviour
             {
                 for (int y = yPos; y < Mathf.RoundToInt(segSize.y) && y > 0; ++y)
                 {
+                    Debug.Log(x + ", " + y);
                     if (!completed &&
                         _segment[x, y] ==_pathChar)
                     {
@@ -671,6 +672,7 @@ public class SegmentBehaviour : MonoBehaviour
                         GameObject newMonster = monsters[mIndex];
                         newMonster.GetComponent<MonsterBehaviour>().rend.sortingOrder = (y / tileSize) + 1;
                         newMonster.SetActive(true);
+                        Debug.Log(newMonster);
                         _listofCharacters.Add(Instantiate(newMonster, new Vector2(x, -y) * tileSize, Quaternion.identity));
 
                         completed = true;

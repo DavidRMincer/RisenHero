@@ -29,7 +29,7 @@ public class OverworldGenerator : MonoBehaviour
                                 maxTimePeriod;
     public AnimationCurve       selectedScale;
 
-    GameObject[,]               _world;
+    private GameObject[,]       _world;
     private Vector2             _startPoint,
                                 _endPoint,
                                 _selectedTile,
@@ -313,6 +313,7 @@ public class OverworldGenerator : MonoBehaviour
     /// <param name="multiplier"></param>
     public void AgeWorld(int multiplier)
     {
+        Debug.Log("AGE");
         // Update time period
         _timePeriod += multiplier;
 
@@ -391,6 +392,11 @@ public class OverworldGenerator : MonoBehaviour
     internal SegmentBehaviour GetCheckpoint()
     {
         return _world[Mathf.RoundToInt(_checkpointSegment.x), Mathf.RoundToInt(_checkpointSegment.y)].GetComponent<SegmentBehaviour>();
+    }
+
+    internal Vector2 GetCheckpointPos()
+    {
+        return _checkpointSegment;
     }
 
     /// <summary>
