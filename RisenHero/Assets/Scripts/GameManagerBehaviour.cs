@@ -243,8 +243,7 @@ public class GameManagerBehaviour : MonoBehaviour
         StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
 
         yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
-
-        uiManager.SetHealthVisibility(false);
+        
         uiManager.actionInputImg.gameObject.SetActive(false);
 
         _overworldScript.SetCheckpoint(currentSegment.gameObject);
@@ -266,14 +265,21 @@ public class GameManagerBehaviour : MonoBehaviour
         }
 
         StartCoroutine(uiManager.FadeTo(uiManager.transparent, fadeToBlackDuration));
+        yield return new WaitForSeconds(fadeToBlackDuration + (campfireDuration / 2));
 
-        yield return new WaitForSeconds(fadeToBlackDuration + 1f);
+        while (_playerScript.GetHealth() < _playerScript.maxHealth)
+        {
+            _playerScript.AddHealth(1);
+            uiManager.UpdateHealth(_playerScript.GetHealth());
+
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        yield return new WaitForSeconds(campfireDuration / 2);
 
         StartCoroutine(uiManager.FadeTo(uiManager.blackout, fadeToBlackDuration));
-
         yield return new WaitForSeconds(fadeToBlackDuration + 0.2f);
-
-        uiManager.SetHealthVisibility(true);
+        
         uiManager.actionInputImg.gameObject.SetActive(false);
 
         _playerScript.rend.flipX = true;
