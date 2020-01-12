@@ -68,7 +68,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 35
+  m_SortingOrder: 18
   m_Sprite: {fileID: 21300000, guid: b2ad8b827533bab4bbff74fd710e3c60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -225,7 +225,7 @@ MonoBehaviour:
     m_PostInfinity: 1
     m_RotationOrder: 4
   actionDuration: 0.3
-  swipe: {fileID: 0}
+  swipe: {fileID: 8956275948144188355}
 --- !u!114 &2752681830281965346
 MonoBehaviour:
   m_ObjectHideFlags: 0

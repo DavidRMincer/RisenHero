@@ -210,11 +210,12 @@ public class CombatBehaviour : MonoBehaviour
 
         player.inputEnabled = true;
 
-        if (_gm.startingMonster[1])
-        {
-            _gm.startingMonster.Remove(_gm.startingMonster[1]);
-        }
-        //_gm.currentSegment.RemoveCaptive();
+        //if (_gm.startingMonster[1])
+        //{
+        //    Debug.Log(_gm.startingMonster[1]);
+        //    _gm.startingMonster.Remove(_gm.startingMonster[1]);
+        //}
+        _gm.currentSegment.RemoveCaptive();
 
         _currentState = CombatState.NONE;
         _inCombat = false;
