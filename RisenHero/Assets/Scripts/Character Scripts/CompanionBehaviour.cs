@@ -39,6 +39,15 @@ public class CompanionBehaviour : CharacterBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (_leader &&
+            _rb.velocity == Vector2.zero)
+        {
+            rend.flipX = _leader.transform.position.x < transform.position.x;
+        }
+    }
+
     /// <summary>
     /// Returns true if in range.
     /// Range changes depending if already in range of leader.
