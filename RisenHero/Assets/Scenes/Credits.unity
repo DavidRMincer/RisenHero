@@ -236,18 +236,22 @@ MonoBehaviour:
   subTextBox: {fileID: 1106282151}
   blackoutImage: {fileID: 1998090780}
   lines:
+  - The End
   - Game Design & Programming
   - Music & Sound Effects
+  - QA Tester
   - Special Thanks
   - Special Thanks
   - Thank you for playing
   - Risen Hero
   subLines:
+  - 
   - David R. Mincer
   - Liza Andreykina
+  - Kelly Veasey
   - Federico Fasce
   - Goldsmiths University of London
-  textDuration: 3
+  textDuration: 4
   fadeSpeed: 0.5
   blackoutSpeed: 1
   transparent: {r: 0, g: 0, b: 0, a: 0}

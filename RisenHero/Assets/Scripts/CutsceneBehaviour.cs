@@ -86,7 +86,7 @@ public class CutsceneBehaviour : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
 
-            yield return new WaitForSeconds(textDuration);
+            yield return new WaitForSeconds(0.5f);
             counter = 0f;
         }
         
