@@ -56,6 +56,13 @@ public class CombatBehaviour : MonoBehaviour
         // Start turns
         _currentState = CombatState.PLAYER_TURN;
         _inCombat = true;
+
+        if (enemy.aggrovatedSprite)
+        {
+            enemy.rend.sprite = enemy.aggrovatedSprite;
+        }
+
+        enemy.rend.flipX = (player.transform.position.x <= enemy.transform.position.x);
     }
 
     public void AddPlayer(PlayerBehaviour p)

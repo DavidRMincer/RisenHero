@@ -11,6 +11,8 @@ public class MonsterBehaviour : CharacterBehaviour
 
     public GameObject       target,
                             captive;
+    public Sprite           aggrovatedSprite;
+
     internal MonsterState   currentState;
 
     public override void Start()
