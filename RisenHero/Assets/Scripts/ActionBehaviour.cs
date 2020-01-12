@@ -12,6 +12,7 @@ public class ActionBehaviour : MonoBehaviour
     public ActionType           type;
     public AnimationCurve       attackCurve;
     public float                actionDuration;
+    public AudioSource          swipe;
 
     internal CharacterBehaviour user;
     internal int                cooldown = 0;
@@ -37,12 +38,12 @@ public class ActionBehaviour : MonoBehaviour
                         counter = (counter > actionDuration ? actionDuration : counter);
 
                         user.transform.position = Vector2.Lerp(oldPos, targetPos, attackCurve.Evaluate(counter / actionDuration));
-
-                        Debug.Log(attackCurve.Evaluate(counter / actionDuration));
+                        
                         if (!hit &&
                             attackCurve.Evaluate(counter / actionDuration) >= 0.9f)
                         {
                             target.AddHealth(-user.damage);
+                            swipe.Play();
                             hit = true;
                         }
 
@@ -62,6 +63,7 @@ public class ActionBehaviour : MonoBehaviour
                             attackCurve.Evaluate(counter / actionDuration) >= 0.9f)
                         {
                             target.AddHealth(-(user.damage + (user.damage / 2)));
+                            swipe.Play();
                             hit = true;
                         }
 

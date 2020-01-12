@@ -652,7 +652,6 @@ public class SegmentBehaviour : MonoBehaviour
         }
 
         int numofMonsters = Random.Range(minMonsters, maxMonsters);
-        Debug.Log(numofMonsters);
 
         for (int i = 0; i < numofMonsters; ++i)
         {
@@ -670,11 +669,9 @@ public class SegmentBehaviour : MonoBehaviour
                             _segment[x, y] == _pathChar)
                         {
                             int mIndex = (monsters.Count > 0 ? Random.Range(0, monsters.Count - 1) : 0);
-                            Debug.Log(mIndex + "/" + (monsters.Count - 1) + " monsters");
                             GameObject newMonster = monsters[mIndex];
                             newMonster.GetComponent<MonsterBehaviour>().rend.sortingOrder = (y / tileSize) + 1;
                             newMonster.SetActive(true);
-                            Debug.Log(newMonster);
                             _listofCharacters.Add(Instantiate(newMonster, new Vector2(x, -y) * tileSize, Quaternion.identity));
 
                             completed = true;
