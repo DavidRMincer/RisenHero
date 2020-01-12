@@ -131,26 +131,26 @@ public class OverworldGenerator : MonoBehaviour
         //}
 
         // Change selected tile
-        if (Input.GetKeyDown(KeyCode.LeftArrow) &&
-            _selectedTile.x > 0)
-        {
-            MoveSelection(Vector2.left);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) &&
-            _selectedTile.x < worldSize.x - 1)
-        {
-            MoveSelection(Vector2.right);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) &&
-            _selectedTile.y > 0)
-        {
-            MoveSelection(Vector2.down);
-        }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) &&
-            _selectedTile.y < worldSize.y - 1)
-        {
-            MoveSelection(Vector2.up);
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftArrow) &&
+        //    _selectedTile.x > 0)
+        //{
+        //    MoveSelection(Vector2.left);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.RightArrow) &&
+        //    _selectedTile.x < worldSize.x - 1)
+        //{
+        //    MoveSelection(Vector2.right);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.DownArrow) &&
+        //    _selectedTile.y > 0)
+        //{
+        //    MoveSelection(Vector2.down);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.UpArrow) &&
+        //    _selectedTile.y < worldSize.y - 1)
+        //{
+        //    MoveSelection(Vector2.up);
+        //}
 
         // Scale selected
         Vector2 newScale;
