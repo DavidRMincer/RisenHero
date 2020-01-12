@@ -715,10 +715,9 @@ MonoBehaviour:
   subTextBox: {fileID: 752121963}
   blackoutImage: {fileID: 886092121}
   lines:
-  - A threat is coming
-  - I forsee its time
-  - 500 years away
-  - Travel east and save the world
+  - Evil is brewing in the east
+  - I forsee its coming
+  - Only 500 years away
   - I would send someone else
   - But only you can do this
   - You have the gift...
